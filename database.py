@@ -22,7 +22,8 @@ class Product(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     barcode: Mapped[str] = mapped_column(String(250), unique=True, nullable=False)
     name: Mapped[str] = mapped_column(String(1000), nullable=False)
-    prices: Mapped[List["ProductPrice"]] = relationship(back_populates="product_info")
+    prices: Mapped[List["ProductPrice"]] = relationship(back_populates="product_info",
+                                                        order_by="ProductPrice.price.asc()")
 
 class Supplier(Base):
     __tablename__ = "suppliers"
@@ -73,6 +74,16 @@ class Database:
         medicine_prices = data
         medicine_prices.to_sql('product_prices', engine, index=False, if_exists='append', chunksize=2000)
 
+    def show_products(self):
+        # products = self.db.session.execute(self.db.select(Product).order_by(Product.name)).scalars().all()
+        products = self.db.paginate(self.db.select(Product).filter(Product.prices.any()).order_by(Product.name))
+        return products
+
+    def search_products(self, q):
+        products = self.db.paginate(self.db.select(Product).filter(Product.prices.any()).\
+                                    filter(Product.name.icontains(q) |
+                                     Product.barcode.icontains(q)).order_by(Product.name))
+        return products
 
 
 

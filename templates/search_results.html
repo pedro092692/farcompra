@@ -1,0 +1,16 @@
+
+{% for result in results %}
+        <li style="cursor:pointer" onclick="toggleListItem(this)"> {{ result.name }} </li>
+            <ul id="prices" style="display:none">
+                {% for price in result.prices %}
+                    <li>
+                        {{ price.supplier_info.name }}:
+                        <br>
+                        ${{ price.price }}
+                        vence: {{ price.due_data }}
+                        stock: {{ price.stock }}
+                    </li>
+                {% endfor %}
+            </ul>
+    {% endfor %}
+

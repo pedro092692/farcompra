@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, url_for
 import admin_bp
 from database import Database, Aux
 from core.wholesalers import wholesalers
@@ -22,10 +22,18 @@ app.register_blueprint(admin_bp.construct_blueprint(data, db), url_prefix='/admi
 
 @app.route('/')
 def index():
-    print(app.url_map)
-    return render_template('index.html')
+    all_products = db.show_products()
+    return render_template('index.html', products=all_products)
 
+@app.route('/search')
+def search():
+    q = request.args.get('q')
+    if q:
+        results = db.search_products(q)
+    else:
+        results = db.show_products()
 
+    return render_template('search_results.html', results=results)
 
 
 
