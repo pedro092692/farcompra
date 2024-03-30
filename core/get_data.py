@@ -11,6 +11,7 @@ class Getdata:
     def __init__(self, wholesalers, db):
         self.wholesalers = wholesalers
         self.aux = Aux(db.db)
+        self.supplier_errors = {}
 
 
 
@@ -18,7 +19,8 @@ class Getdata:
         self.download_data()
         self.create_medicine_list_for_db()
         medicines_data_frame = self.load_data_frame(MEDICINES_PATH)
-        return medicines_data_frame
+        medicines_data_frame_str_barcode = self.converting_columns_to_str(df=medicines_data_frame, column_name='barcode')
+        return medicines_data_frame_str_barcode
 
     def update_price_list(self, dollar_value) -> pandas.DataFrame:
         self.create_supplier_list_for_database(self.wholesalers)
@@ -27,6 +29,7 @@ class Getdata:
 
     def download_data(self):
         if self.wholesalers:
+            self.supplier_errors.clear()
             for wholesaler_name in self.wholesalers:
 
                 ftp_server = self.wholesalers[wholesaler_name]['url']
@@ -40,40 +43,44 @@ class Getdata:
                 conn = self.connect_from_ftp(ftp_server, username, password, wholesaler_name)
 
                 if not conn:
+                    print(f"There was a connection problem with {wholesaler_name}: "
+                          f"{self.supplier_errors[wholesaler_name]['error']}")
                     continue
 
-                if path:
-                    conn.cwd(path)
-                    with open(f"{PATH}/{wholesaler_name}_inventory.csv", "wb") as file:
-                        conn.retrbinary(f'RETR {filename}', file.write)
+                if wholesaler_name not in self.supplier_errors:
 
-                if self.wholesalers[wholesaler_name]['fix_data']:
-                    self.fix_data(self.wholesalers[wholesaler_name]['fix_path'])
+                    if path:
+                        conn.cwd(path)
+                        with open(f"{PATH}/{wholesaler_name}_inventory.csv", "wb") as file:
+                            conn.retrbinary(f'RETR {filename}', file.write)
 
-                if self.wholesalers[wholesaler_name]['fix_header']:
-                    self.fix_header(path=f'core/data/wholesalers_inventory/{wholesaler_name}_inventory.csv', headers=\
-                        self.wholesalers[wholesaler_name]['header'])
+                    if self.wholesalers[wholesaler_name]['fix_data']:
+                        self.fix_data(self.wholesalers[wholesaler_name]['fix_path'])
 
-                self.create_medicine_list(wholesaler_name, headers)
+                    if self.wholesalers[wholesaler_name]['fix_header']:
+                        self.fix_header(path=f'core/data/wholesalers_inventory/{wholesaler_name}_inventory.csv', headers=\
+                            self.wholesalers[wholesaler_name]['header'])
 
-                # Fixing barcodes
-                if self.wholesalers[wholesaler_name]['fix_barcode']:
-                    dataframe = self.load_data_frame(path= \
-                                                         f'core/data/wholesalers_inventory/medicine_list/{wholesaler_name}_medicine_list.csv')
-                    self.fix_barcode(dataframe, column_name=\
-                        headers[0], path= \
-                                         f'core/data/wholesalers_inventory/medicine_list/{wholesaler_name}_medicine_list.csv',)
+                    self.create_medicine_list(wholesaler_name, headers)
+
+                    # Fixing barcodes
+                    if self.wholesalers[wholesaler_name]['fix_barcode']:
+                        dataframe = self.load_data_frame(path= \
+                                                             f'core/data/wholesalers_inventory/medicine_list/{wholesaler_name}_medicine_list.csv')
+                        self.fix_barcode(dataframe, column_name=\
+                            headers[0], path= \
+                                             f'core/data/wholesalers_inventory/medicine_list/{wholesaler_name}_medicine_list.csv',)
 
 
-    @staticmethod
-    def connect_from_ftp(server, username, password, name) -> ftplib.FTP:
+
+    def connect_from_ftp(self, server, username, password, name) -> ftplib.FTP:
         try:
             ftp_conn = ftplib.FTP(server)
             ftp_conn.login(username, password)
             ftp_conn.encoding = 'utf-8'
             return ftp_conn
         except ftplib.all_errors as e:
-            print(f"Connection Error with {name} {e}")
+            self.supplier_errors[name] = {"error": f"{e}"}
             return False
 
     @staticmethod
@@ -155,8 +162,9 @@ class Getdata:
     def load_wholesalers_list_path(self):
         wholesalers_paths = []
         for name in self.wholesalers:
-            path = f'core/data/wholesalers_inventory/medicine_list/{name}_medicine_list.csv'
-            wholesalers_paths.append(path)
+            if name not in self.supplier_errors:
+                path = f'core/data/wholesalers_inventory/medicine_list/{name}_medicine_list.csv'
+                wholesalers_paths.append(path)
         return wholesalers_paths
 
     def load_wholesalers_list_data(self):

@@ -17,7 +17,7 @@ wholesalers = {
     },
 
     "drocerca":{
-        "url": "drocerca.proteoerp.org",
+        "url": "drocerca.proteoerp.org pedro",
         "user": "C00VV1",
         "password": "U*b7xGLT",
         "path": '/',
@@ -33,7 +33,7 @@ wholesalers = {
     },
 
     "dronena":{
-        "url": "ftp.dronena.com",
+        "url": "ftp.dronena.com pedro",
         "user": "0491-foraneo",
         "password": "6luc2ztd",
         "path": '/Clientes/0491',
@@ -51,7 +51,7 @@ wholesalers = {
     },
 
     "harissa": {
-        "url": "vantecsolser.com",
+        "url": "vantecsolser.com pedro",
         "user": "harissa@vantecsolser.com",
         "password": "t6tUlAzrG!Js",
         "path": '/',

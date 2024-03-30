@@ -7,9 +7,13 @@ def construct_blueprint(data: Getdata , db: Database):
 
     @admin.before_request
     def restrict_bp_to_admins():
-        user = 'user'
+        user = 'admin'
         if not  user == "admin":
             return redirect(url_for('index'))
+
+    @admin.route('/', methods=['GET'])
+    def index():
+        return render_template('admin/index.html')
 
     @admin.route('/update/products', methods=['GET'])
     def update_products():

@@ -33,7 +33,7 @@ def search():
     else:
         results = db.show_products()
 
-    return render_template('search_results.html', results=results)
+    return render_template('search_results.html', products=results)
 
 
 
