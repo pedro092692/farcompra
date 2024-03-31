@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Products List</title>
+</head>
+<body>
+    <h1>Products Updating</h1>
+    {% if errors %}
+        {% if errors is mapping %}
+            <p>The products list was updated with errors with follow suppliers:</p>
+            <ul>
+            {% for error in errors  %}
+                <li>{{error}}: {{ errors[error]['error'] }}</li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>{{ errors }}</p>
+        {% endif %}
+
+
+    {% else %}
+        <p>The products list was updated successfully</p>
+    {% endif %}
+
+</body>
+</html>

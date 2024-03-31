@@ -16,11 +16,11 @@ class Getdata:
 
 
     def update_data(self) -> pandas.DataFrame:
-        self.download_data()
-        self.create_medicine_list_for_db()
-        medicines_data_frame = self.load_data_frame(MEDICINES_PATH)
-        medicines_data_frame_str_barcode = self.converting_columns_to_str(df=medicines_data_frame, column_name='barcode')
-        return medicines_data_frame_str_barcode
+        if self.download_data():
+            self.create_medicine_list_for_db()
+            medicines_data_frame = self.load_data_frame(MEDICINES_PATH)
+            medicines_data_frame_str_barcode = self.converting_columns_to_str(df=medicines_data_frame, column_name='barcode')
+            return medicines_data_frame_str_barcode
 
     def update_price_list(self, dollar_value) -> pandas.DataFrame:
         self.create_supplier_list_for_database(self.wholesalers)
@@ -51,8 +51,14 @@ class Getdata:
 
                     if path:
                         conn.cwd(path)
-                        with open(f"{PATH}/{wholesaler_name}_inventory.csv", "wb") as file:
-                            conn.retrbinary(f'RETR {filename}', file.write)
+                        # Check is file in server is greater than 0kb
+                        if conn.size(filename) > 0:
+                            with open(f"{PATH}/{wholesaler_name}_inventory.csv", "wb") as file:
+                                conn.retrbinary(f'RETR {filename}', file.write)
+                        else:
+                            self.supplier_errors[wholesaler_name] = {"error": "there was a problem with inventory.txt file"}
+                            print(f"{self.supplier_errors[wholesaler_name]['error']}")
+                            continue
 
                     if self.wholesalers[wholesaler_name]['fix_data']:
                         self.fix_data(self.wholesalers[wholesaler_name]['fix_path'])
@@ -70,6 +76,11 @@ class Getdata:
                         self.fix_barcode(dataframe, column_name=\
                             headers[0], path= \
                                              f'core/data/wholesalers_inventory/medicine_list/{wholesaler_name}_medicine_list.csv',)
+
+        if len(self.supplier_errors) < len(self.wholesalers):
+            return True
+        else:
+            return False
 
 
 
@@ -145,19 +156,21 @@ class Getdata:
         return df
 
     def create_medicine_list_for_db(self):
+
         data_frames = self.load_wholesalers_list_data()
-        # concat dataframe
-        df = self.contact_data_frame(data_frames)
-        # Adding columns to dataframe
-        df.columns=['barcode', 'name']
-        # converting barcode column in str
-        df = self.converting_columns_to_str(df, 'barcode')
-        #deleting duplicates
-        no_duplicates = self.delete_duplicate_columns(df, 'barcode')
-        #save file
-        copy_df = no_duplicates.copy()
-        no_duplicates_str = self.converting_columns_to_str(copy_df, 'barcode')
-        self.save_dataframe_csv(no_duplicates_str, path='core/data/wholesalers_inventory/medicine_list/all.csv')
+        if data_frames:
+            # concat dataframe
+            df = self.contact_data_frame(data_frames)
+            # Adding columns to dataframe
+            df.columns=['barcode', 'name']
+            # converting barcode column in str
+            df = self.converting_columns_to_str(df, 'barcode')
+            #deleting duplicates
+            no_duplicates = self.delete_duplicate_columns(df, 'barcode')
+            #save file
+            copy_df = no_duplicates.copy()
+            no_duplicates_str = self.converting_columns_to_str(copy_df, 'barcode')
+            self.save_dataframe_csv(no_duplicates_str, path='core/data/wholesalers_inventory/medicine_list/all.csv')
 
     def load_wholesalers_list_path(self):
         wholesalers_paths = []
@@ -171,8 +184,14 @@ class Getdata:
         paths = self.load_wholesalers_list_path()
         dataframes = []
         for i in range(len(paths)):
-            df = self.load_data_frame(path=paths[i], header=None, skip_rows=[0])
-            dataframes.append(df)
+            try:
+                df = self.load_data_frame(path=paths[i], header=None, skip_rows=[0])
+            except pandas.errors.EmptyDataError:
+                error_data = paths[i].split('/')
+                self.supplier_errors[error_data[-1][:-18]] = {"error": error_data[-1]}
+
+            else:
+                dataframes.append(df)
         return dataframes
 
     @staticmethod
