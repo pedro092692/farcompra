@@ -19,7 +19,7 @@ def construct_blueprint(data: Getdata , db: Database):
     @admin.route('/update/products', methods=['GET'])
     def update_products():
         medicines = data.update_data()
-        error_message = 'No connection with any  product supplier,  product list was not updated please try again later.'
+        error_message = 'No connection with any  product supplier, product list was not updated please try again later.'
 
         if type(medicines) == pandas.DataFrame:
             db.add_products(medicines)
@@ -31,19 +31,26 @@ def construct_blueprint(data: Getdata , db: Database):
                     errors = data.supplier_errors
             else:
                 errors = None
-
-
-
-
-
-
+        else:
+            errors = error_message
         return render_template('admin/update_products_list.html', errors=errors)
 
 
     @admin.route('/update/products-prices', methods=['GET'])
     def update_product_prices():
+        error_message = 'Any list product file found please update list products First.'
         products_info = data.update_price_list(dollar_value=36.35)
-        db.add_product_prices(products_info)
-        return "Hello admin products prices were updated."
+        if type(products_info) == pandas.DataFrame:
+            db.add_product_prices(products_info)
+            if data.list_prices_errors:
+                errors = data.list_prices_errors
+                if len(errors) >= len(data.wholesalers):
+                    errors = error_message
+            else:
+                errors = None
+        else:
+            errors = error_message
+
+        return render_template('admin/update_products_prices.html', errors=errors)
 
     return admin

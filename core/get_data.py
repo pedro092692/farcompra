@@ -12,6 +12,7 @@ class Getdata:
         self.wholesalers = wholesalers
         self.aux = Aux(db.db)
         self.supplier_errors = {}
+        self.list_prices_errors = {}
 
 
 
@@ -23,9 +24,11 @@ class Getdata:
             return medicines_data_frame_str_barcode
 
     def update_price_list(self, dollar_value) -> pandas.DataFrame:
-        self.create_supplier_list_for_database(self.wholesalers)
-        products_info = self.set_product_prices(dollar_value=dollar_value)
-        return products_info
+        product_list = self.create_supplier_list_for_database(self.wholesalers)
+        if product_list:
+            products_info = self.set_product_prices(dollar_value=dollar_value)
+            return products_info
+
 
     def download_data(self):
         if self.wholesalers:
@@ -94,6 +97,10 @@ class Getdata:
             self.supplier_errors[name] = {"error": f"{e}"}
             return False
 
+        except UnicodeError as e:
+            self.supplier_errors[name] = {"error": f"{e}"}
+            return False
+
     @staticmethod
     def fix_data(path):
         #open data to be fixed
@@ -149,11 +156,17 @@ class Getdata:
         else:
             return df
 
-    @staticmethod
-    def load_data_frame(path, sep=';', skip='skip', header='infer', skip_rows=None) -> pandas.DataFrame:
-        df = pandas.read_csv(path, sep=sep, on_bad_lines=skip, header=header, skiprows=skip_rows, encoding='utf8',
+
+    def load_data_frame(self, path, sep=';', skip='skip', header='infer', skip_rows=None) -> pandas.DataFrame:
+        try:
+            df = pandas.read_csv(path, sep=sep, on_bad_lines=skip, header=header, skiprows=skip_rows, encoding='utf8',
                              encoding_errors='ignore')
-        return df
+        except FileNotFoundError as e:
+            data_error = path.split('/')
+            self.list_prices_errors[data_error[3][:-14]] = {"error": data_error[3]}
+            return False
+        else:
+            return df
 
     def create_medicine_list_for_db(self):
 
@@ -218,28 +231,42 @@ class Getdata:
     # Create supplier list for database
     def create_supplier_list_for_database(self, suppliers: dict):
         for supplier_name in suppliers:
-            list_path = f'core/data/wholesalers_inventory/{supplier_name}_inventory.csv'
-            headers = suppliers[supplier_name]['database_headers']
-            # Save list
-            self.refactor_supplier_list(list_path=list_path, headers=headers, supplier_name=supplier_name)
+            if supplier_name not in self.supplier_errors:
+                list_path = f'core/data/wholesalers_inventory/{supplier_name}_inventory.csv'
+                headers = suppliers[supplier_name]['database_headers']
+                # Save list
+                data_frame = self.refactor_supplier_list(list_path=list_path, headers=headers, supplier_name=supplier_name)
+            else:
+                self.list_prices_errors[supplier_name] = {"error": "error with csv file."}
+
+            if not data_frame:
+                self.list_prices_errors[supplier_name] = {"error": "list file not found."}
+                continue
+
+        if len(self.list_prices_errors) < len(self.wholesalers):
+            return True
+
 
     # refactor suppliers lists
     def refactor_supplier_list(self, list_path, headers: list, supplier_name):
         data: pandas.DataFrame = self.load_data_frame(list_path)
-        new_df = data[headers]
-        # save dataframe
-        save_path = f'core/data/wholesalers_inventory/list_db/{supplier_name}.csv'
-        # change columns
-        new_df.columns = ['barcode', 'price', 'due_data', 'stock']
-        df_no_nan = new_df.dropna(axis=0, how='any', subset=['barcode', 'stock'])
-        # converting barcode into str
-        df_full_stock = df_no_nan[(df_no_nan != 0).all(1)]
-        if supplier_name == 'drocerca':
-            df_fix_int = df_full_stock.copy()
-            df_fix_int = self.fix_barcode(df_fix_int, column_name='barcode')
-            df_full_stock = df_fix_int
-        #save file
-        self.save_dataframe_csv(df_full_stock, save_path)
+        if type(data) == pandas.DataFrame:
+            new_df = data[headers]
+            # save dataframe
+            save_path = f'core/data/wholesalers_inventory/list_db/{supplier_name}.csv'
+            # change columns
+            new_df.columns = ['barcode', 'price', 'due_data', 'stock']
+            df_no_nan = new_df.dropna(axis=0, how='any', subset=['barcode', 'stock'])
+            # converting barcode into str
+            df_full_stock = df_no_nan[(df_no_nan != 0).all(1)]
+            if supplier_name == 'drocerca':
+                df_fix_int = df_full_stock.copy()
+                df_fix_int = self.fix_barcode(df_fix_int, column_name='barcode')
+                df_full_stock = df_fix_int
+            #save file
+            self.save_dataframe_csv(df_full_stock, save_path)
+
+            return True
 
 
 
@@ -249,24 +276,32 @@ class Getdata:
 
     def set_product_prices(self, dollar_value):
         dataframes = []
+        concat = True
         for name in self.wholesalers:
-            df_path = f'core/data/wholesalers_inventory/list_db/{name}.csv'
-            dataframe = self.load_data_frame(df_path)
-            # Adding supplier id column
-            dataframe.insert(4, 'supplier_id', self.wholesalers[name]['supplier_id'])
-            # Converting barcode column into string
-            barcodes = self.converting_columns_to_str(dataframe, 'barcode')
-            barcodes_list = barcodes['barcode'].tolist()
-            #getting products id from db
-            products = self.aux.select_barcodes(barcodes=barcodes_list)
-            products_id = [product_id.id for product_id in products]
-            # Drop barcode column
-            new_df = dataframe.drop(columns=['barcode'])
-            new_df.insert(0, 'product_id', products_id)
-            if not self.wholesalers[name]['price_dollar']:
-                new_df['price'] = round(new_df['price'] / dollar_value, 2)
-            dataframes.append(new_df)
-        return self.contact_data_frame(dataframes)
+            if name not in self.list_prices_errors:
+                df_path = f'core/data/wholesalers_inventory/list_db/{name}.csv'
+                dataframe = self.load_data_frame(df_path)
+                # Adding supplier id column
+                dataframe.insert(4, 'supplier_id', self.wholesalers[name]['supplier_id'])
+                # Converting barcode column into string
+                barcodes = self.converting_columns_to_str(dataframe, 'barcode')
+                barcodes_list = barcodes['barcode'].tolist()
+                #getting products id from db
+                products = self.aux.select_barcodes(barcodes=barcodes_list)
+                if products:
+                    products_id = [product_id.id for product_id in products if product_id]
+                    # Drop barcode column
+                    new_df = dataframe.drop(columns=['barcode'])
+                    try:
+                        new_df.insert(0, 'product_id', products_id)
+                        if not self.wholesalers[name]['price_dollar']:
+                            new_df['price'] = round(new_df['price'] / dollar_value, 2)
+                        dataframes.append(new_df)
+                    except ValueError:
+                        concat = False
+                        self.list_prices_errors[name] = {"error": "The data don't mach with database Please refresh data."}
+        if concat:
+            return self.contact_data_frame(dataframes)
 
 
 

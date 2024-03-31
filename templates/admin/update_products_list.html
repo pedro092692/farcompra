@@ -8,7 +8,7 @@
     <h1>Products Updating</h1>
     {% if errors %}
         {% if errors is mapping %}
-            <p>The products list was updated with errors with follow suppliers:</p>
+            <p>The products list was updated with follows errors:</p>
             <ul>
             {% for error in errors  %}
                 <li>{{error}}: {{ errors[error]['error'] }}</li>

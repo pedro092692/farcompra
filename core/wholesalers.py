@@ -67,35 +67,35 @@ wholesalers = {
         "price_dollar": False
     },
 
-    # "test_server": {
-    #         "url": "127.0.0.1",
-    #         "user": "anonymous",
-    #         "password": "pedro",
-    #         "path": '/',
-    #         "file_name": 'inventario.txt',
-    #         "name": "test_server",
-    #         "fix_data": False,
-    #         "fix_header": True,
-    #         "header":  "id;product_info;row_1;medicine_type;barcode;price;stock;row_2;row_3;row_4;row_5;row_6;row_7;row_8;row_9;row_10;row_11;laboratory;price_usd",
-    #         "headers": ['medicine_type', 'id'],
-    #         "fix_barcode": False,
-    #         "database_headers": ['medicine_type', 'barcode', 'row_5', 'price'],
-    #         "supplier_id": 5,
-    #         "price_dollar": False
-    #     },
+    "test_server": {
+            "url": "127.0.0.1",
+            "user": "anonymous",
+            "password": "pedro",
+            "path": '/',
+            "file_name": 'inventario.txt',
+            "name": "test_server",
+            "fix_data": False,
+            "fix_header": True,
+            "header":  "id;product_info;row_1;medicine_type;barcode;price;stock;row_2;row_3;row_4;row_5;row_6;row_7;row_8;row_9;row_10;row_11;laboratory;price_usd",
+            "headers": ['medicine_type', 'id'],
+            "fix_barcode": False,
+            "database_headers": ['medicine_type', 'barcode', 'row_5', 'price'],
+            "supplier_id": 5,
+            "price_dollar": False
+        },
 
-    # "droven_centro": {
-    #     "url": "clientes.drovencentro.com",
-    #     "user": "F600249",
-    #     "password": "Clientes1234",
-    #     "path": '',
-    #     "file_name": 'inventario.txt',
-    #     "name": "droven_centro",
-    #     "header":  "id;product_info;row_1;medicine_type;barcode;price;stock;row_2;row_3;row_4;row_5;row_6;row_7;row_8;row_9;row_10;row_11;laboratory;price_usd",
-    #     "headers": ['medicine_type', 'id'],
-    #     "fix_barcode": False,
-    #     "database_headers": ['medicine_type', 'barcode', 'row_5', 'price'],
-    #     "supplier_id": 5,
-    #     "price_dollar": False
-    # },
+    "droven_centro": {
+        "url": "clientes.drovencentro.com",
+        "user": "F600249",
+        "password": "Clientes1234",
+        "path": '',
+        "file_name": 'inventario.txt',
+        "name": "droven_centro",
+        "header":  "id;product_info;row_1;medicine_type;barcode;price;stock;row_2;row_3;row_4;row_5;row_6;row_7;row_8;row_9;row_10;row_11;laboratory;price_usd",
+        "headers": ['medicine_type', 'id'],
+        "fix_barcode": False,
+        "database_headers": ['medicine_type', 'barcode', 'row_5', 'price'],
+        "supplier_id": 5,
+        "price_dollar": False
+    },
 }

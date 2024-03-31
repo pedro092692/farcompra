@@ -1,3 +1,4 @@
+import sqlalchemy.exc
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import relationship, DeclarativeBase, Mapped, mapped_column
 from sqlalchemy import Integer, String, Float, ForeignKey
@@ -72,6 +73,8 @@ class Database:
     def add_product_prices(self, data: pandas.DataFrame):
         engine = self.db.engine
         medicine_prices = data
+        # before add new list delete anterior
+        self.delete_products_prices()
         medicine_prices.to_sql('product_prices', engine, index=False, if_exists='append', chunksize=2000)
 
     def show_products(self):
@@ -85,12 +88,17 @@ class Database:
                                      Product.barcode.icontains(q)).order_by(Product.name))
         return products
 
+    def delete_products_prices(self):
+        self.db.session.query(ProductPrice).delete()
+        self.db.session.commit()
+
 
 
 class Aux:
 
     def __init__(self, data: SQLAlchemy):
         self.data = data
+        self.errors = {}
 
     def read_list_from_db(self, columns=['barcode', 'name']) -> pandas.DataFrame:
         data = pandas.read_sql('products', self.data.engine, coerce_float=False, columns=columns)
@@ -107,8 +115,12 @@ class Aux:
         return [self.select_barcode(product) for product in barcodes]
 
     def select_barcode(self, barcode) -> Product:
-        product = self.data.session.query(Product).filter(Product.barcode == barcode).one()
-        return product
+        try:
+            product = self.data.session.query(Product).filter(Product.barcode == barcode).one()
+        except sqlalchemy.exc.NoResultFound:
+            return None
+        else:
+            return product
 
 
 
