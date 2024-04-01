@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Updating Products</title>
+</head>
+<body>
+<h1>welcome to the test</h1>
+  {% if errors  %}
+    <p>Database update with follows Errors:</p>
+    {% for error in errors %}
+        {% for name in error %}
+            <p>{{ name }}: {{ error[name]['error'] }}</p>
+        {% endfor %}
+    {% endfor %}
+  {% endif %}
+</body>
+</html>
