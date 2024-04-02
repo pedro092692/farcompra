@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, url_for
+from flask_bootstrap import Bootstrap5
 import admin_bp
 from database import Database, Aux
 from core.wholesalers import wholesalers
@@ -7,6 +8,7 @@ from core.get_data import Getdata
 
 # INIT APP
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'secret_here'
 
 # DATABASE
 db = Database(app)
@@ -15,6 +17,9 @@ db.create_tables()
 
 # DATA
 data = Getdata(wholesalers, db)
+
+# Plugins
+Bootstrap5(app)
 
 # BLUEPRINTS
 app.register_blueprint(admin_bp.construct_blueprint(data, db), url_prefix='/admin')
