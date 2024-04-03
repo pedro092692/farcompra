@@ -1,0 +1,93 @@
+# Translations template for PROJECT.
+# Copyright (C) 2024 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2024-04-02 19:59-0400\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.14.0\n"
+
+#: templates/admin/home/index.html:22
+#: templates/admin/includes/navigation.html:82
+#: templates/admin/includes/sidenav.html:29
+msgid "Products"
+msgstr ""
+
+#: templates/admin/home/index.html:23
+msgid "Update Now"
+msgstr ""
+
+#: templates/admin/home/index.html:40
+#: templates/admin/includes/navigation.html:76
+#: templates/admin/includes/sidenav.html:23
+msgid "Users"
+msgstr ""
+
+#: templates/admin/home/index.html:41
+msgid "Add New User"
+msgstr ""
+
+#: templates/admin/home/index.html:65
+msgid "Last Products"
+msgstr ""
+
+#: templates/admin/home/index.html:68 templates/admin/home/index.html:103
+msgid "See all"
+msgstr ""
+
+#: templates/admin/home/index.html:77
+msgid "Barcode"
+msgstr ""
+
+#: templates/admin/home/index.html:78 templates/admin/home/index.html:111
+msgid "Name"
+msgstr ""
+
+#: templates/admin/home/index.html:100
+msgid "Last Users"
+msgstr ""
+
+#: templates/admin/home/index.html:112
+msgid "Pharmacy"
+msgstr ""
+
+#: templates/admin/includes/footer.html:14
+msgid "Develop by PythonTotal"
+msgstr ""
+
+#: templates/admin/includes/navigation.html:32
+msgid "You have"
+msgstr ""
+
+#: templates/admin/includes/navigation.html:32
+msgid "notifications."
+msgstr ""
+
+#: templates/admin/includes/navigation.html:57
+msgid "View all"
+msgstr ""
+
+#: templates/admin/includes/navigation.html:70
+#: templates/admin/includes/sidenav.html:17
+msgid "Dashboard"
+msgstr ""
+
+#: templates/admin/includes/navigation.html:88
+#: templates/admin/includes/sidenav.html:35
+msgid "Suppliers"
+msgstr ""
+
+#: templates/admin/includes/navigation.html:111
+msgid "My profile"
+msgstr ""
+

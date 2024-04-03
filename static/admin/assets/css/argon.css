@@ -66,6 +66,11 @@ html {
 article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
   display: block; }
 
+
+ #panel{
+    min-height: 100vh;
+ }
+
 body {
   margin: 0;
   font-family: Open Sans, sans-serif;

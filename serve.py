@@ -4,11 +4,13 @@ import admin_bp
 from database import Database, Aux
 from core.wholesalers import wholesalers
 from core.get_data import Getdata
+from flask_babel import Babel
 
 
 # INIT APP
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret_here'
+app.config['BABEL_DEFAULT_LOCALE'] = 'es'
 
 # DATABASE
 db = Database(app)
@@ -20,6 +22,8 @@ data = Getdata(wholesalers, db)
 
 # Plugins
 Bootstrap5(app)
+babel = Babel(app)
+
 
 # BLUEPRINTS
 app.register_blueprint(admin_bp.construct_blueprint(data, db), url_prefix='/admin')
