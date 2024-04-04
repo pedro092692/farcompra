@@ -6,12 +6,8 @@ wholesalers = {
         "path": '/Existencia',
         "file_name": 'inventario.txt',
         "name": "vital_clinic",
-        "fix_data": False,
-        "fix_header": True,
+        "csv": True,
         "header" : 'id;barcode;product_info;due_date;price;unknown;price_2;stock',
-        "headers": ['barcode', 'product_info'],
-        "fix_barcode": False,
-        "database_headers": ['barcode', 'price', 'due_date', 'stock'],
         "supplier_id": 1,
         "price_dollar": True
     },
@@ -23,11 +19,8 @@ wholesalers = {
         "path": '/',
         "file_name": 'inventario.txt',
         "name": "drocerca",
-        "fix_data": False,
-        "fix_header": False,
-        "headers": ['codbarras', 'descrip'],
-        "fix_barcode": True,
-        "database_headers": ['codbarras', 'Precio', 'Vence', 'exisCaracas'],
+        "csv": True,
+        "header": [],
         "supplier_id": 2,
         "price_dollar": False
     },
@@ -39,12 +32,8 @@ wholesalers = {
         "path": '/Clientes/0491',
         "file_name": 'inventario.txt',
         "name": "dronena",
-        "fix_data": True,
-        "fix_header": False,
-        "fix_path": 'core/data/wholesalers_inventory/dronena_inventory.csv',
-        "headers": ['CODBARRAS', 'DESCRIPCION'],
-        "fix_barcode": False,
-        "database_headers": ['CODBARRAS', 'PRECIO', 'FECHA_EXP', 'CANTIDAD'],
+        "csv": False,
+        "header": [],
         "supplier_id": 3,
         "price_dollar": False
 
@@ -57,14 +46,10 @@ wholesalers = {
         "path": '/',
         "file_name": 'inventario.txt',
         "name": "harissa",
-        "fix_data": False,
-        "fix_header": True,
+        "csv": True,
         "header":  "id;product_info;row_1;medicine_type;barcode;price;stock;row_2;row_3;row_4;row_5;row_6;row_7;row_8;row_9;row_10;row_11;laboratory;price_usd",
-        "headers": ['medicine_type', 'id'],
-        "fix_barcode": False,
-        "database_headers": ['medicine_type', 'barcode', 'row_5', 'price'],
         "supplier_id": 4,
-        "price_dollar": False
+        "price_dollar": True
     },
 
     "test_server": {
