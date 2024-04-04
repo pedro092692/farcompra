@@ -26,7 +26,7 @@ babel = Babel(app)
 
 
 # BLUEPRINTS
-app.register_blueprint(admin_bp.construct_blueprint(data, db), url_prefix='/admin')
+app.register_blueprint(admin_bp.construct_blueprint(), url_prefix='/admin')
 
 
 @app.route('/')

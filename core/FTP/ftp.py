@@ -1,6 +1,6 @@
 import ftplib
 
-PATH = '../data'
+PATH = 'core/data'
 
 
 class FTP:
@@ -12,8 +12,8 @@ class FTP:
         self.alias = alias
         self.path = path
         self.file_name = file_name
-        self.server_connection = self.connect()
         self.error_log = {}
+        self.server_connection = self.connect()
 
     def connect(self) -> ftplib.FTP:
         #connecto to ftp server
@@ -42,7 +42,6 @@ class FTP:
                 self.error_log[self.alias] = {"Error": "file size error"}
 
             self.server_connection.quit()
-            print('test')
 
 
 
