@@ -7,6 +7,7 @@ wholesalers = {
         "file_name": 'inventario.txt',
         "name": "vital_clinic",
         "csv": True,
+        "has_header": False,
         "header" : 'id;barcode;product_info;due_date;price;unknown;price_2;stock',
         "supplier_id": 1,
         "price_dollar": True
@@ -20,6 +21,7 @@ wholesalers = {
         "file_name": 'inventario.txt',
         "name": "drocerca",
         "csv": True,
+        "has_header": True,
         "header": [],
         "supplier_id": 2,
         "price_dollar": False
@@ -33,7 +35,9 @@ wholesalers = {
         "file_name": 'inventario.txt',
         "name": "dronena",
         "csv": False,
-        "header": [],
+        "has_header": True,
+        "header": 'id;product_name;price_ves;quantity;discount;pharmacy_profit;discount_2;package;package_discount;barcode;\
+        type;product_code;lot;due_date;regulated;cold_chain;discount_3;discount_4;original;unknown;unknown;unknown',
         "supplier_id": 3,
         "price_dollar": False
 
@@ -47,6 +51,7 @@ wholesalers = {
         "file_name": 'inventario.txt',
         "name": "harissa",
         "csv": True,
+        "has_header": False,
         "header":  "id;product_info;row_1;medicine_type;barcode;price;stock;row_2;row_3;row_4;row_5;row_6;row_7;row_8;row_9;row_10;row_11;laboratory;price_usd",
         "supplier_id": 4,
         "price_dollar": True

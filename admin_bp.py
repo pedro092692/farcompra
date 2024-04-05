@@ -19,6 +19,8 @@ def construct_blueprint():
         new_data = UpdateData(wholesalers)
         if new_data.errors:
             print(new_data.errors)
+
+        new_data.fix_file()
         return render_template('/admin/home/index.html')
 
 
