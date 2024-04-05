@@ -1,4 +1,6 @@
 id;product_name;product_code;description_product_group;barcode;price_not_tax;stock;stock_2;stock_3;stock_4;sale;regulated;taxes;pre_package_quantity;pre_package_sale;laboratory;laboratory_description;price_usd
+id;product_name;product_code;description_product_group;barcode;price_not_tax;stock;stock_2;stock_3;stock_4;sale;regulated;taxes;pre_package_quantity;pre_package_sale;laboratory;laboratory_description;price_usd
+id;product_name;product_code;description_product_group;barcode;price_not_tax;stock;stock_2;stock_3;stock_4;sale;regulated;taxes;pre_package_quantity;pre_package_sale;laboratory;laboratory_description;price_usd
 000002;FEBRILIX GRIP  X 10TAB KIMICEG;0002;KIMICEG;7592616576046;64.59;61;0;0;0;0.00;NO;     ; ;0;0;0002;KIMICEG;1.85;
 000004;ACETAMINOFEN (FEBRILIX) 500MG CAJA X 20 TAB KIMICEG;0002;KIMICEG;7592616203010;50.36;142;0;0;0;0.00;NO;     ; ;0;0;0002;KIMICEG;1.39;
 000007;ACETAMINOFEN 120MG/5ML SUSP ORAL 120ML LAND;0005;JARABE;7598008000014;47.07;97;0;0;0;0.00;NO;     ; ;0;0;0006;LAND;1.30;
