@@ -11,16 +11,13 @@ def construct_blueprint():
         if not  user == "admin":
             return redirect(url_for('index'))
 
-
-
-
     @admin.route('/', methods=['GET'])
     def index():
         new_data = UpdateData(wholesalers)
         if new_data.errors:
             print(new_data.errors)
 
-        new_data.fix_file()
+        new_data.convert_file_in_csv()
         return render_template('/admin/home/index.html')
 
 

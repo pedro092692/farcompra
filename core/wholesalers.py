@@ -8,7 +8,7 @@ wholesalers = {
         "name": "vital_clinic",
         "csv": True,
         "has_header": False,
-        "header" : 'id;barcode;product_info;due_date;price;unknown;price_2;stock',
+        "header" : 'id;barcode;product_name;due_date;price_usd;unknown;price_usd_2;stock',
         "supplier_id": 1,
         "price_dollar": True
     },
@@ -22,7 +22,8 @@ wholesalers = {
         "name": "drocerca",
         "csv": True,
         "has_header": True,
-        "header": [],
+        "header": 'id;barcode;product_name;stock_merida;stock_caracas;stock_oriente;\
+brand;price_ves;price_ves_discount;group;due_date;active_ingredient;scale;discount_per_scale;bonus;bonus_amount',
         "supplier_id": 2,
         "price_dollar": False
     },
@@ -36,8 +37,8 @@ wholesalers = {
         "name": "dronena",
         "csv": False,
         "has_header": True,
-        "header": 'id;product_name;price_ves;quantity;discount;pharmacy_profit;discount_2;package;package_discount;barcode;\
-        type;product_code;lot;due_date;regulated;cold_chain;discount_3;discount_4;original;unknown;unknown;unknown',
+        "header": 'id;product_name;price_ves;stock;discount;pharmacy_profit;discount_2;package;package_discount;barcode;\
+type;product_code;lot;due_date;regulated;cold_chain;discount_3;discount_4;original;unknown;unknown;unknown',
         "supplier_id": 3,
         "price_dollar": False
 
@@ -52,7 +53,8 @@ wholesalers = {
         "name": "harissa",
         "csv": True,
         "has_header": False,
-        "header":  "id;product_info;row_1;medicine_type;barcode;price;stock;row_2;row_3;row_4;row_5;row_6;row_7;row_8;row_9;row_10;row_11;laboratory;price_usd",
+        "header":  "id;product_name;product_code;description_product_group;barcode;price_not_tax;\
+stock;stock_2;stock_3;stock_4;sale;regulated;taxes;pre_package_quantity;pre_package_sale;laboratory;laboratory_description;price_usd",
         "supplier_id": 4,
         "price_dollar": True
     },
@@ -70,7 +72,7 @@ wholesalers = {
             "headers": ['medicine_type', 'id'],
             "fix_barcode": False,
             "database_headers": ['medicine_type', 'barcode', 'row_5', 'price'],
-            "supplier_id": 5,
+            "supplier_id": 10,
             "price_dollar": False
         },
 
@@ -88,4 +90,24 @@ wholesalers = {
         "supplier_id": 5,
         "price_dollar": False
     },
+
+
+    "cobeca": {
+        "url": "",
+        "user": "",
+        "password": "",
+        "path": '',
+        "file_name": 'cobeca.xlsx',
+        "name": "cobeca",
+        "csv": False,
+        "has_header": True,
+        "header":  "barcode;id;product_name;wholesale_price_ves;price_usd_reference;final_price_ves;price_usd;stock;\
+laboratory;credit_days;percent_supplier;dicount_supplier;digital_discount;\
+soon_payment_discount;discount_per_volume;min_amount_per_volume;discount_per_row;min_amount_per_row;rows",
+        "supplier_id": 6,
+        "price_dollar": True
+    },
+
+
+
 }
