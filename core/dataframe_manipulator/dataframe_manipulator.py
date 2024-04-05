@@ -1,6 +1,6 @@
 import pandas as pd
 
-PATH = '../data'
+PATH = 'core/data'
 class DataFrameHandler:
 
     def __init__(self, filename: str):

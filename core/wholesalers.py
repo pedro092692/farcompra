@@ -38,7 +38,7 @@ brand;price_ves;price_ves_discount;group;due_date;active_ingredient;scale;discou
         "csv": False,
         "has_header": True,
         "header": 'id;product_name;price_ves;stock;discount;pharmacy_profit;discount_2;package;package_discount;barcode;\
-type;product_code;lot;due_date;regulated;cold_chain;discount_3;discount_4;original;unknown;unknown;unknown',
+type;product_code;lot;due_date;regulated;cold_chain;discount_3;discount_4;original;unknown_1;unknown_2;unknown_3',
         "supplier_id": 3,
         "price_dollar": False
 
@@ -53,8 +53,8 @@ type;product_code;lot;due_date;regulated;cold_chain;discount_3;discount_4;origin
         "name": "harissa",
         "csv": True,
         "has_header": False,
-        "header":  "id;product_name;product_code;description_product_group;barcode;price_not_tax;\
-stock;stock_2;stock_3;stock_4;sale;regulated;taxes;pre_package_quantity;pre_package_sale;laboratory;laboratory_description;price_usd",
+        "header":  "0;product_name;product_code;product_group;barcode;price_no_tax;stock;\
+stock_2;stock_2;stock_3;stock_4;regulated;unknown_1;unknown_2;unknown_3;unknown_4;unknown_5;laboratory;price_usd;20",
         "supplier_id": 4,
         "price_dollar": True
     },

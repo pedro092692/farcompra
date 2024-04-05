@@ -3,7 +3,7 @@ from core.wholesalers import wholesalers
 from core.dataframe_manipulator.dataframe_manipulator import DataFrameHandler
 from core.wholesalers import wholesalers
 
-PATH = '../data'
+PATH = 'core/data'
 class FileHandler:
 
     def __init__(self, mode='auto', path=''):
@@ -15,6 +15,8 @@ class FileHandler:
         self.valid_extensions = ('.csv', '.xlsx', '.txt')
         self.wholesalers = wholesalers
 
+
+    ### Fix csv, xlsx, txt files ###
     @staticmethod
     def rewrite_header(file_name, header, has_header):
         new_path = f'{PATH}/{file_name}'
@@ -73,6 +75,7 @@ class FileHandler:
             iterate = self.list_files
 
         for file in iterate:
+            # remove not csv files
             if kwargs.get('remove'):
                 if file.endswith(('.xlsx', '.txt')):
                     os.remove(f'{PATH}/{file}')
@@ -80,18 +83,36 @@ class FileHandler:
             if file.endswith(self.valid_extensions):
                 dot_extension_index = file.rfind('.')
                 if file[:dot_extension_index] in self.wholesalers.keys():
+                    # convert in csv
                     if kwargs.get('csv'):
                         if not self.wholesalers[file[:dot_extension_index]][kwargs['csv']]:
                             function(extension=file[dot_extension_index:], file_name=file)
+                    # rewrote all headers
                     if kwargs.get('header') and kwargs.get('has_header'):
                         function(file_name=file, header=self.wholesalers[file[:dot_extension_index]]['header'],
                                  has_header=self.wholesalers[file[:dot_extension_index]]['has_header'])
 
+    ### Dataframes ###
+
+    def csv_file_list(self) -> list:
+        files = []
+        for file in self.list_files:
+            if file.endswith(self.valid_extensions):
+                files.append(file)
+        return files
+
+    def data_frame_products(self):
+        path_list = self.csv_file_list()
+        df_list = [DataFrameHandler(filename=file_name).load_data_frame() for file_name in path_list]
+        df_barcode_product_name = [DataFrameHandler('').extract_columns(dataframe=df,
+                                                             columns=['barcode', 'product_name']) for df in df_list]
 
 
 
-file_ = FileHandler()
-file_.convert_all_to_csv()
+#
+
+
+
 
 
 

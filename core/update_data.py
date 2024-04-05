@@ -10,7 +10,7 @@ class UpdateData:
         self.list_files = os.listdir(PATH)
         self.valid_extensions = ('.csv', '.xlsx', '.txt')
         self.errors = []
-        self.download()
+        # self.download()
 
     def download(self):
         for wholesaler in self.wholesalers:
@@ -29,6 +29,10 @@ class UpdateData:
                 # store errors
                 if new_connection.error_log:
                     self.errors.append(new_connection.error_log)
+
+        file_handler = FileHandler()
+        file_handler.convert_all_to_csv()
+
 
 
 
