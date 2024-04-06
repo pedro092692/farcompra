@@ -64,11 +64,7 @@ class Database:
 
     def add_products(self, data:pandas.DataFrame):
         engine = self.db.engine
-        old_data = self.aux.read_list_from_db()
-        new_data = data
-        diff_data = self.aux.compare_dataframe(old_data, new_data)
-        if len(diff_data):
-            diff_data.to_sql('products', engine, index=False, if_exists='append', index_label='barcode', chunksize=1000)
+        data.to_sql('products', engine, index=False, if_exists='append', index_label='barcode', chunksize=1000)
 
     def add_product_prices(self, data: pandas.DataFrame):
         engine = self.db.engine

@@ -106,9 +106,8 @@ class FileHandler:
                             data_frame = function(filename=file).load_data_frame()
                             no_nan_df = function.drop_nan(data_frame, columns=['barcode'])
                             str_bar_code_df = function(filename='').column_float_to_string(no_nan_df, 'barcode')
-                            function(filename=file).dataframe_to_svg(dataframe=str_bar_code_df)
+                            function(filename=file).dataframe_to_csv(dataframe=str_bar_code_df)
 
-    ### Dataframes ###
 
     def csv_file_list(self) -> list:
         files = []
@@ -117,18 +116,11 @@ class FileHandler:
                 files.append(file)
         return files
 
-    def data_frame_products(self) -> pd.DataFrame:
-        path_list = self.csv_file_list()
-        df_list = [DataFrameHandler('').column_to_string(DataFrameHandler(filename=file_name).load_data_frame(),
-                   column_name='barcode')
-                   for file_name in path_list]
-        barcode_product_name_df_list = [DataFrameHandler('').extract_columns(dataframe=df,
-                    columns=['barcode', 'product_name']) for df in df_list]
 
-        df_barcode_product_name = DataFrameHandler('').contact_dataframes(dataframes=barcode_product_name_df_list,
-                                                                          drop=True, subset='barcode')
 
-        return df_barcode_product_name
+
+
+
 
 
 
