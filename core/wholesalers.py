@@ -9,6 +9,7 @@ wholesalers = {
         "csv": True,
         "has_header": False,
         "header" : 'id;barcode;product_name;due_date;price_usd;unknown;price_usd_2;stock',
+        "fix_barcode": False,
         "supplier_id": 1,
         "price_dollar": True
     },
@@ -24,6 +25,7 @@ wholesalers = {
         "has_header": True,
         "header": 'id;barcode;product_name;stock_merida;stock_caracas;stock_oriente;\
 brand;price_ves;price_ves_discount;group;due_date;active_ingredient;scale;discount_per_scale;bonus;bonus_amount',
+        "fix_barcode": True,
         "supplier_id": 2,
         "price_dollar": False
     },
@@ -39,6 +41,7 @@ brand;price_ves;price_ves_discount;group;due_date;active_ingredient;scale;discou
         "has_header": True,
         "header": 'id;product_name;price_ves;stock;discount;pharmacy_profit;discount_2;package;package_discount;barcode;\
 type;product_code;lot;due_date;regulated;cold_chain;discount_3;discount_4;original;unknown_1;unknown_2;unknown_3',
+        "fix_barcode": False,
         "supplier_id": 3,
         "price_dollar": False
 
@@ -55,6 +58,7 @@ type;product_code;lot;due_date;regulated;cold_chain;discount_3;discount_4;origin
         "has_header": False,
         "header":  "0;product_name;product_code;product_group;barcode;price_no_tax;stock;\
 stock_2;stock_2;stock_3;stock_4;regulated;unknown_1;unknown_2;unknown_3;unknown_4;unknown_5;laboratory;price_usd;20",
+        "fix_barcode": False,
         "supplier_id": 4,
         "price_dollar": True
     },
@@ -104,6 +108,7 @@ stock_2;stock_2;stock_3;stock_4;regulated;unknown_1;unknown_2;unknown_3;unknown_
         "header":  "barcode;id;product_name;wholesale_price_ves;price_usd_reference;final_price_ves;price_usd;stock;\
 laboratory;credit_days;percent_supplier;dicount_supplier;digital_discount;\
 soon_payment_discount;discount_per_volume;min_amount_per_volume;discount_per_row;min_amount_per_row;rows",
+        "fix_barcode": False,
         "supplier_id": 6,
         "price_dollar": True
     },

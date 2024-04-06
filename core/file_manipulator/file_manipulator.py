@@ -1,4 +1,7 @@
 import os
+
+import pandas as pd
+
 from core.wholesalers import wholesalers
 from core.dataframe_manipulator.dataframe_manipulator import DataFrameHandler
 from core.wholesalers import wholesalers
@@ -64,6 +67,12 @@ class FileHandler:
         self.iterate_over_path(self.convert_to_csv, csv='csv')
         self.iterate_over_path(None, remove='remove')
         self.rewrite_all_header()
+        self.convert_barcodes_to_str()
+
+
+    #fix barcodes int64 to str
+    def convert_barcodes_to_str(self):
+        self.iterate_over_path(DataFrameHandler, fix_barcode='fix_barcode')
 
     def rewrite_all_header(self):
         self.iterate_over_path(self.rewrite_header, header='header', has_header='has_header')
@@ -87,10 +96,17 @@ class FileHandler:
                     if kwargs.get('csv'):
                         if not self.wholesalers[file[:dot_extension_index]][kwargs['csv']]:
                             function(extension=file[dot_extension_index:], file_name=file)
-                    # rewrote all headers
+                    # rewrite all headers
                     if kwargs.get('header') and kwargs.get('has_header'):
                         function(file_name=file, header=self.wholesalers[file[:dot_extension_index]]['header'],
                                  has_header=self.wholesalers[file[:dot_extension_index]]['has_header'])
+
+                    if kwargs.get('fix_barcode'):
+                        if self.wholesalers[file[:dot_extension_index]]['fix_barcode']:
+                            data_frame = function(filename=file).load_data_frame()
+                            no_nan_df = function.drop_nan(data_frame, columns=['barcode'])
+                            str_bar_code_df = function(filename='').column_float_to_string(no_nan_df, 'barcode')
+                            function(filename=file).dataframe_to_svg(dataframe=str_bar_code_df)
 
     ### Dataframes ###
 
@@ -101,15 +117,23 @@ class FileHandler:
                 files.append(file)
         return files
 
-    def data_frame_products(self):
+    def data_frame_products(self) -> pd.DataFrame:
         path_list = self.csv_file_list()
-        df_list = [DataFrameHandler(filename=file_name).load_data_frame() for file_name in path_list]
-        df_barcode_product_name = [DataFrameHandler('').extract_columns(dataframe=df,
-                                                             columns=['barcode', 'product_name']) for df in df_list]
+        df_list = [DataFrameHandler('').column_to_string(DataFrameHandler(filename=file_name).load_data_frame(),
+                   column_name='barcode')
+                   for file_name in path_list]
+        barcode_product_name_df_list = [DataFrameHandler('').extract_columns(dataframe=df,
+                    columns=['barcode', 'product_name']) for df in df_list]
+
+        df_barcode_product_name = DataFrameHandler('').contact_dataframes(dataframes=barcode_product_name_df_list,
+                                                                          drop=True, subset='barcode')
+
+        return df_barcode_product_name
 
 
 
-#
+
+
 
 
 

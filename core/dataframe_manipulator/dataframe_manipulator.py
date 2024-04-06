@@ -27,6 +27,8 @@ class DataFrameHandler:
             print('Sorry File Not Found Try again.')
             self.errors['Error': f'{e}']
 
+    def dataframe_to_svg(self, dataframe: pd.DataFrame, path=PATH):
+        dataframe.to_csv(f"{path}/{self.filename}", index=False, sep=';')
 
     @staticmethod
     def extract_columns(dataframe: pd.DataFrame, columns: list) -> pd.DataFrame:
@@ -42,8 +44,24 @@ class DataFrameHandler:
     @staticmethod
     def contact_dataframes(dataframes: list, drop, subset='') -> pd.DataFrame:
         if drop:
-            new_df = pd.concat(dataframes, ignore_index=True).drop(subset)
+            new_df = pd.concat(dataframes, ignore_index=True).drop_duplicates(subset)
         else:
             new_df = pd.concat(dataframes, ignore_index=True)
 
         return new_df
+
+    @staticmethod
+    def column_float_to_string(dataframe: pd.DataFrame, column_name: str) -> pd.DataFrame:
+        str_column = dataframe[column_name].astype('int64').astype('str')
+        dataframe[column_name] = str_column
+        return dataframe
+    @staticmethod
+    def column_to_string(dataframe: pd.DataFrame, column_name: str) -> pd.DataFrame:
+        str_column = dataframe[column_name].astype('str')
+        dataframe[column_name] = str_column
+        return dataframe
+
+    @staticmethod
+    def drop_nan(dataframe: pd.DataFrame, columns: list) -> pd.DataFrame:
+        no_nan_df = dataframe.dropna(subset=columns)
+        return no_nan_df
