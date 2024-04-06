@@ -1,17 +1,18 @@
 from .FTP.ftp import FTP
 from .file_manipulator.file_manipulator import FileHandler
 from .dataframe_manipulator.dataframe_manipulator import DataFrameHandler
-
+# from serve import db
 import os
 
 PATH = 'core/data'
 
 class UpdateData:
-    def __init__(self, wholesalers: dict):
+    def __init__(self, wholesalers: dict , db):
         self.wholesalers = wholesalers
         self.list_files = os.listdir(PATH)
         self.valid_extensions = ('.csv', '.xlsx', '.txt')
         self.df_handler = DataFrameHandler()
+        self.db = db
         self.errors = []
         self.download()
 
@@ -46,7 +47,7 @@ class UpdateData:
         diff_df_products = self.df_handler.dataframe_diff(df_1=products_from_db, df_2=new_product_list,
                                                           column='barcode')
         if len(diff_df_products):
-
+            self.add_products(diff_df_products)
         else:
             self.errors.append('No products to add in database.')
 

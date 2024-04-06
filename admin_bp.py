@@ -19,7 +19,6 @@ def construct_blueprint():
         if new_data.errors:
             print(new_data.errors)
 
-        new_data.add_new_products_to_db()
         return render_template('/admin/home/index.html')
 
 
