@@ -53,7 +53,6 @@ class DataFrameHandler:
 
         barcode_product_name_df_list = [self.extract_columns(dataframe=df,
                                     columns=['barcode', 'name']) for df in df_list]
-        print(barcode_product_name_df_list[4])
         df_barcode_product_name = self.contact_dataframes(barcode_product_name_df_list, True, 'barcode')
 
         return df_barcode_product_name

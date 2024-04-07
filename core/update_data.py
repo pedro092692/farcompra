@@ -50,7 +50,7 @@ class UpdateData:
         if len(diff_df_products):
             self.db.add_products(diff_df_products)
         else:
-            self.errors.append('No products to add in database.')
+            self.errors.append('No New products to add in database.')
 
     def add_new_products_prices_to_db(self):
         new_prices_list = self.df_handler.dataframe_products_prices()
