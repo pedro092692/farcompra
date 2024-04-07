@@ -32,13 +32,20 @@
   <!-- Icons -->
   <link rel="stylesheet" href="{{ url_for('static', filename='admin/assets/vendor/nucleo/css/nucleo.css') }}" type="text/css">
   <link rel="stylesheet" href="{{ url_for('static', filename='admin/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css') }}" type="text/css">
+  <!--  css -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
   <!-- Page plugins -->
   <!-- Argon CSS -->
   <link rel="stylesheet" href="{{ url_for('static', filename='admin/assets/css/argon.css') }}" type="text/css">
+  <!--  dropzone  -->
+  {{ dropzone.load_css() }}
 
 
   <!-- Specific CSS goes HERE -->
   {% block stylesheets %}{% endblock stylesheets %}
+  <!--  Bootstrap render form-->
+  {% from 'bootstrap5/form.html' import render_form %}
+  {% from 'helpers/_formhelpers.html' import generateForm with context %}
 
 </head>
 
@@ -63,6 +70,10 @@
 
   <!-- Specific JS goes HERE -->
   {% block javascripts %}{% endblock javascripts %}
+  <!--  ### DROPZONE  ###-->
+  {{ dropzone.load_js() }}
+  {{ dropzone.config(custom_init='dz = this;document.getElementById("upload-btn").addEventListener("click", function handler(e) {dz.processQueue();});',
+                 custom_options='autoProcessQueue: false, addRemoveLinks: true, parallelUploads: 20,') }}
   <script src="{{ url_for('static', filename='admin/assets/js/argon.js') }}"></script>
 
 </body>

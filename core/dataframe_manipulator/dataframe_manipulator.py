@@ -3,6 +3,7 @@ import pandas as pd
 from database import db, Product
 from core.file_manipulator import file_manipulator as fm
 from core.wholesalers import wholesalers
+from core.dollar.dollar_scrapper import DollarScrapper
 
 PATH = 'core/data'
 class DataFrameHandler:
@@ -10,7 +11,7 @@ class DataFrameHandler:
     def __init__(self, filename=''):
         self.filename = filename
         self.errors = {}
-        self.dollar = 36.22
+        self.dollar = DollarScrapper().dollar_value
 
 
     ### READ DF ####
@@ -69,7 +70,10 @@ class DataFrameHandler:
                                         columns=['barcode', 'stock']), column_name='barcode')
             # Setting dollar price
             if not price_dollar:
-                df['price_usd'] = round(df['price_usd'] / self.dollar, 2)
+                if self.dollar:
+                    df['price_usd'] = round(df['price_usd'] / self.dollar, 2)
+                else:
+                    self.errors['dollar'] = {'error': 'Error getting dollar value please add it manually.'}
 
             # adding supplier id column
             df.insert(4, 'supplier_id', supplier_id)

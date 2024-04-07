@@ -2,9 +2,11 @@ from .FTP.ftp import FTP
 from .file_manipulator.file_manipulator import FileHandler
 from .dataframe_manipulator.dataframe_manipulator import DataFrameHandler
 from database import Database
+from flask import url_for, redirect
 import os
 
 PATH = 'core/data'
+MANUAL_PATH = 'core/data/manual_uploads'
 
 class UpdateData:
     def __init__(self, wholesalers: dict , db: Database):
@@ -14,7 +16,7 @@ class UpdateData:
         self.df_handler = DataFrameHandler()
         self.db = db
         self.errors = []
-        self.download()
+        self.checking_errors()
 
     def download(self):
         for wholesaler in self.wholesalers:
@@ -55,6 +57,24 @@ class UpdateData:
     def add_new_products_prices_to_db(self):
         new_prices_list = self.df_handler.dataframe_products_prices()
         self.db.add_product_prices(new_prices_list)
+
+
+    def manually_upload(self, file):
+        file_name = file.filename.split('.')[0]
+
+        allowed_file = ['csv', 'txt', 'xlsx', 'xls']
+
+        if file.filename.split('.')[1] not in allowed_file:
+            self.errors.append(['File Upload No Valid Format'])
+        else:
+            file.save(os.path.join(MANUAL_PATH, file.filename))
+
+
+
+
+    def checking_errors(self):
+        if self.df_handler.errors:
+            self.errors.append(self.df_handler.errors)
 
 
 
