@@ -1,4 +1,4 @@
-barcode;id;name;wholesale_price_ves;price_usd_reference;final_price_ves;price_usd;stock;laboratory;credit_days;percent_supplier;dicount_supplier;digital_discount;soon_payment_discount;discount_per_volume;min_amount_per_volume;discount_per_row;min_amount_per_row;rows
+barcode;id;name;wholesale_price_ves;price_usd_reference;final_price_ves;price_usd;stock;laboratory;credit_days;percent_supplier;dicount_supplier;digital_discount;soon_payment_discount;discount_per_volume;min_amount_per_volume;discount_per_row;min_amount_per_row;rows;due_date
 733739001054;28239;5-HTP CAP 100MG X 60 NOW;749.01;20.63;726.54;20.01;56;NOW DE VENEZUELA, C.A.;21;0.0;0;0;3;0;1;0;1;0
 7596347794793;21745;9 VIT SOL/AMP 10 ML X 1;389.4;10.73;377.72;10.41;92;DROVENPLUS TACHIRA, C.A;0;0.0;0;0;3;0;1;0;1;0
 7591039000756;30195;ABCITOOS FANTASIA X 240G;81.37;2.24;78.93;2.17;11;ALFONZO RIVAS & CIA, C.A.;0;0.0;0;0;3;0;1;0;1;0

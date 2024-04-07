@@ -38,7 +38,7 @@ class ProductPrice(Base):
     product_id: Mapped[int] = mapped_column(Integer, ForeignKey("products.id"))
     product_info: Mapped["Product"] = relationship(back_populates="prices")
     price: Mapped[float] = mapped_column(Float, nullable=False)
-    due_data: Mapped[str] = mapped_column(String(250), nullable=True)
+    due_date: Mapped[str] = mapped_column(String(250), nullable=True)
     stock: Mapped[int] = mapped_column(Integer, nullable=False)
     supplier_id: Mapped[int] = mapped_column(Integer, ForeignKey("suppliers.id"))
     supplier_info: Mapped["Supplier"] = relationship(back_populates="prices")
@@ -49,7 +49,6 @@ class Database:
     def __init__(self, app: Flask ):
         self.db = db
         self.app = app
-        self.aux = Aux(self.db)
 
         # DATABASE INIT
         self.app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///farcompra.db'
@@ -68,10 +67,10 @@ class Database:
 
     def add_product_prices(self, data: pandas.DataFrame):
         engine = self.db.engine
-        medicine_prices = data
         # before add new list delete anterior
         self.delete_products_prices()
-        medicine_prices.to_sql('product_prices', engine, index=False, if_exists='append', chunksize=2000)
+        # Add new data
+        data.to_sql('product_prices', engine, index=False, if_exists='append', chunksize=3000)
 
     def show_products(self):
         # products = self.db.session.execute(self.db.select(Product).order_by(Product.name)).scalars().all()
@@ -87,37 +86,4 @@ class Database:
     def delete_products_prices(self):
         self.db.session.query(ProductPrice).delete()
         self.db.session.commit()
-
-
-
-class Aux:
-
-    def __init__(self, data: SQLAlchemy):
-        self.data = data
-        self.errors = {}
-
-    def read_list_from_db(self, columns=['barcode', 'name']) -> pandas.DataFrame:
-        data = pandas.read_sql('products', self.data.engine, coerce_float=False, columns=columns)
-        return data
-
-    @staticmethod
-    def compare_dataframe(df_1, df_2) -> pandas.DataFrame:
-        diff_df = df_2[~df_2['barcode'].isin(df_1['barcode'])]
-        return diff_df
-
-
-    def select_barcodes(self, barcodes: list) -> list:
-        # products = self.session.query(Medicine.id).filter(Medicine.barcode.in_(barcodes)).order_by(asc(Medicine.barcode)).all()
-        return [self.select_barcode(product) for product in barcodes]
-
-    def select_barcode(self, barcode) -> Product:
-        try:
-            product = self.data.session.query(Product).filter(Product.barcode == barcode).one()
-        except sqlalchemy.exc.NoResultFound:
-            return None
-        else:
-            return product
-
-
-
 

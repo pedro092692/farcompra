@@ -1,9 +1,8 @@
 from flask import Flask, render_template, request, url_for
 from flask_bootstrap import Bootstrap5
 import admin_bp
-from database import Database, Aux
+from database import Database
 from core.wholesalers import wholesalers
-from core.get_data import Getdata
 from flask_babel import Babel
 
 
@@ -17,16 +16,13 @@ db = Database(app)
 # CREATE TABLES
 db.create_tables()
 
-# DATA
-data = Getdata(wholesalers, db)
-
 # Plugins
 Bootstrap5(app)
 babel = Babel(app)
 
 
 # BLUEPRINTS
-app.register_blueprint(admin_bp.construct_blueprint(), url_prefix='/admin')
+app.register_blueprint(admin_bp.construct_blueprint(db=db), url_prefix='/admin')
 
 
 @app.route('/')

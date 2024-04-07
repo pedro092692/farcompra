@@ -1,10 +1,9 @@
 from flask import Blueprint, render_template, abort, redirect, url_for
 from core.wholesalers import wholesalers
 from core.update_data import UpdateData
-from core.file_manipulator.file_manipulator import FileHandler
-from core.dataframe_manipulator.dataframe_manipulator import DataFrameHandler
+from database import Database
 
-def construct_blueprint():
+def construct_blueprint(db: Database):
     admin = Blueprint('admin', __name__, template_folder='templates')
 
     @admin.before_request
@@ -15,11 +14,14 @@ def construct_blueprint():
 
     @admin.route('/', methods=['GET'])
     def index():
-        new_data = UpdateData(wholesalers)
+        return render_template('/admin/home/index.html')
+
+    @admin.route('/update-now', methods=['GET'])
+    def update_now():
+        new_data = UpdateData(wholesalers, db)
         if new_data.errors:
             print(new_data.errors)
-
-        return render_template('/admin/home/index.html')
+        return redirect(url_for('admin.index'))
 
 
 

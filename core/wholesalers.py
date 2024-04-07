@@ -23,8 +23,8 @@ wholesalers = {
         "name": "drocerca",
         "csv": True,
         "has_header": True,
-        "header": 'id;barcode;name;stock_merida;stock_caracas;stock_oriente;\
-brand;price_ves;price_ves_discount;group;due_date;active_ingredient;scale;discount_per_scale;bonus;bonus_amount',
+        "header": 'id;barcode;name;stock_merida;stock;stock_oriente;\
+brand;price_usd;price_ves_discount;group;due_date;active_ingredient;scale;discount_per_scale;bonus;bonus_amount',
         "fix_barcode": True,
         "supplier_id": 2,
         "price_dollar": False
@@ -39,7 +39,7 @@ brand;price_ves;price_ves_discount;group;due_date;active_ingredient;scale;discou
         "name": "dronena",
         "csv": False,
         "has_header": True,
-        "header": 'id;name;price_ves;stock;discount;pharmacy_profit;discount_2;package;package_discount;barcode;\
+        "header": 'id;name;price_usd;stock;discount;pharmacy_profit;discount_2;package;package_discount;barcode;\
 type;product_code;lot;due_date;regulated;cold_chain;discount_3;discount_4;original;unknown_1;unknown_2;unknown_3',
         "fix_barcode": False,
         "supplier_id": 3,
@@ -57,7 +57,7 @@ type;product_code;lot;due_date;regulated;cold_chain;discount_3;discount_4;origin
         "csv": True,
         "has_header": False,
         "header":  "0;name;product_code;product_group;barcode;price_no_tax;stock;\
-stock_2;stock_2;stock_3;stock_4;regulated;unknown_1;unknown_2;unknown_3;unknown_4;unknown_5;laboratory;price_usd;20",
+stock_2;stock_2;stock_3;stock_4;regulated;unknown_1;unknown_2;unknown_3;unknown_4;unknown_5;laboratory;price_usd;due_date",
         "fix_barcode": False,
         "supplier_id": 4,
         "price_dollar": True
@@ -107,7 +107,7 @@ stock_2;stock_2;stock_3;stock_4;regulated;unknown_1;unknown_2;unknown_3;unknown_
         "has_header": True,
         "header":  "barcode;id;name;wholesale_price_ves;price_usd_reference;final_price_ves;price_usd;stock;\
 laboratory;credit_days;percent_supplier;dicount_supplier;digital_discount;\
-soon_payment_discount;discount_per_volume;min_amount_per_volume;discount_per_row;min_amount_per_row;rows",
+soon_payment_discount;discount_per_volume;min_amount_per_volume;discount_per_row;min_amount_per_row;rows;due_date",
         "fix_barcode": False,
         "supplier_id": 6,
         "price_dollar": True
