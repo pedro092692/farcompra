@@ -35,14 +35,30 @@ class FTP:
             # change path directory
             self.server_connection.cwd(self.path)
             # check if file size > 0 bites
-            if self.server_connection.size(self.file_name) > 0:
-                with open(f"{PATH}/{self.alias}.csv", mode="wb") as file:
-                    self.server_connection.retrbinary(f'RETR {self.file_name}', file.write)
-            else:
-                self.error_log[self.alias] = {"Error": "file size error"}
+            try:
+                if self.check_file_size():
+                    self.download()
+                else:
+                    self.add_error(error={"Error": "file size error"})
+
+            except ftplib.error_perm as e:
+                self.server_connection.sendcmd("TYPE I")
+                if self.check_file_size():
+                    self.download()
+                else:
+                    self.add_error(error={"Error": "file size error"})
 
             self.server_connection.quit()
 
 
+    def download(self):
+        with open(f"{PATH}/{self.alias}.csv", mode="wb") as file:
+            self.server_connection.retrbinary(f'RETR {self.file_name}', file.write)
+
+    def check_file_size(self):
+        return self.server_connection.size(self.file_name) > 0
+
+    def add_error(self, error: dict):
+        self.error_log[self.alias] = error
 
 

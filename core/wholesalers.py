@@ -113,6 +113,21 @@ soon_payment_discount;discount_per_volume;min_amount_per_volume;discount_per_row
         "price_dollar": True
     },
 
+    "joskar": {
+        "url": "ftp.drogueriajoskar.com",
+        "user": "u551098694.invftp02",
+        "password": "mayorFTP01",
+        "path": '/catalogo',
+        "file_name": 'catalogo_mayor.txt',
+        "name": "joskar",
+        "csv": True,
+        "has_header": True,
+        "header":  "barcode;name;price_usd;sale;due_date;stock",
+        "fix_barcode": False,
+        "supplier_id": 7,
+        "price_dollar": True
+    },
+
 
 
 }
