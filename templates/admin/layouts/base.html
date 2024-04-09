@@ -72,7 +72,8 @@
   {% block javascripts %}{% endblock javascripts %}
   <!--  ### DROPZONE  ###-->
   {{ dropzone.load_js() }}
-  {{ dropzone.config(redirect_url=url_for('admin.products')) }}
+  {{ dropzone.config(redirect_url=url_for('admin.products'), custom_init='dz = this;document.getElementById("upload-btn").addEventListener("click", function handler(e) {dz.processQueue();});',
+                 custom_options='autoProcessQueue: false, addRemoveLinks: true', max_files=1) }}
   <script src="{{ url_for('static', filename='admin/assets/js/argon.js') }}"></script>
 
 </body>
