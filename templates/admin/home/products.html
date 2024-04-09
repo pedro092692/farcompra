@@ -10,7 +10,7 @@
       <div class="container-fluid">
         <div class="header-body">
           <!-- Card stats -->
-          <h2>{{_('Automatic products update')}}</h2>
+          <h2>{{_('Update Products')}}</h2>
           <div class="row">
             <div class="col-xl-3 col-md-6">
               <div class="card card-stats shadow">
@@ -18,13 +18,27 @@
                 <div class="card-body">
                   <div class="row">
                     <div class="col">
-                      <h5 class="card-title text-uppercase text-muted mb-0">{{ _('Products') }}</h5>
+                      <h5 class="card-title text-uppercase text-muted mb-0">{{ _('Automatic Products Update') }}</h5>
                       <a href="{{ url_for('admin.update_now') }}" class="btn btn-danger mt-2 text-white">{{ _('Update Now') }}</a>
                     </div>
                     <div class="col-auto">
                       <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
                         <i class="ni ni-box-2"></i>
                       </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+<!--            manual uploads-->
+            <div class="col">
+              <div class="card card-stats shadow">
+                <!-- Card body -->
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col">
+                      {{ dropzone.create(action='admin.uploads') }}
+                      <a href="#" id="upload-btn" class="btn btn-primary mt-2 text-white">{{ _('Update Manually') }}</a>
                     </div>
                   </div>
                 </div>
@@ -37,17 +51,16 @@
 
     <!-- Page content -->
     <div class="container-fluid mt--6">
+
+    <h2>{{_('Inventory Control')}}</h2>
        <div class="row">
          <div class="col">
            <div class="card shadow">
              <div class="card-header border-0">
                 <div class="col">
-                  <h2>{{_('Manually Products Update')}}</h2>
+                  <h2 class="text-center">{{_('Products')}}</h2>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate dolores ducimus eos facere non quis sequi voluptatem. A aliquid eius eos exercitationem magnam minus molestias, qui quis quisquam repellat sit?</p>
                 </div>
-               <div>
-                 {{ dropzone.create(action='admin.uploads') }}
-                 <a href="#" id="upload-btn" class="btn btn-primary mt-3">Update Products</a>
-               </div>
              </div>
            </div>
          </div>
@@ -66,4 +79,8 @@
   <script src="/static/assets/vendor/chart.js/dist/Chart.min.js"></script>
   <script src="/static/assets/vendor/chart.js/dist/Chart.extension.js"></script>
 
+  <!--  ### DROPZONE  ###-->
+  {{ dropzone.load_js() }}
+  {{ dropzone.config(redirect_url=url_for('admin.products'), custom_init='dz = this;document.getElementById("upload-btn").addEventListener("click", function handler(e) {dz.processQueue();});',
+                 custom_options='autoProcessQueue: false, addRemoveLinks: true', max_files=1) }}
 {% endblock javascripts %}
