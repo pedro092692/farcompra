@@ -65,7 +65,7 @@ class FileHandler:
 
         elif extension == '.xlsx':
             pd_handler = DataFrameHandler(filename=file_name)
-            pd_handler.to_csv(pd_handler.read_excel(path=self.path), path=self.path)
+            pd_handler.to_csv(pd_handler.read_excel(path=self.path, filename=file_name), path=self.path, filename=file_name)
 
     def convert_all_to_csv(self):
         self.iterate_over_path(self.convert_to_csv, csv='csv')
@@ -109,7 +109,8 @@ class FileHandler:
                             data_frame = function(filename=file).load_data_frame(path=self.path)
                             no_nan_df = function.drop_nan(data_frame, columns=['barcode'])
                             str_bar_code_df = function(filename='').column_float_to_string(no_nan_df, 'barcode')
-                            function(filename=file).dataframe_to_csv(dataframe=str_bar_code_df, path=self.path)
+                            function(filename=file).dataframe_to_csv(dataframe=str_bar_code_df, path=self.path,
+                                                                     filename=file)
 
 
 

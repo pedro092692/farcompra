@@ -28,18 +28,18 @@ class DataFrameHandler:
             print('Sorry File Not Found Try again.')
             self.errors['Error'] = e
 
-    def read_excel(self, path) -> pd.DataFrame:
-        new_dataframe = pd.read_excel(f'{path}/{self.filename}')
+    def read_excel(self, path, filename) -> pd.DataFrame:
+        new_dataframe = pd.read_excel(f'{path}/{filename}', engine='openpyxl')
         return new_dataframe
 
-    def to_csv(self, dataframe: pd.DataFrame, path):
+    def to_csv(self, dataframe: pd.DataFrame, path, filename):
         # removing old extension
-        dot_index = self.filename.rfind('.')
-        dataframe.to_csv(f'{path}/{self.filename[:-(dot_index - 1)]}.csv', sep=';', index=False)
+        dot_index = filename.rfind('.')
+        dataframe.to_csv(f'{path}/{filename[:-(dot_index - 1)]}.csv', sep=';', index=False)
 
 
-    def dataframe_to_csv(self, dataframe: pd.DataFrame, path):
-        dataframe.to_csv(f"{path}/{self.filename}", index=False, sep=';')
+    def dataframe_to_csv(self, dataframe: pd.DataFrame, path, filename):
+        dataframe.to_csv(f"{path}/{filename}", index=False, sep=';')
 
 
 
@@ -58,7 +58,7 @@ class DataFrameHandler:
             df_barcode_product_name = self.contact_dataframes(barcode_product_name_df_list, True, 'barcode')
         else:
             if df_list:
-                df_barcode_product_name = barcode_product_name_df_list[0]
+                df_barcode_product_name = barcode_product_name_df_list[0].drop_duplicates(subset='barcode')
             else:
                 self.errors['error'] = {'error': 'invalid file'}
                 return self.errors
@@ -87,6 +87,7 @@ class DataFrameHandler:
             df_list.append(df)
 
         # Creating df list with not zero stock and only necessaries columns
+
         product_prices_df_list = [self.drop_zero(self.extract_columns(dataframe=df,
                             columns=['barcode', 'price_usd', 'due_date', 'stock', 'supplier_id']),
                                     column='stock') for df in df_list]

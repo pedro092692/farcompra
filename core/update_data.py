@@ -64,17 +64,18 @@ class UpdateData:
                 self.errors.append(['File Upload No Valid Format'])
             else:
                 file.save(os.path.join(MANUAL_PATH, file.filename))
-            self.manually_update()
+                self.manually_update()
 
     def manually_update(self):
         file_handler = FileHandler(mode='manual', path=MANUAL_PATH)
         file_handler.convert_all_to_csv()
         csv_files_list = FileHandler(mode='manual', path=MANUAL_PATH).csv_file_list()
         ### updating products manually ###
-        if self.check_df_diff_products(csv_files_list=csv_files_list, path=MANUAL_PATH):
+        add_new_products = self.check_df_diff_products(csv_files_list=csv_files_list, path=MANUAL_PATH)
+        if add_new_products:
             ### updating products prices manually ###
             new_prices_list = self.df_handler.dataframe_products_prices(csv_file_list=csv_files_list, path=MANUAL_PATH)
-            self.db.add_product_prices(new_prices_list, mode='manuel')
+            self.db.add_product_prices(new_prices_list, mode='manual')
             ### remove all files in manual uploads ###
             file_handler.remove_all_files(path=MANUAL_PATH)
 
@@ -101,8 +102,7 @@ class UpdateData:
             self.errors.append(self.df_handler.errors)
 
     def testing(self):
-        file_handler = FileHandler(path=PATH)
-        file_handler.convert_all_to_csv()
-        df = self.df_handler.drop_nan(self.df_handler.load_data_frame(path=PATH, filename='cobeca.csv'), columns=['barcode', 'name'])
-        new = self.df_handler.drop_nan(df, columns=['name'])
-        print(df['name'])
+        pass
+        # file_handler = FileHandler(path=MANUAL_PATH)
+        # file_handler.convert_all_to_csv()
+        # print(df)

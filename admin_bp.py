@@ -22,7 +22,7 @@ def construct_blueprint(db: Database):
     def products():
         new_data = UpdateData(wholesalers, db)
         form = CsvForm()
-        # new_data.testing()
+        new_data.testing()
         return render_template('admin/home/products.html', form=form)
 
     @admin.route('/update-now', methods=['GET'])
