@@ -31,6 +31,7 @@ class UpdateData:
             # download data and filter for manually uploads
             if url:
                 new_connection = FTP(url=url, user=user, password=password, path=path, file_name=file_name, alias=alias)
+                print(f'downloading: {alias}')
                 new_connection.download_file()
                 # store errors
                 if new_connection.error_log:
@@ -38,7 +39,6 @@ class UpdateData:
 
         file_handler = FileHandler()
         file_handler.convert_all_to_csv()
-
         self.add_new_products_to_db()
         self.add_new_products_prices_to_db()
         file_handler.remove_all_files(path=PATH)
@@ -92,7 +92,7 @@ class UpdateData:
                 self.db.add_products(diff_df_products)
                 print("New products added")
             else:
-                self.errors.append('No New products to add in database.')
+                self.errors.append('Database updated successfully.')
             return True
         else:
             self.errors.append(self.df_handler.errors)
