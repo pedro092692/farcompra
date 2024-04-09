@@ -1,5 +1,7 @@
 import requests
+import urllib3
 from bs4 import BeautifulSoup
+urllib3.disable_warnings()
 
 URL = 'https://www.bcv.org.ve'
 class DollarScrapper:

@@ -16,7 +16,7 @@ class DataFrameHandler:
 
     ### READ DF ####
 
-    def load_data_frame(self, filename='', path=PATH) -> pd.DataFrame:
+    def load_data_frame(self, path, filename='') -> pd.DataFrame:
         if not filename:
             filename = self.filename
         try:
@@ -26,47 +26,53 @@ class DataFrameHandler:
 
         except FileNotFoundError as e:
             print('Sorry File Not Found Try again.')
-            self.errors['Error': f'{e}']
+            self.errors['Error'] = e
 
-    def read_excel(self, path=PATH) -> pd.DataFrame:
+    def read_excel(self, path) -> pd.DataFrame:
         new_dataframe = pd.read_excel(f'{path}/{self.filename}')
         return new_dataframe
 
-    def to_csv(self, dataframe: pd.DataFrame, path=PATH):
+    def to_csv(self, dataframe: pd.DataFrame, path):
         # removing old extension
         dot_index = self.filename.rfind('.')
         dataframe.to_csv(f'{path}/{self.filename[:-(dot_index - 1)]}.csv', sep=';', index=False)
 
 
-    def dataframe_to_csv(self, dataframe: pd.DataFrame, path=PATH):
+    def dataframe_to_csv(self, dataframe: pd.DataFrame, path):
         dataframe.to_csv(f"{path}/{self.filename}", index=False, sep=';')
 
 
 
     ### Load DF for DB Operations ###
 
-    def dataframe_products(self) -> pd.DataFrame:
-        csv_files_path = fm.FileHandler().csv_file_list()
-        df_list = [self.column_to_string(self.drop_nan(self.load_data_frame(filename=file_name),
+    def dataframe_products(self, csv_file_list: list, path) -> pd.DataFrame:
+        df_list = [self.column_to_string(self.drop_nan(self.load_data_frame(path=path, filename=file_name),
                     columns=['barcode', 'name']),
                     column_name='barcode')
-                   for file_name in csv_files_path]
+                   for file_name in csv_file_list]
 
         barcode_product_name_df_list = [self.extract_columns(dataframe=df,
                                     columns=['barcode', 'name']) for df in df_list]
-        df_barcode_product_name = self.contact_dataframes(barcode_product_name_df_list, True, 'barcode')
+
+        if len(df_list) > 1:
+            df_barcode_product_name = self.contact_dataframes(barcode_product_name_df_list, True, 'barcode')
+        else:
+            if df_list:
+                df_barcode_product_name = barcode_product_name_df_list[0]
+            else:
+                self.errors['error'] = {'error': 'invalid file'}
+                return self.errors
 
         return df_barcode_product_name
 
-    def dataframe_products_prices(self) -> pd.DataFrame:
-        csv_file_path = fm.FileHandler().csv_file_list()
+    def dataframe_products_prices(self, csv_file_list: list, path) -> pd.DataFrame:
         df_list = []
         # creating df based on download files
-        for file_name in csv_file_path:
+        for file_name in csv_file_list:
             wholesaler = file_name[:file_name.rfind('.')]
             price_dollar = wholesalers[wholesaler]['price_dollar']
             supplier_id = wholesalers[wholesaler]['supplier_id']
-            df = self.column_to_string(self.drop_nan(self.load_data_frame(filename=file_name),
+            df = self.column_to_string(self.drop_nan(self.load_data_frame(filename=file_name, path=path),
                                         columns=['barcode', 'stock']), column_name='barcode')
             # Setting dollar price
             if not price_dollar:
@@ -83,9 +89,13 @@ class DataFrameHandler:
         # Creating df list with not zero stock and only necessaries columns
         product_prices_df_list = [self.drop_zero(self.extract_columns(dataframe=df,
                             columns=['barcode', 'price_usd', 'due_date', 'stock', 'supplier_id']),
-                                                 column='stock') for df in df_list]
+                                    column='stock') for df in df_list]
 
-        df_product_prices = self.contact_dataframes(product_prices_df_list, drop=False)
+        # Check if there is more than 1 df
+        if len(df_list) > 1:
+            df_product_prices = self.contact_dataframes(product_prices_df_list, drop=False)
+        else:
+            df_product_prices = product_prices_df_list[0]
 
         product_id_barcode_df = self.dataframe_from_db(columns=['barcode', 'id'], db_table='products')
 

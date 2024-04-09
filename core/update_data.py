@@ -41,40 +41,68 @@ class UpdateData:
 
         self.add_new_products_to_db()
         self.add_new_products_prices_to_db()
+        file_handler.remove_all_files(path=PATH)
 
 
     def add_new_products_to_db(self):
+        csv_files_list = FileHandler(mode='auto').csv_file_list()
+        self.check_df_diff_products(csv_files_list=csv_files_list, path=PATH)
 
-        new_product_list = self.df_handler.dataframe_products()
-        products_from_db = self.df_handler.load_dataframe_from_db(columns=['barcode', 'name'], table_name='products')
-        diff_df_products = self.df_handler.dataframe_diff(df_1=products_from_db, df_2=new_product_list,
-                                                          column='barcode')
-        if len(diff_df_products):
-            self.db.add_products(diff_df_products)
-        else:
-            self.errors.append('No New products to add in database.')
 
     def add_new_products_prices_to_db(self):
-        new_prices_list = self.df_handler.dataframe_products_prices()
+        csv_files_list = FileHandler(mode='auto').csv_file_list()
+        new_prices_list = self.df_handler.dataframe_products_prices(csv_file_list=csv_files_list, path=PATH)
         self.db.add_product_prices(new_prices_list)
 
 
     def manually_upload(self, file):
         file_name = file.filename.split('.')[0]
+        if file_name in self.wholesalers.keys():
 
-        allowed_file = ['csv', 'txt', 'xlsx', 'xls']
+            allowed_file = ['csv', 'txt', 'xlsx', 'xls']
+            if file.filename.split('.')[1] not in allowed_file:
+                self.errors.append(['File Upload No Valid Format'])
+            else:
+                file.save(os.path.join(MANUAL_PATH, file.filename))
+            self.manually_update()
 
-        if file.filename.split('.')[1] not in allowed_file:
-            self.errors.append(['File Upload No Valid Format'])
+    def manually_update(self):
+        file_handler = FileHandler(mode='manual', path=MANUAL_PATH)
+        file_handler.convert_all_to_csv()
+        csv_files_list = FileHandler(mode='manual', path=MANUAL_PATH).csv_file_list()
+        ### updating products manually ###
+        if self.check_df_diff_products(csv_files_list=csv_files_list, path=MANUAL_PATH):
+            ### updating products prices manually ###
+            new_prices_list = self.df_handler.dataframe_products_prices(csv_file_list=csv_files_list, path=MANUAL_PATH)
+            self.db.add_product_prices(new_prices_list, mode='manuel')
+            ### remove all files in manual uploads ###
+            file_handler.remove_all_files(path=MANUAL_PATH)
+
+
+
+    def check_df_diff_products(self, csv_files_list, path):
+        new_product_list = self.df_handler.dataframe_products(csv_file_list=csv_files_list, path=path)
+        products_from_db = self.df_handler.load_dataframe_from_db(columns=['barcode', 'name'],
+                                                                  table_name='products')
+        if not self.df_handler.errors:
+            diff_df_products = self.df_handler.dataframe_diff(df_1=products_from_db, df_2=new_product_list,
+                                                          column='barcode')
+            if len(diff_df_products):
+                self.db.add_products(diff_df_products)
+                print("New products added")
+            else:
+                self.errors.append('No New products to add in database.')
+            return True
         else:
-            file.save(os.path.join(MANUAL_PATH, file.filename))
-
-
-
+            self.errors.append(self.df_handler.errors)
 
     def checking_errors(self):
         if self.df_handler.errors:
             self.errors.append(self.df_handler.errors)
 
-
-
+    def testing(self):
+        file_handler = FileHandler(path=PATH)
+        file_handler.convert_all_to_csv()
+        df = self.df_handler.drop_nan(self.df_handler.load_data_frame(path=PATH, filename='cobeca.csv'), columns=['barcode', 'name'])
+        new = self.df_handler.drop_nan(df, columns=['name'])
+        print(df['name'])

@@ -20,8 +20,9 @@ def construct_blueprint(db: Database):
 
     @admin.route('/products', methods=['GET', 'POST'])
     def products():
+        new_data = UpdateData(wholesalers, db)
         form = CsvForm()
-
+        # new_data.testing()
         return render_template('admin/home/products.html', form=form)
 
     @admin.route('/update-now', methods=['GET'])
@@ -32,21 +33,13 @@ def construct_blueprint(db: Database):
             print(new_data.errors)
         return redirect(request.referrer)
 
-    @admin.route('uploads', methods=['POST'])
+    @admin.route('/uploads', methods=['POST'])
     def uploads():
         new_data = UpdateData(wholesalers, db)
         if request.method == 'POST':
             file = request.files.get('file')
             new_data.manually_upload(file)
-
-        # allowed_file = ['csv', 'txt', 'xlsx', 'xls']
-        # if request.method == 'POST':
-        #     f = request.files.get('file')
-        #     if f.filename.split('.')[1] not in allowed_file:
-        #         return render_template('admin/home/products.html')
-        #
-        #     f.save(os.path.join('core/data/manual_uploads', f.filename))
-        return 'pedro bastidas'
+        return 'file upload.'
 
 
     return admin

@@ -7,22 +7,26 @@ from core.dataframe_manipulator.dataframe_manipulator import DataFrameHandler
 from core.wholesalers import wholesalers
 
 PATH = 'core/data'
+MANUAL_PATH = 'core/data/manual_uploads'
 class FileHandler:
 
     def __init__(self, mode='auto', path=''):
         self.mode = mode
         if self.mode == 'auto':
             self.list_files = os.listdir(PATH)
+            self.path = PATH
         else:
-            self.list_files = os.listdir(path)
-        self.valid_extensions = ('.csv', '.xlsx', '.txt')
+            self.path = path
+            self.list_files = os.listdir(MANUAL_PATH)
+
+        self.valid_extensions = ('.csv', '.xlsx', '.txt', 'xls')
         self.wholesalers = wholesalers
 
 
     ### Fix csv, xlsx, txt files ###
-    @staticmethod
-    def rewrite_header(file_name, header, has_header):
-        new_path = f'{PATH}/{file_name}'
+
+    def rewrite_header(self, file_name, header, has_header):
+        new_path = f'{self.path}/{file_name}'
         with open(new_path, mode='r+', encoding='utf-8', errors='ignore') as file:
             lines = file.readlines()
             if has_header:
@@ -32,10 +36,10 @@ class FileHandler:
             file.seek(0)
             file.writelines(lines)
 
-    @staticmethod
-    def convert_to_csv(file_name, extension):
+
+    def convert_to_csv(self, file_name, extension):
         if extension == '.csv' and file_name == 'dronena.csv':
-            with open(f'{PATH}/{file_name}', mode='r') as file:
+            with open(f'{self.path}/{file_name}', mode='r') as file:
                 new_file = []
                 i = 0
                 for line in file.readlines():
@@ -54,14 +58,14 @@ class FileHandler:
                     i += 1
 
             # save new data
-            with open(f'{PATH}/{file_name}', mode='w') as data:
+            with open(f'{self.path}/{file_name}', mode='w') as data:
                 for lines in new_file:
                     for line in lines:
                         data.write(line)
 
         elif extension == '.xlsx':
             pd_handler = DataFrameHandler(filename=file_name)
-            pd_handler.to_csv(pd_handler.read_excel())
+            pd_handler.to_csv(pd_handler.read_excel(path=self.path), path=self.path)
 
     def convert_all_to_csv(self):
         self.iterate_over_path(self.convert_to_csv, csv='csv')
@@ -79,15 +83,14 @@ class FileHandler:
 
     def iterate_over_path(self, function, **kwargs):
         if kwargs.get('header'):
-            iterate = os.listdir(PATH)
+            iterate = os.listdir(self.path)
         else:
             iterate = self.list_files
-
         for file in iterate:
             # remove not csv files
             if kwargs.get('remove'):
                 if file.endswith(('.xlsx', '.txt')):
-                    os.remove(f'{PATH}/{file}')
+                    os.remove(f'{self.path}/{file}')
                 return
             if file.endswith(self.valid_extensions):
                 dot_extension_index = file.rfind('.')
@@ -103,11 +106,18 @@ class FileHandler:
 
                     if kwargs.get('fix_barcode'):
                         if self.wholesalers[file[:dot_extension_index]]['fix_barcode']:
-                            data_frame = function(filename=file).load_data_frame()
+                            data_frame = function(filename=file).load_data_frame(path=self.path)
                             no_nan_df = function.drop_nan(data_frame, columns=['barcode'])
                             str_bar_code_df = function(filename='').column_float_to_string(no_nan_df, 'barcode')
-                            function(filename=file).dataframe_to_csv(dataframe=str_bar_code_df)
+                            function(filename=file).dataframe_to_csv(dataframe=str_bar_code_df, path=self.path)
 
+
+
+    def remove_all_files(self, path):
+        path_files = os.listdir(path)
+        for file in path_files:
+            if file.endswith(self.valid_extensions):
+                os.remove(f"{path}/{file}")
 
     def csv_file_list(self) -> list:
         files = []

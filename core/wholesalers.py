@@ -64,7 +64,7 @@ stock_2;stock_2;stock_3;stock_4;regulated;unknown_1;unknown_2;unknown_3;unknown_
     },
 
     "test_server": {
-            "url": "127.0.0.1",
+            "url": "",
             "user": "anonymous",
             "password": "pedro",
             "path": '/data',

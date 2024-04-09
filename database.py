@@ -65,10 +65,11 @@ class Database:
         engine = self.db.engine
         data.to_sql('products', engine, index=False, if_exists='append', index_label='barcode', chunksize=1000)
 
-    def add_product_prices(self, data: pandas.DataFrame):
+    def add_product_prices(self, data: pandas.DataFrame, mode='auto'):
+        if mode == 'auto':
+            # before add new list delete anterior
+            self.delete_products_prices()
         engine = self.db.engine
-        # before add new list delete anterior
-        self.delete_products_prices()
         # Add new data
         data.to_sql('product_prices', engine, index=False, if_exists='append', chunksize=3000)
 
