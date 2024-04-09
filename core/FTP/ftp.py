@@ -1,4 +1,5 @@
 import ftplib
+import socket
 
 PATH = 'core/data'
 
@@ -18,7 +19,7 @@ class FTP:
     def connect(self) -> ftplib.FTP:
         #connecto to ftp server
         try:
-            ftp_conn = ftplib.FTP(self.url)
+            ftp_conn = ftplib.FTP(self.url, timeout=10)
             ftp_conn.login(self.user, self.password)
             ftp_conn.encoding = 'utf-8'
             return ftp_conn
@@ -28,6 +29,9 @@ class FTP:
 
         except UnicodeError as e:
             self.error_log[self.alias] = {"Unicode Error": f"{e}"}
+
+        except socket.timeout as e:
+            self.error_log[self.alias] = {'Connection error:': f'{e}'}
 
     def download_file(self):
         #dowload files from ftp
