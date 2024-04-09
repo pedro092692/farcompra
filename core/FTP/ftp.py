@@ -52,8 +52,11 @@ class FTP:
 
 
     def download(self):
-        with open(f"{PATH}/{self.alias}.csv", mode="wb") as file:
-            self.server_connection.retrbinary(f'RETR {self.file_name}', file.write)
+        try:
+            with open(f"{PATH}/{self.alias}.csv", mode="wb") as file:
+                self.server_connection.retrbinary(f'RETR {self.file_name}', file.write)
+        except socket.timeout as e:
+            self.error_log[self.alias] = {'Connection error:': f'{e}'}
 
 
     def check_file_size(self):
