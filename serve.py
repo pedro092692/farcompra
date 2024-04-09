@@ -14,7 +14,7 @@ app.config['SECRET_KEY'] = 'secret_here'
 app.config['BABEL_DEFAULT_LOCALE'] = 'es'
 ### DROPZONE ###
 app.config['DROPZONE_ALLOWED_FILE_CUSTOM'] = True
-app.config['DROPZONE_ALLOWED_FILE_TYPE'] = '.csv, .txt, .xlsx, .xls'
+app.config['DROPZONE_ALLOWED_FILE_TYPE'] = '.csv, .xlsx, .xls'
 app.config['DROPZONE_MAX_FILE_SIZE'] = 10
 app.config['DROPZONE_ENABLE_CSRF'] = True
 csrf = CSRFProtect(app)

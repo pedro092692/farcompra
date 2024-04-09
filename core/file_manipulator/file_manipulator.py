@@ -67,6 +67,12 @@ class FileHandler:
             pd_handler = DataFrameHandler(filename=file_name)
             pd_handler.to_csv(pd_handler.read_excel(path=self.path, filename=file_name), path=self.path, filename=file_name)
 
+        elif extension == '.csv' and file_name == 'insuaminca':
+            with open(f'{self.path}/{file_name}', mode='r') as infile, open(f'{self.path}'/{file_name}, mode='w') as outfile:
+                content = infile.read().replace('\n', '')
+                outfile.write(content)
+
+
     def convert_all_to_csv(self):
         self.iterate_over_path(self.convert_to_csv, csv='csv')
         self.iterate_over_path(None, remove='remove')

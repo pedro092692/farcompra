@@ -81,7 +81,8 @@ stock_2;stock_2;stock_3;stock_4;regulated;unknown_1;unknown_2;unknown_3;unknown_
         },
 
     "droven_centro": {
-        "url": "clientes.drovencentro.com",
+        # "url": "clientes.drovencentro.com",
+        "url": "",
         "user": "F600249",
         "password": "Clientes1234",
         "path": '',
@@ -127,6 +128,21 @@ soon_payment_discount;discount_per_volume;min_amount_per_volume;discount_per_row
         "supplier_id": 7,
         "price_dollar": True
     },
+
+    "insuaminca":{
+        "url": "ftp.insuaminca.com.ve",
+        "user": "comercial@insuaminca.com.ve",
+        "password": "rbfrtgttECDB",
+        "path": '/Inventario',
+        "file_name": 'inventario.txt',
+        "name": "insuaminca",
+        "csv": False,
+        "has_header": False,
+        "header":  "id;barcode;name;due_date;price_usd;sale_percent;final_price;stock",
+        "fix_barcode": False,
+        "supplier_id": 8,
+        "price_dollar": True
+    }
 
 
 
