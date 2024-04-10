@@ -75,10 +75,10 @@
                         <td class="text-sm">{{product.barcode}}</td>
                         <td class="text-sm">{{product.name}}</td>
                         <td class="text-sm delete">
-                          <form method="POST" id="dp">
+                          <form method="POST" id="{{product.id}}">
                             {{ form.csrf_token }}
                             {{ form.product_id(value=product.id) }}
-                            <button class="btn btn-danger" onclick="confirm();">Delete</button>
+                            <button class="btn btn-danger" onclick="confirm({{ product.id }});">Delete</button>
                           </form>
                         </td>
                       </tr>

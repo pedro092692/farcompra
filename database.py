@@ -61,7 +61,7 @@ class Database:
         with self.app.app_context():
             self.db.create_all()
 
-
+    ### PRODUCTS ###
     def add_products(self, data:pandas.DataFrame):
         engine = self.db.engine
         data.to_sql('products', engine, index=False, if_exists='append', index_label='barcode', chunksize=1000)
@@ -85,6 +85,18 @@ class Database:
                                     filter(Product.name.icontains(q) |
                                      Product.barcode.icontains(q)).order_by(Product.name))
         return products
+
+    def last_products(self):
+        last_products = self.db.session.execute(self.db.select(Product).order_by(Product.name.asc()).limit(8)).scalars().all()
+        return last_products
+
+    def show_all_product(self, per_page):
+        all_products = self.db.paginate(
+            self.db.select(Product).order_by(Product.name.asc()), per_page=per_page
+        )
+        return all_products
+
+
 
     def delete_products_prices(self):
         self.db.session.query(ProductPrice).delete()

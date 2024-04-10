@@ -1,6 +1,6 @@
-function confirm(){
-    form =  document.querySelector('#dp');
+function confirm(id){
     event.preventDefault();
+    form = document.getElementById(id);
   Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -16,7 +16,6 @@ function confirm(){
           text: "Your file has been deleted.",
           icon: "success"
         });
-
         form.submit();
       }
   });
