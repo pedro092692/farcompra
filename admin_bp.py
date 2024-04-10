@@ -3,7 +3,7 @@ from flask import Blueprint, render_template, abort, redirect, url_for, request
 from core.wholesalers import wholesalers
 from core.update_data import UpdateData
 from database import Database
-from forms.forms import CsvForm
+from forms.forms import CsvForm, DeleteProduct
 
 def construct_blueprint(db: Database):
     admin = Blueprint('admin', __name__, template_folder='templates')
@@ -29,8 +29,16 @@ def construct_blueprint(db: Database):
 
     @admin.route('/products', methods=['GET', 'POST'])
     def products():
+        delete_product_form = DeleteProduct()
         messages = got_message()
-        return render_template('admin/home/products.html', messages=messages)
+        all_products = db.show_products(per_page=8)
+        if delete_product_form.validate_on_submit():
+            product_id = delete_product_form.product_id.data
+            product = db.get_product(product_id)
+            print(product.name)
+
+        return render_template('admin/home/products.html', messages=messages, products=all_products,
+                               form=delete_product_form)
 
     @admin.route('/update-now', methods=['GET'])
     def update_now():

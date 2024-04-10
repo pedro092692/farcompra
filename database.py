@@ -73,9 +73,10 @@ class Database:
         # Add new data
         data.to_sql('product_prices', engine, index=False, if_exists='append', chunksize=3000)
 
-    def show_products(self):
+    def show_products(self, per_page=20):
         # products = self.db.session.execute(self.db.select(Product).order_by(Product.name)).scalars().all()
-        products = self.db.paginate(self.db.select(Product).filter(Product.prices.any()).order_by(Product.name))
+        products = self.db.paginate(self.db.select(Product).filter(Product.prices.any()).order_by(Product.name),
+                                    per_page=per_page)
         return products
 
     def search_products(self, q):
@@ -87,4 +88,9 @@ class Database:
     def delete_products_prices(self):
         self.db.session.query(ProductPrice).delete()
         self.db.session.commit()
+
+
+    def get_product(self, product_id):
+        product = self.db.get_or_404(Product, product_id)
+        return product
 

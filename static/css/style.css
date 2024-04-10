@@ -21,3 +21,11 @@
     width: 8px;
     border-radius: 50%;
 }
+
+#products_table td:hover{
+    cursor: pointer;
+}
+
+#products_table .delete:hover{
+    color: red;
+}

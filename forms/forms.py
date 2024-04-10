@@ -13,3 +13,8 @@ class CsvForm(FlaskForm):
                     validators=[FileRequired(), FileAllowed(['csv', 'txt', 'xlsx', 'xls'],
           'Only Documents!')], render_kw={"class": "form-control", "multiple": True})
     submit = submit_field('Upload Files', render_kw={"class": "btn btn-primary"})
+
+
+class DeleteProduct(FlaskForm):
+    product_id = StringField(validators=[DataRequired()], render_kw={"class": "d-none"})
+    submit = submit_field('Delete', render_kw={'class': 'btn btn-danger'})

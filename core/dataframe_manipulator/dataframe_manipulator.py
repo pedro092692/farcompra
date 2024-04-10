@@ -147,8 +147,10 @@ class DataFrameHandler:
 
     @staticmethod
     def column_float_to_string(dataframe: pd.DataFrame, column_name: str) -> pd.DataFrame:
-        dataframe[column_name].astype('int64').astype('str')
-        return dataframe
+        new_dataframe = dataframe.copy()
+        str_column = dataframe[column_name].astype('int64').astype('str')
+        new_dataframe[column_name] = str_column
+        return new_dataframe
     @staticmethod
     def column_to_string(dataframe: pd.DataFrame, column_name: str) -> pd.DataFrame:
         str_column = dataframe[column_name].astype('str')
