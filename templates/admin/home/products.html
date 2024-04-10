@@ -79,8 +79,9 @@
   <script src="/static/assets/vendor/chart.js/dist/Chart.min.js"></script>
   <script src="/static/assets/vendor/chart.js/dist/Chart.extension.js"></script>
 
-  <!--  ### DROPZONE  ###-->
+
   {{ dropzone.load_js() }}
   {{ dropzone.config(redirect_url=url_for('admin.products'), custom_init='dz = this;document.getElementById("upload-btn").addEventListener("click", function handler(e) {dz.processQueue();});',
                  custom_options='autoProcessQueue: false, addRemoveLinks: true', max_files=1) }}
+
 {% endblock javascripts %}

@@ -35,7 +35,8 @@ class UpdateData:
                 new_connection.download_file()
                 # store errors
                 if new_connection.error_log:
-                    self.errors.append(new_connection.error_log)
+                    e = new_connection.error_log
+                    self.errors.append(e)
 
         file_handler = FileHandler()
         file_handler.convert_all_to_csv()
@@ -61,7 +62,7 @@ class UpdateData:
 
             allowed_file = ['csv', 'txt', 'xlsx', 'xls']
             if file.filename.split('.')[1] not in allowed_file:
-                self.errors.append(['File Upload No Valid Format'])
+                self.errors.append('File Upload No Valid Format')
             else:
                 file.save(os.path.join(MANUAL_PATH, file.filename))
                 self.manually_update()
@@ -87,10 +88,10 @@ class UpdateData:
                                                                   table_name='products')
         if not self.df_handler.errors:
             diff_df_products = self.df_handler.dataframe_diff(df_1=products_from_db, df_2=new_product_list,
-                                                          column='barcode')
+                                                              column='barcode')
             if len(diff_df_products):
                 self.db.add_products(diff_df_products)
-                print("New products added")
+                self.errors.append('New products added')
             else:
                 self.errors.append('Database updated successfully.')
             return True

@@ -7,6 +7,14 @@ from forms.forms import CsvForm
 
 def construct_blueprint(db: Database):
     admin = Blueprint('admin', __name__, template_folder='templates')
+    new_data = UpdateData(wholesalers, db)
+
+    def got_message():
+        message = ''
+        if new_data.errors:
+            message = new_data.errors
+        return message
+
 
     @admin.before_request
     def restrict_bp_to_admins():
@@ -16,30 +24,31 @@ def construct_blueprint(db: Database):
 
     @admin.route('/', methods=['GET'])
     def index():
-        return render_template('/admin/home/index.html')
+        message = got_message()
+        return render_template('/admin/home/index.html', messages=message)
 
     @admin.route('/products', methods=['GET', 'POST'])
     def products():
-        new_data = UpdateData(wholesalers, db)
-        form = CsvForm()
-        new_data.testing()
-        return render_template('admin/home/products.html', form=form)
+        messages = got_message()
+        return render_template('admin/home/products.html', messages=messages)
 
     @admin.route('/update-now', methods=['GET'])
     def update_now():
-        new_data = UpdateData(wholesalers, db)
+        messages = got_message()
         new_data.download()
-        if new_data.errors:
-            print(new_data.errors)
         return redirect(request.referrer)
 
     @admin.route('/uploads', methods=['POST'])
     def uploads():
-        new_data = UpdateData(wholesalers, db)
         if request.method == 'POST':
             file = request.files.get('file')
             new_data.manually_upload(file)
         return 'file upload.'
+
+    @admin.route('/delete-all-notifications', methods=['GET'])
+    def delete_all_notifications():
+        new_data.errors = []
+        return redirect(request.referrer)
 
 
     return admin
