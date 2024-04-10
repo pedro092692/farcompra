@@ -69,6 +69,8 @@
   {% include "admin/includes/scripts.html" %}
 
   <!-- Specific JS goes HERE -->
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   {% block javascripts %}{% endblock javascripts %}
   <script src="{{ url_for('static', filename='admin/assets/js/argon.js') }}"></script>
 

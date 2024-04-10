@@ -75,10 +75,10 @@
                         <td class="text-sm">{{product.barcode}}</td>
                         <td class="text-sm">{{product.name}}</td>
                         <td class="text-sm delete">
-                          <form method="POST">
+                          <form method="POST" id="dp">
                             {{ form.csrf_token }}
                             {{ form.product_id(value=product.id) }}
-                            {{ form.submit }}
+                            <button class="btn btn-danger" onclick="confirm();">Delete</button>
                           </form>
                         </td>
                       </tr>
@@ -125,4 +125,8 @@
   {{ dropzone.config(redirect_url=url_for('admin.products'), custom_init='dz = this;document.getElementById("upload-btn").addEventListener("click", function handler(e) {dz.processQueue();});',
                  custom_options='autoProcessQueue: false, addRemoveLinks: true', max_files=1) }}
 
+  <!--sweet alert-->
+
+  <!--Sweet alert 2-->
+  <script src="{{ url_for('static', filename='admin/assets/js/sweet_alert.js') }}"></script>
 {% endblock javascripts %}
