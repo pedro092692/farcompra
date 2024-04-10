@@ -45,6 +45,27 @@ class ProductPrice(Base):
     supplier_info: Mapped["Supplier"] = relationship(back_populates="prices")
 
 
+class User(Base):
+    __tablename__ = "users"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    name: Mapped[str] = mapped_column(String(250), nullable=False)
+    last_name: Mapped[str] = mapped_column(String(250), nullable=False)
+    email: Mapped[str] = mapped_column(String(250), unique=True, nullable=False)
+    password: Mapped[str] = mapped_column(String(100), nullable=False)
+    pharmacy: Mapped[List["Pharmacy"]] = relationship(back_populates='user_info',
+                                                      cascade='all, delete, delete-orphan')
+
+class Pharmacy(Base):
+    __tablename__ = "pharmacies"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    rif: Mapped[int] = mapped_column(Integer, nullable=False)
+    name: Mapped[str] = mapped_column(String(250), nullable=False)
+    email: Mapped[str] = mapped_column(String(1000), nullable=False)
+    address: Mapped[str] = mapped_column(String(1000), nullable=False)
+    user_info: Mapped["User"] = relationship(back_populates='pharmacy')
+
+
+
 class Database:
 
     def __init__(self, app: Flask ):

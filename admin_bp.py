@@ -45,6 +45,13 @@ def construct_blueprint(db: Database):
         return render_template('admin/home/products.html', messages=messages, products=all_products,
                                form=delete_product_form)
 
+    @admin.route('/users', methods=['GET'])
+    def users():
+        return render_template('admin/home/users.html')
+
+
+
+    ### Operations ###
     @admin.route('/update-now', methods=['GET'])
     def update_now():
         messages = got_message()
