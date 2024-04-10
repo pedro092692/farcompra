@@ -30,12 +30,14 @@ def construct_blueprint(db: Database):
     @admin.route('/products', methods=['GET', 'POST'])
     def products():
         delete_product_form = DeleteProduct()
+
         messages = got_message()
         all_products = db.show_products(per_page=8)
+
         if delete_product_form.validate_on_submit():
             product_id = delete_product_form.product_id.data
-            product = db.get_product(product_id)
-            print(product.name)
+            db.delete_product(product_id)
+            return redirect(url_for('admin.products'))
 
         return render_template('admin/home/products.html', messages=messages, products=all_products,
                                form=delete_product_form)

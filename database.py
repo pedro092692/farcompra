@@ -24,6 +24,7 @@ class Product(Base):
     barcode: Mapped[str] = mapped_column(String(250), unique=True, nullable=False)
     name: Mapped[str] = mapped_column(String(1000), nullable=False)
     prices: Mapped[List["ProductPrice"]] = relationship(back_populates="product_info",
+                                                        cascade='all, delete, delete-orphan',
                                                         order_by="ProductPrice.price.asc()")
 
 class Supplier(Base):
@@ -93,4 +94,11 @@ class Database:
     def get_product(self, product_id):
         product = self.db.get_or_404(Product, product_id)
         return product
+
+    def delete_product(self, product_id):
+        product = self.get_product(product_id)
+        if product:
+            self.db.session.delete(product)
+            self.db.session.commit()
+
 
