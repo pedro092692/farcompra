@@ -45,7 +45,7 @@ class ProductPrice(Base):
     supplier_info: Mapped["Supplier"] = relationship(back_populates="prices")
 
 
-class User(Base):
+class User(Base, db.Model):
     __tablename__ = "users"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String(250), nullable=False)
@@ -134,5 +134,25 @@ class Database:
         if product:
             self.db.session.delete(product)
             self.db.session.commit()
+
+
+    ### Users ###
+    def add_user(self, name, last_name, email, password):
+        new_user = User(
+            name=name,
+            last_name=last_name,
+            email=email,
+            password=password
+        )
+        self.db.session.add(new_user)
+        self.db.session.commit()
+        return new_user
+
+
+    @staticmethod
+    def check_user(email):
+        return User.query.filter_by(email=email).first()
+
+
 
 

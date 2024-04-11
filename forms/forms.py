@@ -10,7 +10,7 @@ def string_field(label):
     return StringField(label=label, validators=[DataRequired()])
 
 def email_field():
-    return StringField(label='Email', validators=[DataRequired()])
+    return EmailField(label='Email', validators=[DataRequired(), Email()])
 
 def password_field():
     return PasswordField(label='Password', validators=[DataRequired()])

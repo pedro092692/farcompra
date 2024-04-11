@@ -14,7 +14,7 @@
                     <h5 class="card-header text-xl fw-bold" id="user_register">{{_('Register New User')}}</h5>
                     <div class="card-body">
                         <!-- form user-->
-                        {{ render_form(form_user) }}
+                        {{ render_form(form_user, novalidate=True) }}
                     </div>
                 </div>
             </div>

@@ -4,6 +4,7 @@ from core.wholesalers import wholesalers
 from core.update_data import UpdateData
 from database import Database
 from forms.forms import CsvForm, DeleteProduct, RegisterUserForm, RegisterPharmacyForm
+from werkzeug.security import generate_password_hash, check_password_hash
 
 def construct_blueprint(db: Database):
     admin = Blueprint('admin', __name__, template_folder='templates')
@@ -37,18 +38,28 @@ def construct_blueprint(db: Database):
 
         if delete_product_form.validate_on_submit():
             product_id = delete_product_form.product_id.data
-            product = db.get_product(product_id)
             db.delete_product(product_id)
-
             return redirect(url_for('admin.products'))
 
         return render_template('admin/home/products.html', messages=messages, products=all_products,
                                form=delete_product_form)
 
-    @admin.route('/users', methods=['GET'])
+    @admin.route('/users', methods=['GET', 'POST'])
     def users():
         form_user = RegisterUserForm()
         form_pharmacy = RegisterPharmacyForm()
+        if form_user.validate_on_submit():
+            email = form_user.email.data
+            if db.check_user(email):
+                print('This is email already taken.')
+            else:
+                new_user = db.add_user(
+                    name=form_user.name.data,
+                    last_name=form_user.last_name.data,
+                    email=form_user.email.data,
+                    password=generate_password_hash(form_user.password.data, method='pbkdf2:sha256', salt_length=8)
+                )
+                return redirect(url_for('admin.users'))
         return render_template('admin/home/users.html', form_user=form_user, form_pharmacy=form_pharmacy)
 
 
