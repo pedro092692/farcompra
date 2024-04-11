@@ -62,6 +62,7 @@ class Pharmacy(Base):
     name: Mapped[str] = mapped_column(String(250), nullable=False)
     email: Mapped[str] = mapped_column(String(1000), nullable=False)
     address: Mapped[str] = mapped_column(String(1000), nullable=False)
+    user_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.id"))
     user_info: Mapped["User"] = relationship(back_populates='pharmacy')
 
 

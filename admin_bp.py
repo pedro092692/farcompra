@@ -3,7 +3,7 @@ from flask import Blueprint, render_template, abort, redirect, url_for, request
 from core.wholesalers import wholesalers
 from core.update_data import UpdateData
 from database import Database
-from forms.forms import CsvForm, DeleteProduct
+from forms.forms import CsvForm, DeleteProduct, RegisterUserForm, RegisterPharmacyForm
 
 def construct_blueprint(db: Database):
     admin = Blueprint('admin', __name__, template_folder='templates')
@@ -47,7 +47,9 @@ def construct_blueprint(db: Database):
 
     @admin.route('/users', methods=['GET'])
     def users():
-        return render_template('admin/home/users.html')
+        form_user = RegisterUserForm()
+        form_pharmacy = RegisterPharmacyForm()
+        return render_template('admin/home/users.html', form_user=form_user, form_pharmacy=form_pharmacy)
 
 
 
