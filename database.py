@@ -166,14 +166,20 @@ class Database:
         self.db.session.commit()
         return new_pharmacy
 
+    @staticmethod
+    def check_user(email):
+        return User.query.filter_by(email=email).first()
+
     def all_pharmacies(self):
         all_pharmacies = self.db.session.execute(self.db.select(Pharmacy)).scalars().all()
         return all_pharmacies
 
+    def all_suppliers(self):
+        all_suppliers = self.db.session.execute(self.db.select(Supplier)).scalars().all()
+        return all_suppliers
 
-    @staticmethod
-    def check_user(email):
-        return User.query.filter_by(email=email).first()
+
+
 
 
 

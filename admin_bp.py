@@ -92,7 +92,10 @@ def construct_blueprint(db: Database):
                                                         users=registered_users,
                                                         pharmacies=registered_pharmacies)
 
-
+    @admin.route('/suppliers', methods=['GET'])
+    def suppliers():
+        all_supplier = db.all_suppliers()
+        return render_template('admin/home/suppliers.html', suppliers=all_supplier)
 
     ### Operations ###
     @admin.route('/update-now', methods=['GET'])
