@@ -46,9 +46,18 @@ def construct_blueprint(db: Database):
 
     @admin.route('/users', methods=['GET', 'POST'])
     def users():
+        ### forms ###
         form_user = RegisterUserForm()
         form_pharmacy = RegisterPharmacyForm()
-        if form_user.validate_on_submit():
+
+        ### users ###
+        registered_users = db.all_users()
+
+        ### pharmacies ###
+        registered_pharmacies = db.all_pharmacies()
+
+        ### User form ###
+        if form_user.submit_user.data and form_user.validate():
             email = form_user.email.data
             if db.check_user(email):
                 print('This is email already taken.')
@@ -59,8 +68,29 @@ def construct_blueprint(db: Database):
                     email=form_user.email.data,
                     password=generate_password_hash(form_user.password.data, method='pbkdf2:sha256', salt_length=8)
                 )
-                return redirect(url_for('admin.users'))
-        return render_template('admin/home/users.html', form_user=form_user, form_pharmacy=form_pharmacy)
+                return redirect(url_for('admin.users', _anchor='users'))
+
+        ### pharmacy form ###
+        if form_pharmacy.submit_pharmacy.data and form_pharmacy.validate():
+            user_email = form_pharmacy.user_email.data
+            user_id = db.check_user(user_email)
+            if user_id:
+                new_pharmacy = db.add_pharmacy(
+                    rif=form_pharmacy.rif.data,
+                    name=form_pharmacy.name_pharmacy.data,
+                    email=form_pharmacy.email_pharmacy.data,
+                    address=form_pharmacy.address.data,
+                    user_id=user_id.id
+                )
+                return redirect(url_for('admin.users', _anchor='pharmacies'))
+            else:
+                print('This user not exist in our records.')
+
+
+        return render_template('admin/home/users.html', form_user=form_user,
+                                                        form_pharmacy=form_pharmacy,
+                                                        users=registered_users,
+                                                        pharmacies=registered_pharmacies)
 
 
 

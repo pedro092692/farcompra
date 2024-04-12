@@ -6,12 +6,17 @@
 {% endblock stylesheets %}
 
 {% block content %}
-    <!-- Header -->
+    <!-- Users -->
     <div class="container-fluid mt-4">
+        <div class="card">
+            <div class="card-body">
+                <h2 id="users">{{ _('Users') }}</h2>
+            </div>
+        </div>
         <div class="row">
-            <div class="col">
+            <div class="col col-xl-3">
                 <div class="card">
-                    <h5 class="card-header text-xl fw-bold" id="user_register">{{_('Register New User')}}</h5>
+                    <h5 class="card-header text-xl fw-bold" id="user_register">{{_('Register')}}</h5>
                     <div class="card-body">
                         <!-- form user-->
                         {{ render_form(form_user, novalidate=True) }}
@@ -20,17 +25,88 @@
             </div>
             <div class="col">
                 <div class="card">
-                    <h5 class="card-header text-xl fw-bold">{{_('Register New Pharmacy')}}</h5>
+                    <div class="card-header border-0">
+                        <h3 class="col mb-0">{{ _('Users List') }} </h3>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table align-items-center table-flush">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th scope="col" class="text-sm">{{ _('Name') }}</th>
+                                    <th scope="col" class="text-sm">{{ _('Las Name') }}</th>
+                                    <th scope="col" class="text-sm">{{ _('Email') }}</th>
+                                    <th scope="col" class="text-sm">{{ _('Action') }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for user in users %}
+                                    <tr>
+                                        <td scope="row" class="text-sm">{{ user.name }}</td>
+                                        <td scope="row" class="text-sm">{{ user.last_name }}</td>
+                                        <td scope="row" class="text-sm">{{ user.email }}</td>
+                                        <td scope="row" class="text-sm"><a href="#" class="btn btn-primary">{{ _('Edit') }}</a></td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- pharmacies -->
+    <div class="container-fluid mt-4">
+        <div class="card bg-dark">
+            <div class="card-body">
+                <h2 class="text-white" id="pharmacies">{{ _('Pharmacies') }}</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col-xl-3">
+                <div class="card">
+                    <h5 class="card-header text-xl fw-bold" id="pharmacy_register">{{_('Register')}}</h5>
                     <div class="card-body">
                         <!-- form user-->
-                        {{ render_form(form_pharmacy) }}
+                        {{ render_form(form_pharmacy, novalidate=True) }}
                     </div>
                 </div>
             </div>
             <div class="col">
+                <div class="card">
+                    <div class="card-header border-0">
+                        <h3 class="col mb-0">{{ _('Pharmacy List') }} </h3>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table align-items-center table-flush">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th scope="col" class="text-sm">{{ _('Name') }}</th>
+                                    <th scope="col" class="text-sm">{{ _('RIF') }}</th>
+                                    <th scope="col" class="text-sm">{{ _('Email') }}</th>
+                                    <th scope="col" class="text-sm">{{ _('Address') }}</th>
+                                    <th scope="col" class="text-sm">{{ _('Owner') }}</th>
+                                    <th scope="col" class="text-sm">{{ _('Action') }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for pharmacy in pharmacies %}
+                                    <tr>
+                                        <td scope="row" class="text-sm">{{_(pharmacy.name)}}</td>
+                                        <td scope="row" class="text-sm">{{_(pharmacy.rif)}}</td>
+                                        <td scope="row" class="text-sm">{{_(pharmacy.email)}}</td>
+                                        <td scope="row" class="text-sm">{{_(pharmacy.address)}}</td>
+                                        <td scope="row" class="text-sm">{{_(pharmacy.user_info.name)}} {{_(pharmacy.user_info.last_name)}}</td>
+                                        <td scope="row" class="text-sm"><a href="#" class="btn btn-primary">{{ _('Edit') }}</a></td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+
 
 
 

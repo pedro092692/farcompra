@@ -9,8 +9,8 @@ from flask_babel import gettext
 def string_field(label):
     return StringField(label=label, validators=[DataRequired()])
 
-def email_field():
-    return EmailField(label='Email', validators=[DataRequired(), Email()])
+def email_field(label='Email'):
+    return EmailField(label=label, validators=[DataRequired(), Email()])
 
 def password_field():
     return PasswordField(label='Password', validators=[DataRequired()])
@@ -38,13 +38,15 @@ class RegisterUserForm(FlaskForm):
     last_name = string_field(label='Last Name')
     email = email_field()
     password = password_field()
-    submit = submit_field(label='Register User')
+    submit_user = submit_field(label='Register User')
 
 
 class RegisterPharmacyForm(FlaskForm):
-    name = string_field(label='Pharmacy name')
+    name_pharmacy = string_field(label='Pharmacy name')
     rif = IntegerField(label='RIF', validators=[DataRequired()])
-    email = email_field()
+    email_pharmacy = email_field()
     address = string_field(label='Address')
-    submit = submit_field(label='Register Pharmacy')
+    user_email = email_field(label='User Email')
+    submit_pharmacy = submit_field(label='Register Pharmacy')
+
 

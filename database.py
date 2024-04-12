@@ -1,7 +1,7 @@
 import sqlalchemy.exc
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import relationship, DeclarativeBase, Mapped, mapped_column
-from sqlalchemy import Integer, String, Float, ForeignKey
+from sqlalchemy import Integer, String, Float, ForeignKey, select
 from typing import List
 from flask import Flask
 import pandas
@@ -148,10 +148,33 @@ class Database:
         self.db.session.commit()
         return new_user
 
+    def all_users(self):
+        all_users = self.db.session.execute(self.db.select(User)).scalars().all()
+        return all_users
+
+
+    def add_pharmacy(self, rif, name, email, address, user_id):
+        new_pharmacy = Pharmacy(
+            rif=rif,
+            name=name,
+            email=email,
+            address=address,
+            user_id=user_id
+        )
+
+        self.db.session.add(new_pharmacy)
+        self.db.session.commit()
+        return new_pharmacy
+
+    def all_pharmacies(self):
+        all_pharmacies = self.db.session.execute(self.db.select(Pharmacy)).scalars().all()
+        return all_pharmacies
+
 
     @staticmethod
     def check_user(email):
         return User.query.filter_by(email=email).first()
+
 
 
 
