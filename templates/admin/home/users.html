@@ -44,7 +44,7 @@
                                         <td scope="row" class="text-sm">{{ user.name }}</td>
                                         <td scope="row" class="text-sm">{{ user.last_name }}</td>
                                         <td scope="row" class="text-sm">{{ user.email }}</td>
-                                        <td scope="row" class="text-sm"><a href="{{ url_for('admin.edit_user', user_id=user.id) }}" class="btn btn-primary">{{ _('Edit') }}</a></td>
+                                        <td scope="row" class="text-sm"><a href="{{ url_for('admin.user.edit_user', user_id=user.id) }}" class="btn btn-primary">{{ _('Edit') }}</a></td>
                                     </tr>
                                 {% endfor %}
                             </tbody>
