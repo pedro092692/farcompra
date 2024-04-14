@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired, FileAllowed
-from wtforms import StringField, SubmitField, EmailField, PasswordField, TextAreaField, IntegerField
+from wtforms import StringField, SubmitField, EmailField, PasswordField, TextAreaField, IntegerField, RadioField
 from wtforms.validators import DataRequired, Email, Length
 from werkzeug.utils import secure_filename
 from flask_babel import gettext
@@ -48,5 +48,13 @@ class RegisterPharmacyForm(FlaskForm):
     address = string_field(label='Address')
     user_email = email_field(label='User Email')
     submit_pharmacy = submit_field(label='Register Pharmacy')
+
+class EditUserForm(FlaskForm):
+    active = RadioField(label='User Is Active', default='No', choices=['Yes', 'No'], validators=[DataRequired()])
+    name = string_field(label='Name')
+    last_name = string_field(label='Last Name')
+    email = email_field()
+    password = PasswordField(label='Password', validators=[DataRequired()], render_kw={'value': 'd-none'})
+    submit_user = submit_field(label='Update User')
 
 

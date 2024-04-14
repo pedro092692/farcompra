@@ -170,6 +170,9 @@ class Database:
     def check_user(email):
         return User.query.filter_by(email=email).first()
 
+    def get_user(self, user_id):
+        return self.db.get_or_404(User, user_id)
+
     def all_pharmacies(self):
         all_pharmacies = self.db.session.execute(self.db.select(Pharmacy)).scalars().all()
         return all_pharmacies

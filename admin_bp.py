@@ -1,9 +1,8 @@
-import os
 from flask import Blueprint, render_template, abort, redirect, url_for, request
 from core.wholesalers import wholesalers
 from core.update_data import UpdateData
 from database import Database
-from forms.forms import CsvForm, DeleteProduct, RegisterUserForm, RegisterPharmacyForm
+from forms.forms import CsvForm, DeleteProduct, RegisterUserForm, RegisterPharmacyForm, EditUserForm
 from werkzeug.security import generate_password_hash, check_password_hash
 
 def construct_blueprint(db: Database):
@@ -91,6 +90,19 @@ def construct_blueprint(db: Database):
                                                         form_pharmacy=form_pharmacy,
                                                         users=registered_users,
                                                         pharmacies=registered_pharmacies)
+
+    @admin.route('/user-edit/<user_id>')
+    def edit_user(user_id):
+        user = db.get_user(user_id)
+        form = EditUserForm(
+            name=user.name,
+            last_name=user.last_name,
+            email=user.email,
+        )
+        print('pedro bastidas')
+        print(user.password)
+        return render_template('admin/home/user-edit.html', form=form, user=user)
+
 
     @admin.route('/suppliers', methods=['GET'])
     def suppliers():
