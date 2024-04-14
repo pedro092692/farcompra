@@ -1,6 +1,6 @@
-from flask import Flask, render_template, request, url_for
+from flask import Flask, render_template, request
 from flask_bootstrap import Bootstrap5
-import admin_bp
+from bluprints import admin_bp
 from database import Database
 from flask_dropzone import Dropzone
 from flask_babel import Babel
