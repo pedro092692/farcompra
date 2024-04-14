@@ -54,7 +54,7 @@ class EditUserForm(FlaskForm):
     name = string_field(label='Name')
     last_name = string_field(label='Last Name')
     email = email_field()
-    password = PasswordField(label='Password', validators=[DataRequired()], render_kw={'value': 'd-none'})
+    password = PasswordField(label='Password')
     submit_user = submit_field(label='Update User')
 
 

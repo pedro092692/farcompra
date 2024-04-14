@@ -91,7 +91,7 @@ def construct_blueprint(db: Database):
                                                         users=registered_users,
                                                         pharmacies=registered_pharmacies)
 
-    @admin.route('/user-edit/<user_id>')
+    @admin.route('/user-edit/<user_id>', methods=['GET', 'POST'])
     def edit_user(user_id):
         user = db.get_user(user_id)
         form = EditUserForm(
@@ -99,8 +99,9 @@ def construct_blueprint(db: Database):
             last_name=user.last_name,
             email=user.email,
         )
-        print('pedro bastidas')
-        print(user.password)
+        if form.validate_on_submit():
+            if form.password.data:
+                print(form.password.data)
         return render_template('admin/home/user-edit.html', form=form, user=user)
 
 
