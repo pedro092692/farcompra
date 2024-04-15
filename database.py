@@ -181,6 +181,14 @@ class Database:
         all_suppliers = self.db.session.execute(self.db.select(Supplier)).scalars().all()
         return all_suppliers
 
+    def get_ftp_suppliers(self, suppliers: list):
+        ftp_suppliers = self.db.session.execute(self.db.select(Supplier).
+                                                filter(Supplier.name.in_(suppliers))).scalars().all()
+        return ftp_suppliers
+
+    def get_supplier(self, supplier_id):
+        return self.db.get_or_404(Supplier, supplier_id)
+
 
 
 

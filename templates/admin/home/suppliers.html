@@ -14,10 +14,11 @@
             </div>
         </div>
         <div class="row">
-            <div class="col col-xl-5">
+        <!-- ftp suppliers -->
+            <div class="col">
                 <div class="card">
                     <div class="card-header border-0">
-                        <h3 class="col mb-0">{{ _('Suppliers List') }} </h3>
+                        <h3 class="col mb-0">{{ _('Suppliers List with FTP connection') }} </h3>
                     </div>
                     <div class="card-body">
                       <div class="table-responsive">
@@ -29,10 +30,43 @@
                                 </tr>
                               </thead>
                               <tbody>
-                                {% for supplier in suppliers %}
+                                {% for supplier in suppliers_ftp %}
                                     <tr>
                                         <td scope="row" class="text-sm"><strong>{{ supplier.name }}</strong></td>
-                                        <td scope="row" class="text-sm"><a href="#" class="btn btn-primary">{{ _('Download File') }}</a></td>
+                                        <td scope="row" class="text-sm"><a href="{{
+                                                                        url_for('admin.supplier.download_from_supplier',
+                                                                        supplier_id=supplier.id) }}"
+                                                                           class="btn btn-primary">
+                                                                        {{ _('Download File') }}
+                                        </a>
+                                        </td>
+                                    </tr>
+                                    </tr>
+                                {% endfor %}
+                              </tbody>
+                          </table>
+                      </div>
+                    </div>
+                </div>
+            </div>
+<!--            no ftp supplier-->
+                <div class="col">
+                <div class="card">
+                    <div class="card-header border-0 bg-danger">
+                        <h3 class="col mb-0 text-white">{{ _('Suppliers List with NO FTP connection') }} </h3>
+                    </div>
+                    <div class="card-body">
+                      <div class="table-responsive">
+                          <table class="table table-striped">
+                              <thead class="thead-light">
+                                <tr>
+                                    <th scope="col" class="text-sm">{{ _('Name') }}</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {% for supplier in no_ftp_suppliers %}
+                                    <tr>
+                                        <td scope="row" class="text-sm"><strong>{{ supplier.name }}</strong></td>
                                     </tr>
                                     </tr>
                                 {% endfor %}

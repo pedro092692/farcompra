@@ -81,7 +81,7 @@ stock_2;stock_2;stock_3;stock_4;regulated;unknown_1;unknown_2;unknown_3;unknown_
         },
 
     "droven_centro": {
-        "url": "clientes.drovencentro.com",
+        "url": "",
         "user": "F600249",
         "password": "Clientes1234",
         "path": '',

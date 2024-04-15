@@ -1,7 +1,6 @@
 from flask import Blueprint, render_template, abort, redirect, url_for, request, send_file
 from core.wholesalers import wholesalers
 from core.update_data import UpdateData
-from core.download_data import FtpDownload
 from database import Database
 from .user_bp import construct_blueprint as bp_user
 from .supplier_bp import construct_blueprint as bp_supplier
