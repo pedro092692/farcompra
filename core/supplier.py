@@ -13,18 +13,23 @@ class Supplier:
             self.password = wholesalers[self.name]['password']
             self.path = wholesalers[self.name]['path']
             self.file_name = wholesalers[self.name]['file_name']
+        self.errors = {}
+
 
     def download_file(self):
         file_handler = FileHandler()
         ftp_con = FTP(url=self.server_url, user=self.user_name, password=self.password,
                       path=self.path, file_name=self.file_name, alias=self.name)
         ftp_con.download_file()
-        #send to user
-        with open(f'{PATH}/{self.name}.csv', mode='rb') as local_file:
-            file_data = local_file.read()
-        # delete file
-        file_handler.remove_all_files(path=PATH)
-        return file_data
+        if not ftp_con.error_log:
+            #send to user
+            with open(f'{PATH}/{self.name}.csv', mode='rb') as local_file:
+                file_data = local_file.read()
+            # delete file
+            file_handler.remove_all_files(path=PATH)
+            return file_data
+        else:
+            self.errors = ftp_con.error_log
 
     @staticmethod
     def supplier_list():

@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, abort, redirect, url_for, request, send_file
 from core.wholesalers import wholesalers
 from core.update_data import UpdateData
+from core.supplier import Supplier
 from database import Database
 from .user_bp import construct_blueprint as bp_user
 from .supplier_bp import construct_blueprint as bp_supplier
@@ -9,8 +10,8 @@ from forms.forms import CsvForm, DeleteProduct
 def construct_blueprint(db: Database):
     admin = Blueprint('admin', __name__, template_folder='templates')
     admin.register_blueprint(bp_user(db))
-    admin.register_blueprint(bp_supplier(db))
     new_data = UpdateData(wholesalers, db)
+    admin.register_blueprint(bp_supplier(db, errors=new_data))
 
     def got_message():
         message = ''
@@ -63,7 +64,8 @@ def construct_blueprint(db: Database):
 
     @admin.route('/delete-all-notifications', methods=['GET'])
     def delete_all_notifications():
-        new_data.errors = []
+        if new_data.errors:
+            new_data.errors = []
         return redirect(request.referrer)
 
 
