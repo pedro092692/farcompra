@@ -40,6 +40,15 @@ class RegisterUserForm(FlaskForm):
     password = password_field()
     submit_user = submit_field(label='Register User')
 
+class EditUserForm(FlaskForm):
+    active = RadioField(label='User Is Active', default='No', choices=['Yes', 'No'], validators=[DataRequired()])
+    name = string_field(label='Name')
+    last_name = string_field(label='Last Name')
+    email = email_field()
+    password = PasswordField(label='Password')
+    submit_user = submit_field(label='Update User')
+
+### Pharmacies ###
 
 class RegisterPharmacyForm(FlaskForm):
     name_pharmacy = string_field(label='Pharmacy name')
@@ -49,12 +58,14 @@ class RegisterPharmacyForm(FlaskForm):
     user_email = email_field(label='User Email')
     submit_pharmacy = submit_field(label='Register Pharmacy')
 
-class EditUserForm(FlaskForm):
-    active = RadioField(label='User Is Active', default='No', choices=['Yes', 'No'], validators=[DataRequired()])
-    name = string_field(label='Name')
-    last_name = string_field(label='Last Name')
-    email = email_field()
-    password = PasswordField(label='Password')
-    submit_user = submit_field(label='Update User')
+
+### Login ###
+
+class LoginForm(FlaskForm):
+    username = string_field(label='User Name')
+    password = password_field()
+    submit = submit_field(label='Sign in')
+
+
 
 

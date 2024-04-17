@@ -94,7 +94,14 @@
                                         <td scope="row" class="text-sm">{{_(pharmacy.name)}}</td>
                                         <td scope="row" class="text-sm">{{_(pharmacy.rif)}}</td>
                                         <td scope="row" class="text-sm">{{_(pharmacy.email)}}</td>
-                                        <td scope="row" class="text-sm">{{_(pharmacy.address)}}</td>
+                                        <td scope="row" class="text-sm">
+                                            {% if pharmacy.address | length > 20 %}
+                                                {{ pharmacy.address[:20] }}...
+                                            {% else %}
+                                                {{ pharmacy.address }}
+                                            {% endif %}
+
+                                        </td>
                                         <td scope="row" class="text-sm">{{_(pharmacy.user_info.name)}} {{_(pharmacy.user_info.last_name)}}</td>
                                         <td scope="row" class="text-sm"><a href="#" class="btn btn-primary">{{ _('Edit') }}</a></td>
                                     </tr>

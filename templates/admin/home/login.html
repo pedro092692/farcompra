@@ -16,22 +16,35 @@
               <h2 class="text-center">{{ _('Welcome to farcompra') }}</h2>
             </div>
             <div class="card-body px-lg-5 py-lg-5">
-              <form role="form" action="/">
+              <form role="form" method="POST" novalidate>
                 <div class="form-group mb-3">
                   <div class="input-group input-group-merge input-group-alternative">
                     <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                      <span class="input-group-text"><i class="ni ni-circle-08"></i></span>
                     </div>
-                    <input class="form-control" placeholder="Email" type="email">
+                    {{ form.csrf_token }}
+                    {{ form.username(class='form-control', placeholder='Username') }}
                   </div>
+                    <!--Errors-->
+                    {% if form.username.errors %}
+                        {% for error in form.username.errors %}
+                          <p class="text-sm text-danger">{{ error }}</p>
+                        {% endfor %}
+                    {% endif %}
                 </div>
                 <div class="form-group">
                   <div class="input-group input-group-merge input-group-alternative">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                     </div>
-                    <input class="form-control" placeholder="Password" type="password">
+                    {{ form.password(class='form-control', placeholder='Password') }}
                   </div>
+                  <!--Errors-->
+                    {% if form.password.errors %}
+                        {% for error in form.password.errors %}
+                          <p class="text-sm text-danger">{{ error }}</p>
+                        {% endfor %}
+                    {% endif %}
                 </div>
                 <div class="custom-control custom-control-alternative custom-checkbox">
                   <input class="custom-control-input" id=" customCheckLogin" type="checkbox">
@@ -40,7 +53,7 @@
                   </label>
                 </div>
                 <div class="text-center">
-                  <button type="button" class="btn btn-primary my-4">{{ _('Sign in')}}</button>
+                  {{ form.submit(class='btn btn-primary my-4') }}
                 </div>
               </form>
             </div>

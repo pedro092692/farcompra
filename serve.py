@@ -5,6 +5,7 @@ from database import Database
 from flask_dropzone import Dropzone
 from flask_babel import Babel
 from flask_wtf import CSRFProtect
+from forms.forms import LoginForm
 
 
 
@@ -36,9 +37,12 @@ dropzone = Dropzone(app)
 app.register_blueprint(admin_bp.construct_blueprint(db=db), url_prefix='/admin')
 
 
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    return render_template('admin/home/login.html')
+    form = LoginForm()
+    if form.validate_on_submit():
+        print('hi')
+    return render_template('admin/home/login.html', form=form)
 
 @app.route('/')
 def index():
