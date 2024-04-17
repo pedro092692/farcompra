@@ -30,7 +30,13 @@ class FileHandler:
         with open(new_path, mode='r+', encoding='utf-8', errors='ignore') as file:
             lines = file.readlines()
             if has_header:
-                lines[0] = f'{header}\n'
+                if file_name == 'drovencentro.csv':
+                    lines[0] = f'{header}\n'
+                    # lines[1:9] = '' for second xlsx file
+                    lines[1] = ''
+                else:
+                    lines[0] = f'{header}\n'
+
             else:
                 lines.insert(0, f'{header}\n')
             file.seek(0)

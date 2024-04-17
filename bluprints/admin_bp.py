@@ -33,8 +33,8 @@ def construct_blueprint(db: Database):
 
     @admin.route('/products', methods=['GET', 'POST'])
     def products():
+        new_data.testing()
         delete_product_form = DeleteProduct()
-
         messages = got_message()
         all_products = db.show_all_product(per_page=8)
 

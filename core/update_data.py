@@ -104,8 +104,5 @@ class UpdateData:
 
     def testing(self):
         pass
-        # print('pedro')
-        # file_handler = FileHandler(path=MANUAL_PATH)
-        # file_handler.convert_all_to_csv()
-        # df = self.df_handler.load_data_frame(path=MANUAL_PATH, filename='insuaminca.csv')
+        # df = self.df_handler.read_excel(path=PATH, filename='drovencentro_1.xlsx')
         # print(df)

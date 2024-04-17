@@ -35,7 +35,7 @@ class DataFrameHandler:
     def to_csv(self, dataframe: pd.DataFrame, path, filename):
         # removing old extension
         dot_index = filename.rfind('.')
-        dataframe.to_csv(f'{path}/{filename[:-(dot_index - 1)]}.csv', sep=';', index=False)
+        dataframe.to_csv(f'{path}/{filename[:dot_index]}.csv', sep=';', index=False)
 
 
     def dataframe_to_csv(self, dataframe: pd.DataFrame, path, filename):

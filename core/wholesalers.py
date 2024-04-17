@@ -80,19 +80,21 @@ stock_2;stock_2;stock_3;stock_4;regulated;unknown_1;unknown_2;unknown_3;unknown_
             "price_dollar": False
         },
 
-    "droven_centro": {
+    "drovencentro": {
         "url": "",
         "user": "F600249",
         "password": "Clientes1234",
         "path": '',
-        "file_name": 'inventario.txt',
-        "name": "droven_centro",
-        "header":  "id;product_info;row_1;medicine_type;barcode;price;stock;row_2;row_3;row_4;row_5;row_6;row_7;row_8;row_9;row_10;row_11;laboratory;price_usd",
-        "headers": ['medicine_type', 'id'],
+        "file_name": 'drovencentro.xlsx',
+        "name": "drovencentro",
+        "csv": False,
+        "has_header": True,
+        "header": "id;name;price_usd;stock;barcode;units;due_date",
+        # "header": "barcode;name;laboratory;unknown;unknown;discount;ves_net;price_usd;stock;tax;id;active_ingredient;order;total;due_date",
         "fix_barcode": False,
-        "database_headers": ['medicine_type', 'barcode', 'row_5', 'price'],
         "supplier_id": 5,
         "price_dollar": False
+        # "price_dollar": True
     },
 
 
