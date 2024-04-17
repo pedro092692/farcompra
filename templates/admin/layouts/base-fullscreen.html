@@ -1,14 +1,3 @@
-<!--
-=========================================================
-* Argon Dashboard - v1.2.0
-=========================================================
-* Product Page: https://www.creative-tim.com/product/argon-dashboard
-
-* Copyright  Creative Tim (http://www.creative-tim.com)
-* Coded by www.creative-tim.com
-=========================================================
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
--->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,17 +7,18 @@
   <link rel="canonical" href="https://appseed.us/admin-dashboards/flask-boilerplate-dashboard-argon">
   
   <title>
-    Flask Argon Dashboard - {% block title %} Open-Source Admin Panel {% endblock %} | AppSeed
+    {% block title %} Farcompra {% endblock %}
   </title>
 
   <link rel="icon" href="/static/assets/img/brand/favicon.png" type="image/png">
   <!-- Fonts -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
   <!-- Icons -->
-  <link rel="stylesheet" href="/static/assets/vendor/nucleo/css/nucleo.css" type="text/css">
-  <link rel="stylesheet" href="/static/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" type="text/css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='admin/assets/vendor/nucleo/css/nucleo.css') }}" type="text/css">
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='admin/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css') }}" type="text/css">
   <!-- Argon CSS -->
-  <link rel="stylesheet" href="/static/assets/css/argon.css?v=1.2.0" type="text/css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='admin/assets/css/argon.css') }}">
 
   <!-- Specific CSS goes HERE -->
   {% block stylesheets %}{% endblock stylesheets %}
@@ -38,23 +28,15 @@
 <body class="bg-default">
 
   <div class="main-content">
-
-    {% include "includes/navigation-fullscreen.html" %}
-
     <!-- Header -->
-    <div class="header bg-gradient-primary py-7 py-lg-8">
+    <div class="header bg-primary py-7 py-lg-8">
       <div class="container">
         <div class="header-body text-center mb-7">
           <div class="row justify-content-center">
             <div class="col-lg-5 col-md-6">
               <h1 class="text-white">
-                <a target="_blank" class="text-white"
-                   href="https://appseed.us/admin-dashboards/flask-boilerplate-dashboard-argon">Flask Argon</a>
+                <img src="{{ url_for('static', filename='img/brand/farcompra_white.svg') }}" width="350" alt="Farcompra logo">
               </h1>
-              <p class="text-lead text-light">
-                Open-Source Flask Starter with Argon Design 
-                Coded by <a target="_blank" class="text-white" href="https://appseed.us">AppSeed</a>.  
-              </p>
             </div>
           </div>
         </div>
@@ -68,16 +50,15 @@
     
     {% block content %}{% endblock content %}
 
-    {% include "includes/footer-fullscreen.html" %}
 
   </div>
     
-  {% include "includes/scripts.html" %}
+  {% include "admin/includes/scripts.html" %}
 
   <!-- Specific JS goes HERE --> 
   {% block javascripts %}{% endblock javascripts %}
   
-  <script src="/static/assets/js/argon.js?v=1.2.0"></script>
+  <script src="{{ url_for('static', filename='admin/assets/js/argon.js') }}"></script>
 
 </body>
 

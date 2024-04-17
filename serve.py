@@ -36,6 +36,10 @@ dropzone = Dropzone(app)
 app.register_blueprint(admin_bp.construct_blueprint(db=db), url_prefix='/admin')
 
 
+@app.route('/login')
+def login():
+    return render_template('admin/home/login.html')
+
 @app.route('/')
 def index():
     all_products = db.show_products()
