@@ -6,6 +6,8 @@ from database import Database
 from .user_bp import construct_blueprint as bp_user
 from .supplier_bp import construct_blueprint as bp_supplier
 from forms.forms import CsvForm, DeleteProduct
+from flask_login import login_user, current_user, login_required
+from helpers import is_admin
 
 def construct_blueprint(db: Database):
     admin = Blueprint('admin', __name__, template_folder='templates')
@@ -21,9 +23,8 @@ def construct_blueprint(db: Database):
 
     @admin.before_request
     def restrict_bp_to_admins():
-        user = 'admin'
-        if not  user == "admin":
-            return redirect(url_for('index'))
+        if not current_user.is_authenticated or current_user.role != 'admin':
+            return abort(401)
 
     @admin.route('/', methods=['GET'])
     def index():

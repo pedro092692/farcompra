@@ -12,3 +12,4 @@ bs4~=0.0.1
 beautifulsoup4~=4.11.1
 werkzeug~=3.0.1
 urllib3~=1.26.11
+Flask_Login==0.6.3

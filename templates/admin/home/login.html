@@ -1,6 +1,7 @@
 {% extends 'admin/layouts/base-fullscreen.html' %}
 
 {% block title %} Login {% endblock title %}
+{% from 'helpers/_flash_helper.html' import render_flash_message %}
 
 <!-- Specific CSS goes HERE -->
 {% block stylesheets %}{% endblock stylesheets %}
@@ -16,6 +17,7 @@
               <h2 class="text-center">{{ _('Welcome to farcompra') }}</h2>
             </div>
             <div class="card-body px-lg-5 py-lg-5">
+              {{ render_flash_message(color='danger') }}
               <form role="form" method="POST" novalidate>
                 <div class="form-group mb-3">
                   <div class="input-group input-group-merge input-group-alternative">

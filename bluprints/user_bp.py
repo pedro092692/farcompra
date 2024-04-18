@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, render_template, url_for, redirect
+from flask import Blueprint, render_template, render_template, url_for, redirect, flash
 from forms.forms import RegisterUserForm, RegisterPharmacyForm, EditUserForm
 from werkzeug.security import generate_password_hash, check_password_hash
 from database import Database
@@ -57,13 +57,30 @@ def construct_blueprint(db: Database):
     def edit_user(user_id):
         user_ob = db.get_user(user_id)
         form = EditUserForm(
+            active=user_ob.active,
             name=user_ob.name,
             last_name=user_ob.last_name,
             email=user_ob.email,
+            role=user_ob.role,
+
         )
         if form.validate_on_submit():
+            password = user_ob.password
+
             if form.password.data:
-                print(form.password.data)
+                password = form.password.data
+
+            db.edit_user(user_id=user_ob.id,
+                         name=form.name.data,
+                         last_name=form.last_name.data,
+                         email=form.email.data,
+                         password=password,
+                         role=form.role.data,
+                         active=form.active.data)
+
+            flash('User Updated')
+
+
         return render_template('admin/home/user-edit.html', form=form, user=user_ob)
 
     return user

@@ -4,6 +4,7 @@ from sqlalchemy.orm import relationship, DeclarativeBase, Mapped, mapped_column
 from sqlalchemy import Integer, String, Float, ForeignKey, select
 from typing import List
 from flask import Flask
+from flask_login import UserMixin
 import pandas
 
 # CREATE DATABASE
@@ -45,13 +46,15 @@ class ProductPrice(Base):
     supplier_info: Mapped["Supplier"] = relationship(back_populates="prices")
 
 
-class User(Base, db.Model):
+class User(Base, UserMixin, db.Model):
     __tablename__ = "users"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String(250), nullable=False)
     last_name: Mapped[str] = mapped_column(String(250), nullable=False)
     email: Mapped[str] = mapped_column(String(250), unique=True, nullable=False)
     password: Mapped[str] = mapped_column(String(100), nullable=False)
+    role: Mapped[str] = mapped_column(String(200), nullable=False)
+    active: Mapped[str] = mapped_column(String(20), nullable=False)
     pharmacy: Mapped[List["Pharmacy"]] = relationship(back_populates='user_info',
                                                       cascade='all, delete, delete-orphan')
 
@@ -142,11 +145,23 @@ class Database:
             name=name,
             last_name=last_name,
             email=email,
-            password=password
+            password=password,
+            role='user',
+            active='yes'
         )
         self.db.session.add(new_user)
         self.db.session.commit()
         return new_user
+
+    def edit_user(self, user_id, name, last_name, email, password, role, active):
+        user = self.get_user(user_id)
+        user.name = name
+        user.last_name = last_name
+        user.email = email
+        user.password = password
+        user.role = role
+        user.active = active
+        self.db.session.commit()
 
     def all_users(self):
         all_users = self.db.session.execute(self.db.select(User)).scalars().all()
