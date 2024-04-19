@@ -1,4 +1,4 @@
-{% extends 'admin/layouts/base.html' %}
+{% extends 'user/layouts/base.html' %}
 {% block title %} Dashboard {% endblock title %}
 
 <!-- Specific CSS goes HERE -->
@@ -11,10 +11,9 @@
         <div class="row">
             <div class="col">
                 <div class="card">
-                    <h5 class="card-header text-xl fw-bold text-capitalize" id="user_register">{{_('Edit')}} {{  user.name }} {{ user.last_name }}</h5>
+                    <h5 class="card-header text-xl fw-bold text-capitalize" id="user_register">{{_('Edit')}}</h5>
                     <div class="card-body">
                         <!-- form user-->
-                        {{ render_form(form, novalidate=True) }}
                     </div>
                 </div>
             </div>

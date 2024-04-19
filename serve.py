@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 from flask_bootstrap import Bootstrap5
 from bluprints import admin_bp
 from database import Database
@@ -8,6 +8,7 @@ from flask_wtf import CSRFProtect
 from forms.forms import LoginForm
 from werkzeug.security import check_password_hash
 from flask_login import login_user, LoginManager, current_user, logout_user, login_required
+from helpers import same_user
 
 
 
@@ -71,6 +72,11 @@ def login():
             flash('Wrong user or password')
     return render_template('admin/home/login.html', form=form)
 
+@app.route('/user/profile')
+@login_required
+def user_profile():
+    return render_template('user_profile.html')
+
 @app.route('/')
 @login_required
 def index():
@@ -89,8 +95,11 @@ def search():
 
 @app.route('/logout')
 def logout():
+    session.clear()
     logout_user()
-    return redirect(url_for('login'))
+    response = redirect(url_for('login'))
+    response.cache_control.no_cache = True
+    return response
 
 
 # Errors

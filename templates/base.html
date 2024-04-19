@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- css-->
+    <style>
+        body{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            min-height:100vh;
+        }
+    </style>
+    {{ bootstrap.load_css() }}
+
+    <title>
+        {% block title %} {% endblock %}
+    </title>
+</head>
+<body class="d-flex flex-column">
+    <div class="flex-grow-1">
+        {% block content %} {% endblock %}
+    </div>
+   <!-- Footer -->
+
+    <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-3 px-4 border-top">
+    <p class="col-md-4 mb-0 text-muted">© 2022 Farcompra</p>
+
+    <a href="/" class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+        <img src="{{ url_for('static', filename='img/brand/company_logo.svg') }}" alt="company logo" width="65">
+    </a>
+
+    <ul class="nav col-md-4 justify-content-end">
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Home</a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Features</a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Pricing</a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">FAQs</a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">About</a></li>
+    </ul>
+  </footer>
+</body>
+</html>

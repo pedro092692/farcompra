@@ -13,6 +13,7 @@
                 <h2 id="users">{{ _('Users') }}</h2>
             </div>
         </div>
+        {{ render_flash_message(color='success') }}
         <div class="row">
             <div class="col col-xl-3">
                 <div class="card">
@@ -40,12 +41,18 @@
                             </thead>
                             <tbody>
                                 {% for user in users %}
-                                    <tr>
-                                        <td scope="row" class="text-sm">{{ user.name }}</td>
-                                        <td scope="row" class="text-sm">{{ user.last_name }}</td>
-                                        <td scope="row" class="text-sm">{{ user.email }}</td>
-                                        <td scope="row" class="text-sm"><a href="{{ url_for('admin.user.edit_user', user_id=user.id) }}" class="btn btn-primary">{{ _('Edit') }}</a></td>
-                                    </tr>
+                                    {% if user.id != current_user.id %}
+                                        <tr class="bg-{{transparent if user.active == 'yes' else 'danger text-white'}}">
+                                            <td scope="row" class="text-sm text-capitalize">{{ user.name }}</td>
+                                            <td scope="row" class="text-sm text-capitalize">{{ user.last_name }}</td>
+                                            <td scope="row" class="text-sm">{{ user.email }}</td>
+                                            <td scope="row" class="text-sm">
+                                                <a href="{{ url_for('admin.user.edit_user', user_id=user.id) }}"
+                                                   class="btn btn-primary">{{ _('Edit') }}
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% endif %}
                                 {% endfor %}
                             </tbody>
                         </table>

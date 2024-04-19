@@ -164,7 +164,7 @@ class Database:
         self.db.session.commit()
 
     def all_users(self):
-        all_users = self.db.session.execute(self.db.select(User)).scalars().all()
+        all_users = self.db.session.execute(self.db.select(User).order_by(User.id.desc()).limit(8)).scalars().all()
         return all_users
 
 
