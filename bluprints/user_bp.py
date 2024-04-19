@@ -38,16 +38,19 @@ def construct_blueprint(db: Database):
             user_email = form_pharmacy.user_email.data
             user_id = db.check_user(user_email)
             if user_id:
-                new_pharmacy = db.add_pharmacy(
-                    rif=form_pharmacy.rif.data,
-                    name=form_pharmacy.name_pharmacy.data,
-                    email=form_pharmacy.email_pharmacy.data,
-                    address=form_pharmacy.address.data,
-                    user_id=user_id.id
-                )
-                return redirect(url_for('admin.user.users', _anchor='pharmacies'))
+                if not user_id.pharmacy:
+                    new_pharmacy = db.add_pharmacy(
+                        rif=form_pharmacy.rif.data,
+                        name=form_pharmacy.name_pharmacy.data,
+                        email=form_pharmacy.email_pharmacy.data,
+                        address=form_pharmacy.address.data,
+                        user_id=user_id.id
+                    )
+                    return redirect(url_for('admin.user.users', _anchor='pharmacies'))
+                else:
+                    form_pharmacy.user_email.errors.append('This user already has a pharmacy.')
             else:
-                print('This user not exist in our records.')
+                form_pharmacy.user_email.errors.append('This user not exist in our records.')
 
         return render_template('admin/home/users.html', form_user=form_user,
                                form_pharmacy=form_pharmacy,
@@ -88,6 +91,37 @@ def construct_blueprint(db: Database):
 
 
         return render_template('admin/home/user-edit.html', form=form, user=user_ob)
+
+    @user.route('/pharmacy-edit/<pharmacy_id>', methods=['GET', 'POST'])
+    def pharmacy_edit(pharmacy_id):
+        pharmacy = db.get_pharmacy(pharmacy_id)
+        form = RegisterPharmacyForm(
+            name_pharmacy=pharmacy.name,
+            rif=pharmacy.rif,
+            email_pharmacy=pharmacy.email,
+            address=pharmacy.address,
+            user_email=pharmacy.user_info.email
+        )
+        if form.validate_on_submit():
+            user_exist = db.check_user(form.user_email.data)
+            if user_exist:
+                if user_exist.id == pharmacy.user_info.id or not user_exist.pharmacy:
+                    db.edit_pharmacy(
+                        pharmacy_id=pharmacy.id,
+                        name=form.name_pharmacy.data,
+                        rif=form.rif.data,
+                        email=form.email_pharmacy.data,
+                        address=form.address.data,
+                        user_email=form.user_email.data
+                    )
+                    flash('Pharmacy Updated')
+                    return redirect(url_for('admin.user.users'))
+                else:
+                    form.user_email.errors.append('This user already has a pharmacy')
+            else:
+                form.user_email.errors.append('This user email do not exist in our database.')
+
+        return render_template('admin/home/pharmacy-edit.html', form=form, pharmacy=pharmacy)
 
 
     return user

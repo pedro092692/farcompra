@@ -1,0 +1,32 @@
+{% extends 'admin/layouts/base.html' %}
+{% block title %} Dashboard {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+{% endblock stylesheets %}
+
+{% block content %}
+    <!-- Pharmacies -->
+    {{ render_flash_message(color='danger') }}
+    <div class="container-fluid mt-4">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <h5 class="card-header text-xl fw-bold text-capitalize">{{_('Edit')}} {{  pharmacy.name }} </h5>
+                    <div class="card-body">
+                        <!-- form pharmacy-->
+                        {{ render_form(form, novalidate=True) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+{% endblock javascripts %}

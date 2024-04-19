@@ -181,6 +181,17 @@ class Database:
         self.db.session.commit()
         return new_pharmacy
 
+    def edit_pharmacy(self, pharmacy_id, name, rif, email, address, user_email):
+        user_id = self.check_user(user_email)
+        pharmacy = self.get_pharmacy(pharmacy_id)
+        pharmacy.name = name
+        pharmacy.rif = rif
+        pharmacy.email = email
+        pharmacy.address = address
+        pharmacy.user_id = user_id.id
+        self.db.session.commit()
+
+
     @staticmethod
     def check_user(email):
         return User.query.filter_by(email=email).first()
@@ -191,6 +202,10 @@ class Database:
     def all_pharmacies(self):
         all_pharmacies = self.db.session.execute(self.db.select(Pharmacy)).scalars().all()
         return all_pharmacies
+
+    def get_pharmacy(self, pharmacy_id):
+        return self.db.get_or_404(Pharmacy, pharmacy_id)
+
 
     def all_suppliers(self):
         all_suppliers = self.db.session.execute(self.db.select(Supplier)).scalars().all()

@@ -110,7 +110,11 @@
 
                                         </td>
                                         <td scope="row" class="text-sm">{{_(pharmacy.user_info.name)}} {{_(pharmacy.user_info.last_name)}}</td>
-                                        <td scope="row" class="text-sm"><a href="#" class="btn btn-primary">{{ _('Edit') }}</a></td>
+                                        <td scope="row" class="text-sm">
+                                            <a href="{{ url_for('admin.user.pharmacy_edit', pharmacy_id=pharmacy.id) }}"
+                                               class="btn btn-primary">{{ _('Edit') }}
+                                            </a>
+                                        </td>
                                     </tr>
                                 {% endfor %}
                             </tbody>
