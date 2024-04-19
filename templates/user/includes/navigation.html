@@ -1,125 +1,11 @@
 <nav class="navbar navbar-top navbar-expand navbar-dark bg-primary border-bottom">
   <div class="container-fluid">
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <!-- Search form -->
-      <form class="navbar-search navbar-search-light form-inline mr-sm-3" id="navbar-search-main">
-        <div class="form-group mb-0">
-          <div class="input-group input-group-alternative input-group-merge">
-            <div class="input-group-prepend">
-              <span class="input-group-text"><i class="fas fa-search"></i></span>
-            </div>
-            <input class="form-control" placeholder="Search" type="text">
-          </div>
-        </div>
-        <button type="button" class="close" data-action="search-close" data-target="#navbar-search-main" aria-label="Close">
-          <span aria-hidden="true">×</span>
-        </button>
-      </form>
+      <div class="form-inline mr-sm-3">
+        <a href="/"><img src="{{ url_for('static', filename='img/brand/company_logo.svg') }}" alt="company logo" width="65"></a>
+      </div>
       <!-- Navbar links -->
       <ul class="navbar-nav align-items-center  ml-md-auto ">
-        <li class="nav-item d-sm-none">
-          <a class="nav-link" href="#" data-action="search-show" data-target="#navbar-search-main">
-            <i class="ni ni-zoom-split-in"></i>
-          </a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            {% if messages %}
-              <div class="bg-danger notification">
-              </div>
-            {% endif %}
-            <i class="ni ni-bell-55"></i>
-          </a>
-          {% if messages %}
-            <div class="dropdown-menu dropdown-menu-xl  dropdown-menu-right  py-0 overflow-hidden">
-            <!-- Dropdown header -->
-            <div class="px-3 py-3">
-              <h6 class="text-sm text-muted m-0">{{ _('You have Notifications')}}</h6>
-            </div>
-            <!-- List group -->
-              {% for message in messages %}
-                {% if message is mapping %}
-                  {% for alias in message %}
-                        <div class="list-group list-group-flush">
-              <a href="#!" class="list-group-item list-group-item-action">
-                <div class="row align-items-center">
-                  <div class="col ml--2">
-                    <div class="d-flex justify-content-between align-items-center">
-                      <div>
-                        <h4 class="mb-0 px-3 text-sm">{{ alias }}:</h4>
-                        {% for key_error in message[alias] %}
-                          <h5 class="mb-0 px-3 text-sm">{{key_error}}: {{ message[alias][key_error] }}</h5>
-                        {% endfor %}
-
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </a>
-            </div>
-                  {% endfor  %}
-                {% else %}
-               <div class="list-group list-group-flush">
-              <a href="#!" class="list-group-item list-group-item-action">
-                <div class="row align-items-center">
-                  <div class="col ml--2">
-                    <div class="d-flex justify-content-between align-items-center">
-                      <div>
-                        <h4 class="mb-0 px-3 text-sm">{{ message }}</h4>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </a>
-            </div>
-                {% endif %}
-              {% endfor %}
-            <!-- View all -->
-            <a href="{{ url_for('admin.delete_all_notifications') }}" class="dropdown-item text-center text-primary font-weight-bold py-3">{{ _('Delete all') }}</a>
-          </div>
-          {% else %}
-            <div class="dropdown-menu dropdown-menu-xl  dropdown-menu-right  py-0 overflow-hidden">
-            <!-- Dropdown header -->
-            <div class="px-3 py-3">
-              <h6 class="text-sm text-muted m-0">{{ _('No notifications')}}</h6>
-            </div>
-
-          </div>
-          {% endif %}
-        </li>
-        <li class="nav-item dropdown d-lg-none">
-          <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="ni ni-ungroup"></i>
-          </a>
-          <div class="dropdown-menu dropdown-menu-lg dropdown-menu-dark bg-default  dropdown-menu-right ">
-            <div class="row shortcuts px-4">
-              <a href="#!" class="col-4 shortcut-item">
-                <span class="shortcut-media avatar rounded-circle bg-gradient-red">
-                  <i class="ni ni-tv-2 text-primary"></i>
-                </span>
-                <small>{{ _('Dashboard') }}</small>
-              </a>
-              <a href="#!" class="col-4 shortcut-item">
-                <span class="shortcut-media avatar rounded-circle bg-gradient-info">
-                  <i class="ni ni-circle-08"></i>
-                </span>
-                <small>{{ _('Users') }}</small>
-              </a>
-              <a href="#!" class="col-4 shortcut-item">
-                <span class="shortcut-media avatar rounded-circle bg-gradient-purple">
-                  <i class="ni ni-bullet-list-67 text-default"></i>
-                </span>
-                <small>{{ _('Products') }}</small>
-              </a>
-              <a href="#!" class="col-4 shortcut-item">
-                <span class="shortcut-media avatar rounded-circle bg-gradient-yellow">
-                  <i class="ni ni-box-2 text-info"></i>
-                </span>
-                <small>{{ _('Suppliers') }}</small>
-              </a>
-            </div>
-          </div>
-        </li>
       </ul>
       <ul class="navbar-nav align-items-center  ml-auto ml-md-0 ">
         <li class="nav-item dropdown">
@@ -136,6 +22,13 @@
             </div>
           </a>
           <div class="dropdown-menu  dropdown-menu-right ">
+            {% if current_user.role == 'admin' %}
+              <a href="{{ url_for('admin.index') }}" class="dropdown-item">
+                <i class="ni ni-settings-gear-65"></i>
+                <span>{{ _('Admin Panel') }}</span>
+              </a>
+            {% endif %}
+
             <a href="{{ url_for('user_profile') }}" class="dropdown-item">
               <i class="ni ni-single-02"></i>
               <span>{{ _('My profile') }}</span>

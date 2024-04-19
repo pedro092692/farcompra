@@ -11,9 +11,60 @@
         <div class="row">
             <div class="col">
                 <div class="card">
-                    <h5 class="card-header text-xl fw-bold text-capitalize" id="user_register">{{_('Edit')}}</h5>
+                    <h5 class="card-header text-xl fw-bold text-capitalize" id="user_register">{{_('My User Info')}}</h5>
                     <div class="card-body">
-                        <!-- form user-->
+                        <!-- User info -->
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col">
+                                    <h3>{{_('Name')}}</h3>
+                                    <p class="text-lg text-capitalize fw-bold">{{ user.name }}</p>
+                                    <h3>{{_('Last Name')}}</h3>
+                                    <p class="text-lg text-capitalize fw-bold">{{ user.last_name }}</p>
+                                </div>
+                                <div class="col">
+                                    <h3>{{_('Email')}}</h3>
+                                    <p class="text-lg text-capitalize fw-bold">{{ user.email }}</p>
+                                </div>
+                                {% if user.pharmacy %}
+                                    <div class="col">
+                                        <h3>{{_('Pharmacy')}}</h3>
+                                        <p class="text-lg text-capitalize fw-bold">{{ user.pharmacy[0].name }}</p>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Pharmacy info -->
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <h5 class="card-header text-xl fw-bold text-capitalize" >{{_('My Pharmacy Info')}}</h5>
+                    <div class="card-body">
+                        <!-- Pharmacy info -->
+                        <div class="container-fluid">
+                            {% if user.pharmacy %}
+                                <div class="row">
+                                    <div class="col">
+                                        <h3>{{_('Name')}}</h3>
+                                        <p class="text-lg text-capitalize fw-bold">{{ user.pharmacy[0].name }}</p>
+                                    </div>
+                                    <div class="col">
+                                        <h3>{{_('Last Name')}}</h3>
+                                        <p class="text-lg text-capitalize fw-bold">{{ user.pharmacy[0].address }}</p>
+                                    </div>
+                                    <div class="col">
+                                        <h3>{{_('Address')}}</h3>
+                                        <p class="text-lg text-capitalize fw-bold">{{ user.pharmacy[0].email }}</p>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <h2>{{ _('No pharmacy info to show') }}</h2>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
             </div>

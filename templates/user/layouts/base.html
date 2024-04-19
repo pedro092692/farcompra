@@ -52,23 +52,21 @@
 </head>
 
 <body class="">
-<!--  nav-->
-  {% include "admin/includes/sidenav.html" %}
 
   <div class="main-content d-flex flex-column" id="panel">
 
-    {% include "/admin/includes/navigation.html" %}
+    {% include "/user/includes/navigation.html" %}
     <div class="flex-grow-1">
       {% block content %}{% endblock content %}
     </div>
 
 
-    {% include "admin/includes/footer.html" %}
+    {% include "user/includes/footer.html" %}
   </div>
 
 
 
-  {% include "admin/includes/scripts.html" %}
+  {% include "user/includes/scripts.html" %}
 
   <!-- Specific JS goes HERE -->
 

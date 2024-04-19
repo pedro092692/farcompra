@@ -75,7 +75,8 @@ def login():
 @app.route('/user/profile')
 @login_required
 def user_profile():
-    return render_template('user_profile.html')
+    user = db.get_user(current_user.id)
+    return render_template('user_profile.html', user=user)
 
 @app.route('/')
 @login_required
