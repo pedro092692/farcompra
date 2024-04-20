@@ -1,9 +1,9 @@
-<nav class="navbar navbar-top navbar-expand navbar-dark bg-primary border-bottom">
+<nav class="navbar navbar-top navbar-expand navbar-dark bg-white border-bottom">
   <div class="container-fluid">
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <div class="form-inline mr-sm-3">
-        <a href="/"><img src="{{ url_for('static', filename='img/brand/company_logo.svg') }}" alt="company logo" width="65"></a>
-      </div>
+<!--      <div class="form-inline mr-sm-3">-->
+<!--        <a href="/"><img src="{{ url_for('static', filename='img/brand/company_logo.svg') }}" alt="company logo" width="65"></a>-->
+<!--      </div>-->
       <!-- Navbar links -->
       <ul class="navbar-nav align-items-center  ml-md-auto ">
       </ul>
@@ -15,7 +15,7 @@
                 <img alt="Image placeholder" src="{{ url_for('static', filename='admin/assets/img/theme/user.png') }}">
               </span>
               <div class="media-body ml-2 d-none d-lg-block">
-                <span class="mb-0 text-sm  font-weight-bold text-capitalize">
+                <span class="mb-0 text-sm text-dark  font-weight-bold text-capitalize">
                  {{ current_user.name }} {{ current_user.last_name }}
                 </span>
               </div>

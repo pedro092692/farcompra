@@ -140,7 +140,7 @@ soon_payment_discount;discount_per_volume;min_amount_per_volume;discount_per_row
         "csv": False,
         "has_header": False,
         "header":  "id;barcode;name;due_date;price_usd;sale_percent;final_price;stock",
-        "fix_barcode": False,
+        "fix_barcode": True,
         "supplier_id": 8,
         "price_dollar": True
     }

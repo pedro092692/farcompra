@@ -40,6 +40,8 @@
   <!--  dropzone  -->
   {{ dropzone.load_css() }}
 
+  <script src="https://unpkg.com/htmx.org@1.9.11"></script>
+
 
   <!-- Specific CSS goes HERE -->
   {% block stylesheets %}{% endblock stylesheets %}
@@ -56,7 +58,7 @@
   <div class="main-content d-flex flex-column" id="panel">
 
     {% include "/user/includes/navigation.html" %}
-    <div class="flex-grow-1">
+    <div class="d-flex flex-grow-1">
       {% block content %}{% endblock content %}
     </div>
 
@@ -69,7 +71,7 @@
   {% include "user/includes/scripts.html" %}
 
   <!-- Specific JS goes HERE -->
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   {% block javascripts %}{% endblock javascripts %}
   <script src="{{ url_for('static', filename='admin/assets/js/argon.js') }}"></script>

@@ -9,6 +9,8 @@ from forms.forms import LoginForm
 from werkzeug.security import check_password_hash
 from flask_login import login_user, LoginManager, current_user, logout_user, login_required
 from helpers import same_user
+from flask_socketio import SocketIO, send, emit
+
 
 
 
@@ -33,6 +35,10 @@ Bootstrap5(app)
 babel = Babel(app)
 ### Dropzone ###
 dropzone = Dropzone(app)
+
+# websockets IO
+socketio = SocketIO()
+socketio.init_app(app)
 
 # Login manager
 login_manager = LoginManager()
@@ -84,6 +90,12 @@ def index():
     all_products = db.show_products()
     return render_template('index.html', products=all_products)
 
+@app.route('/pedro')
+@login_required
+def index_():
+    all_products = db.show_products()
+    return render_template('index_.html', products=all_products)
+
 @app.route('/search')
 def search():
     q = request.args.get('q')
@@ -103,6 +115,21 @@ def logout():
     return response
 
 
+@socketio.on('connect')
+def handle_connect():
+    print('client connected!')
+
+@socketio.on('search_query')
+def handle_search_query(search_query):
+    results = db.search_products(q=search_query)
+    emit('search_results', {'results': [item.serialize() for item in results],
+                            'page': results.page,
+                            'total': results.total,
+                            'has_prev': results.has_prev,
+                            'has_next': results.has_next,
+                            })
+
+
 # Errors
 @login_manager.unauthorized_handler
 def unauthorized():
@@ -111,4 +138,5 @@ def unauthorized():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    socketio.run(app, debug=True)
+    # app.run(debug=True)

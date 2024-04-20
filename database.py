@@ -28,6 +28,14 @@ class Product(Base):
                                                         cascade='all, delete, delete-orphan',
                                                         order_by="ProductPrice.price.asc()")
 
+    def serialize(self):
+        serialize_products =  {column.name: getattr(self, column.name) for column in self.__table__.columns}
+        serialize_prices = [{'price': price.price,
+                             'supplier_name': price.supplier_info.name,
+                             'due_date': price.due_date,
+                             'stock': price.stock} for price in self.prices]
+        serialize_products['prices'] = serialize_prices
+        return serialize_products
 class Supplier(Base):
     __tablename__ = "suppliers"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
