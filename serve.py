@@ -90,13 +90,19 @@ def index():
     all_products = db.show_products()
     return render_template('index.html', products=all_products)
 @app.route('/search')
-@app.route('/search/<query>')
-def search(query=None):
-    if query is None:
+def search():
+    if request.args.get('barcode'):
+        barcode = request.args.get('barcode')
+    else:
         return redirect(url_for('index'))
 
-    results = db.search_products(query, per_page=15)
-    return render_template('search.html', results=results, search_query=query)
+    results = db.search_products(barcode, per_page=15)
+
+
+    suggest = request.args.get('product_name').split(' ')[0]
+    suggested_results = db.search_products(suggest, per_page=15);
+    return render_template('search.html', results=results, search_query=barcode, suggested_results=suggested_results,
+                           suggest=suggest)
 
 @app.route('/pedro')
 @login_required

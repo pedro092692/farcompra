@@ -10,11 +10,10 @@
 }
 
 .suggest-list{
-    max-height: 370px;
-    overflow: scroll;
-    overflow-x: hidden;
     z-index: 100;
     width: 47%;
+    display: none;
+
 }
 
 
@@ -33,7 +32,7 @@
   cursor: pointer;
 }
 
-.ul-product{
+.ul-product-not{
     li:nth-child(even){
             background-color: rgba(251, 251, 251, 0.9);
       }
@@ -45,8 +44,8 @@
 
 }
 
-.li-product:hover{
-
+.li-product-suggest:hover{
+    background-color: rgba(240, 240, 240, 0.9);
 }
 
 #table-prices td{
@@ -54,6 +53,7 @@
     font-weight: 600;
 
 }
+
 
 
 @media only screen and (max-width: 1280px) {

@@ -4,13 +4,13 @@
   {% endif %}
     <div class="container-fluid {{ border }}">
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        {% if request.url.split('/')[3] == 'search' %}
+        {% if request.url.split('/')[3].split('?')[0] == 'search' %}
           <div class="form-inline mr-sm-3 w-75">
           <a href="/"><img src="{{ url_for('static', filename='img/brand/company_logo.svg') }}" class="mr-4" alt="company logo" width="65"></a>
             <form id="filter_form" onsubmit="event.preventDefault();" class="w-75">
                 <input class="form-control w-75 badge-pill text-md font-weight-bold"
                        id="search" autofocus type="search" placeholder="Type Product Name or Barcode" autocomplete="off"
-                       >
+                       value="{{ request.args.get('product_name') }}">
             </form>
           </div>
         {% elif request.url.split('/')[3] == 'user' %}
