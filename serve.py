@@ -89,6 +89,14 @@ def user_profile():
 def index():
     all_products = db.show_products()
     return render_template('index.html', products=all_products)
+@app.route('/search')
+@app.route('/search/<query>')
+def search(query=None):
+    if query is None:
+        return redirect(url_for('index'))
+
+    results = db.search_products(query, per_page=15)
+    return render_template('search.html', results=results, search_query=query)
 
 @app.route('/pedro')
 @login_required
@@ -96,15 +104,6 @@ def index_():
     all_products = db.show_products()
     return render_template('index_.html', products=all_products)
 
-@app.route('/search')
-def search():
-    q = request.args.get('q')
-    if q:
-        results = db.search_products(q)
-    else:
-        results = db.show_products()
-
-    return render_template('search_results.html', products=results)
 
 @app.route('/logout')
 def logout():
@@ -121,13 +120,18 @@ def handle_connect():
 
 @socketio.on('search_query')
 def handle_search_query(search_query):
-    results = db.search_products(q=search_query)
-    emit('search_results', {'results': [item.serialize() for item in results],
-                            'page': results.page,
-                            'total': results.total,
-                            'has_prev': results.has_prev,
-                            'has_next': results.has_next,
-                            })
+    if search_query:
+        results = db.search_products(q=search_query, per_page=8)
+        emit('search_results', {'results': [item.serialize() for item in results],
+                                'pages': [page for page in results.iter_pages()],
+                                'page': results.page,
+                                'total': results.total,
+                                'has_prev': results.has_prev,
+                                'has_next': results.has_next,
+                                'search_query':search_query,
+                                })
+    else:
+        emit('search_results', {'results': []})
 
 
 # Errors

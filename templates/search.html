@@ -1,0 +1,82 @@
+{% extends 'user/layouts/base.html' %}
+{% block title %} Dashboard {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/main_style.css') }}">
+{% endblock stylesheets %}
+
+{% block content %}
+    <div class="content bg-white">
+        {% if results.pages > 0 %}
+            <!-- Product list -->
+            <div class="container-fluid mt-2 mb-3" id="search_container">
+                <div class="row">
+                    <div class="col">
+                        <ul class="list-group ul-product" id="results">
+                            {% for product in results %}
+                                <li class="list-group-item cursor-pointer li-product">{{ product.name }}
+                                    <div class="table-responsive mt-2" id="prices" style="display:none">
+                                        <table class="table table-striped" id="table-prices">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th scope="col" class="text-sm">{{ _('Supplier ')}}</th>
+                                                    <th scope="col" class="text-sm">{{ _('Price')}}</th>
+                                                    <th scope="col" class="text-sm">{{ _('Due Date')}}</th>
+                                                    <th scope="col" class="text-sm">{{ _('Stock')}}</th>
+                                                    <th scope="col" class="text-sm">{{ _('Action')}}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for price in product.prices %}
+                                                    <tr>
+                                                       <td scope="row" class="text-sm text-capitalize">
+                                                           {{ price.supplier_info.name | replace('_', ' ') }}
+                                                       </td>
+                                                        <td scope="row" class="text-sm text-capitalize">{{ price.price }}</td>
+                                                        <td scope="row" class="text-sm text-capitalize">{{ price.due_date }}</td>
+                                                        <td scope="row" class="text-sm text-capitalize">{{ price.stock }}</td>
+                                                    </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                    </table>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+             <!-- pagination-->
+                <nav aria-label="Page navigation">
+                      <ul class="pagination">
+                        {%  for page in results.iter_pages() %}
+                          {% if page %}
+                            {% if page != results.page %}
+                              <li class="page-item">
+                                  <a class="page-link"
+                                     href="{{ url_for('search', query=search_query, page=page) }}">
+                                  {{page}}
+                                  </a>
+                              </li>
+                            {% else %}
+                            <li class="page-item active"><span class="page-link">{{ page }}</span></li>
+                            {% endif %}
+                          {% else %}
+                             <span class=ellipsis>…</span>
+                          {% endif %}
+                        {% endfor %}
+                      </ul>
+                </nav>
+        {% else %}
+            <h2>Sorry not results for {{ search_query }}</h2>
+        {% endif %}
+    </div>
+
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+<script src="static/js/script.js"></script>
+{% endblock javascripts %}

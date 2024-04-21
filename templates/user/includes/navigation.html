@@ -1,9 +1,22 @@
-<nav class="navbar navbar-top navbar-expand navbar-dark bg-white border-bottom">
-  <div class="container-fluid">
+<nav class="navbar navbar-top navbar-expand navbar-dark bg-white">
+  {% if request.url.split('/')[3] != '' %}
+    {% set border = 'border-bottom pb-3' %}
+  {% endif %}
+    <div class="container-fluid {{ border }}">
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-<!--      <div class="form-inline mr-sm-3">-->
-<!--        <a href="/"><img src="{{ url_for('static', filename='img/brand/company_logo.svg') }}" alt="company logo" width="65"></a>-->
-<!--      </div>-->
+        {% if request.url.split('/')[3] == 'search' %}
+          <div class="form-inline mr-sm-3 w-75">
+          <a href="/"><img src="{{ url_for('static', filename='img/brand/company_logo.svg') }}" class="mr-4" alt="company logo" width="65"></a>
+            <form id="filter_form" onsubmit="event.preventDefault();" class="w-75">
+                <input class="form-control w-75 badge-pill text-md font-weight-bold"
+                       id="search" autofocus type="search" placeholder="Type Product Name or Barcode" autocomplete="off"
+                       >
+            </form>
+          </div>
+        {% elif request.url.split('/')[3] == 'user' %}
+        <a href="/"><img src="{{ url_for('static', filename='img/brand/company_logo.svg') }}" class="mr-4" alt="company logo" width="65"></a>
+        {% endif %}
+
       <!-- Navbar links -->
       <ul class="navbar-nav align-items-center  ml-md-auto ">
       </ul>

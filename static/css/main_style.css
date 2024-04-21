@@ -9,6 +9,16 @@
     width: 45%;
 }
 
+.suggest-list{
+    max-height: 370px;
+    overflow: scroll;
+    overflow-x: hidden;
+    z-index: 100;
+    width: 47%;
+}
+
+
+
 .table{
    tr:nth-child(even) {
    background-color: rgba(251, 251, 251, 0.7);
@@ -19,14 +29,38 @@
     cursor: pointer;
 }
 
-ul ul {
-  display: none;
+.cursor-pointer{
+  cursor: pointer;
 }
 
+.ul-product{
+    li:nth-child(even){
+            background-color: rgba(251, 251, 251, 0.9);
+      }
+}
+
+.li-product{
+    font-size: 1.2rem;
+    font-weight: 400;
+
+}
+
+.li-product:hover{
+
+}
+
+#table-prices td{
+    font-size: 16px;
+    font-weight: 600;
+
+}
 
 
 @media only screen and (max-width: 1280px) {
   .form{
     width: 90%;
+   }
+   .suggest-list{
+    width: 95%;
 }
 }

@@ -113,10 +113,10 @@ class Database:
                                     per_page=per_page)
         return products
 
-    def search_products(self, q):
+    def search_products(self, q, per_page=10):
         products = self.db.paginate(self.db.select(Product).filter(Product.prices.any()).\
                                     filter(Product.name.icontains(q) |
-                                     Product.barcode.icontains(q)).order_by(Product.name))
+                                     Product.barcode.icontains(q)).order_by(Product.name), per_page=per_page)
         return products
 
     def last_products(self):
