@@ -59,7 +59,7 @@ window.onload = function() {
             //create anchor
             const anchor = document.createElement('a');
             listItem.innerHTML = product.name;
-            anchor.setAttribute('href', '/search?barcode='+product.barcode+'&product_name='+product.name)
+            anchor.setAttribute('href', '/search?barcode='+product.barcode+'&product_name='+product.name+'&query='+search_input.value)
             // Append anchor to li, then li to resultElement
             listItem.appendChild(anchor);
             resultElement.appendChild(listItem);

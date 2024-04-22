@@ -89,18 +89,23 @@ def user_profile():
 def index():
     all_products = db.show_products()
     return render_template('index.html', products=all_products)
-@app.route('/search')
+@app.route('/search', methods=['GET'])
 def search():
     if request.args.get('barcode'):
         barcode = request.args.get('barcode')
+        results = db.search_products(barcode, per_page=15)
+    elif request.args.get('query'):
+        results = db.search_products(request.args.get('query'), per_page=15)
+        barcode = request.args.get('query')
     else:
         return redirect(url_for('index'))
 
-    results = db.search_products(barcode, per_page=15)
 
-
-    suggest = request.args.get('product_name').split(' ')[0]
-    suggested_results = db.search_products(suggest, per_page=15);
+    suggest = request.args.get('query')
+    if request.args.get('barcode') != request.args.get('query'):
+        suggested_results = db.search_products(suggest, per_page=15);
+    else:
+        suggested_results = []
     return render_template('search.html', results=results, search_query=barcode, suggested_results=suggested_results,
                            suggest=suggest)
 

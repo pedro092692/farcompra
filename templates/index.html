@@ -14,10 +14,10 @@
         </div>
 
         <div class="form mt-4">
-            <form id="filter_form" action="/search">
+            <form id="filter_form" method="GET" action="/search">
                 <input class="form-control badge-pill text-md font-weight-bold"
                        id="search" autofocus type="search" placeholder="Type Product Name or Barcode" autocomplete="off"
-                       >
+                       name="query">
             </form>
         </div>
         <!-- suggest list -->
