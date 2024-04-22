@@ -94,18 +94,21 @@ def search():
     if request.args.get('barcode'):
         barcode = request.args.get('barcode')
         results = db.search_products(barcode, per_page=15)
+        suggest = request.args.get('query')
     elif request.args.get('query'):
         results = db.search_products(request.args.get('query'), per_page=15)
         barcode = request.args.get('query')
+        suggest = request.args.get('query')
+        suggested_results = db.search_products('\n', per_page=15);
     else:
         return redirect(url_for('index'))
 
 
-    suggest = request.args.get('query')
-    if request.args.get('barcode') != request.args.get('query'):
-        suggested_results = db.search_products(suggest, per_page=15);
-    else:
-        suggested_results = []
+    if request.args.get('barcode'):
+        if request.args.get('barcode') != request.args.get('query'):
+            suggested_results = db.search_products(suggest, per_page=15);
+        else:
+            suggested_results = []
     return render_template('search.html', results=results, search_query=barcode, suggested_results=suggested_results,
                            suggest=suggest)
 
