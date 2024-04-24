@@ -42,7 +42,7 @@ class Supplier(Base):
     name: Mapped[str] = mapped_column(String, nullable=False)
     prices: Mapped[List["ProductPrice"]] = relationship(back_populates="supplier_info")
 
-class ProductPrice(Base):
+class ProductPrice(Base, db.Model):
     __tablename__ = "product_prices"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     product_id: Mapped[int] = mapped_column(Integer, ForeignKey("products.id"))
@@ -76,6 +76,18 @@ class Pharmacy(Base):
     user_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.id"))
     user_info: Mapped["User"] = relationship(back_populates='pharmacy')
 
+class Cart(Base, db.Model):
+    __tablename__ = "shoppingcart"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    user_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.id"), nullable=False)
+    product_price_id: Mapped[int] = mapped_column(Integer, ForeignKey("product_prices.id"), nullable=False)
+    product_price_info: Mapped["ProductPrice"] = relationship()
+    supplier_id: Mapped[int] = mapped_column(Integer, ForeignKey("suppliers.id"), nullable=False)
+    supplier_info: Mapped["Supplier"] = relationship()
+    quantity: Mapped[int] = mapped_column(Integer, nullable=False)
+
+    def __repr__(self):
+        return f'<CartItem {self.user_id}, {self.product_price_id}, {self.quantity}>'
 
 
 class Database:
@@ -140,6 +152,10 @@ class Database:
         product = self.db.get_or_404(Product, product_id)
         return product
 
+    def get_product_price(self, product_price_id):
+        return self.db.get_or_404(ProductPrice, product_price_id)
+
+
     def delete_product(self, product_id):
         product = self.get_product(product_id)
         if product:
@@ -198,6 +214,37 @@ class Database:
         pharmacy.address = address
         pharmacy.user_id = user_id.id
         self.db.session.commit()
+
+
+    ### Cart ###
+
+    def add_to_cart(self, user_id, product_price_id, quantity, supplier_id):
+        new_cart_item = Cart(
+            user_id=user_id,
+            product_price_id=product_price_id,
+            supplier_id=supplier_id,
+            quantity=quantity
+        )
+        self.db.session.add(new_cart_item)
+        self.db.session.commit()
+        return new_cart_item
+
+
+
+    def view_cart(self, user_id):
+        shopping_cart = {}
+        cart = self.db.session.execute(select(Cart).filter(Cart.user_id == user_id)).scalars().all()
+        for item in cart:
+            product = item.product_price_info.product_info.name
+            supplier = item.supplier_info.name
+            if supplier not in shopping_cart:
+                shopping_cart[supplier] = {}
+
+            shopping_cart[supplier][product] = {
+                "price": item.product_price_info.price,
+                "quantity": item.quantity
+            }
+        return shopping_cart
 
 
     @staticmethod

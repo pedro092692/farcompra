@@ -70,4 +70,12 @@ class LoginForm(FlaskForm):
 
 
 
+### Add To Cart ###
+
+class AddToCart(FlaskForm):
+    quantity = IntegerField(render_kw={'placeholder': 'Quantity'})
+    submit = submit_field('Add To Cart')
+
+
+
 

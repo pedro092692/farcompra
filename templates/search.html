@@ -42,6 +42,16 @@
                                                         <td scope="row" class="text-sm text-capitalize">${{ price.price }}</td>
                                                         <td scope="row" class="text-sm text-capitalize">{{ price.due_date }}</td>
                                                         <td scope="row" class="text-sm text-capitalize">{{ price.stock }}</td>
+                                                        <td>
+                                                            <!-- Shopping Cart Form -->
+                                                            <form class="">
+                                                                <div class="d-flex align-items-center">
+                                                                    {{ form.csrf_token }}
+                                                                    {{ form.quantity(class='form-control w-25 mr-4') }}
+                                                                    {{ form.submit(class='btn btn-primary') }}
+                                                                </div>
+                                                            </form>
+                                                        </td>
                                                     </tr>
                                                 {% endfor %}
                                             </tbody>
@@ -122,6 +132,16 @@
                                                                 <td scope="row" class="text-sm text-capitalize">${{ price.price }}</td>
                                                                 <td scope="row" class="text-sm text-capitalize">{{ price.due_date }}</td>
                                                                 <td scope="row" class="text-sm text-capitalize">{{ price.stock }}</td>
+                                                                <td>
+                                                                    <!-- Shopping Cart Form -->
+                                                                    <form class="">
+                                                                        <div class="d-flex align-items-center">
+                                                                            {{ form.csrf_token }}
+                                                                            {{ form.quantity(class='form-control w-25 mr-4') }}
+                                                                            {{ form.submit(class='btn btn-primary') }}
+                                                                        </div>
+                                                                    </form>
+                                                                </td>
                                                             </tr>
                                                         {% endfor %}
                                                     </tbody>

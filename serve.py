@@ -1,11 +1,11 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from flask_bootstrap import Bootstrap5
-from bluprints import admin_bp
+from bluprints import admin_bp, cart
 from database import Database
 from flask_dropzone import Dropzone
 from flask_babel import Babel
 from flask_wtf import CSRFProtect
-from forms.forms import LoginForm
+from forms.forms import LoginForm, AddToCart
 from werkzeug.security import check_password_hash
 from flask_login import login_user, LoginManager, current_user, logout_user, login_required
 from helpers import same_user
@@ -48,6 +48,7 @@ login_manager.init_app(app)
 
 # BLUEPRINTS
 app.register_blueprint(admin_bp.construct_blueprint(db=db), url_prefix='/admin')
+app.register_blueprint(cart.construct_blueprint(db=db))
 
 
 @login_manager.user_loader
@@ -91,6 +92,7 @@ def index():
     return render_template('index.html', products=all_products)
 @app.route('/search', methods=['GET'])
 def search():
+    form = AddToCart()
     if request.args.get('barcode'):
         barcode = request.args.get('barcode')
         results = db.search_products(barcode, per_page=15)
@@ -110,7 +112,7 @@ def search():
         else:
             suggested_results = []
     return render_template('search.html', results=results, search_query=barcode, suggested_results=suggested_results,
-                           suggest=suggest)
+                           suggest=suggest, form=form)
 
 @app.route('/pedro')
 @login_required
