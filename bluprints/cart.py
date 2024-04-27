@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, abort, redirect, url_for, request, send_file, flash
+from flask import Blueprint, render_template, abort, redirect, url_for, request, send_file, flash, make_response
 from core.wholesalers import wholesalers
 from core.update_data import UpdateData
 from core.supplier import Supplier
@@ -6,11 +6,13 @@ from database import Database
 from flask_login import login_required, current_user
 from flask_socketio import SocketIO, send, emit
 from forms.forms import CheckOutCart
-
+import pdfkit
 
 
 def construct_blueprint(db: Database, socketio: SocketIO, app):
     cart = Blueprint('cart', __name__, url_prefix='/cart')
+
+    config = pdfkit.configuration(wkhtmltopdf='C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe')
 
     @socketio.on('connect')
     @login_required
@@ -55,12 +57,23 @@ def construct_blueprint(db: Database, socketio: SocketIO, app):
         if request.method == 'POST':
             supplier = request.form['supplier']
             user_id = current_user.id
-            order = db.checkout_cart(user_id=user_id, supplier=supplier)
-            for item in order:
-                print(item)
-        return "checking out cart"
+            new_order = db.checkout_cart(user_id=user_id, supplier=supplier)
 
+            rendered = render_template('order.html')
+            pdf = pdfkit.from_string(rendered, False, configuration=config,
+                                     css='static/admin/assets/css/bootstrap/bootstrap.css')
 
+            response = make_response(pdf)
+            response.headers['Content-Type'] = 'application/pdf'
+            response.headers['Content-Disposition'] = f'inline; filename={supplier}_order.pfd'
+
+            return response
+
+    @cart.route('/order')
+    def order():
+        user = db.get_user(current_user.id)
+        new_order = db.checkout_cart(user_id=3, supplier=3)
+        return render_template('order.html', order=new_order.all(), user=user)
 
     return cart
 

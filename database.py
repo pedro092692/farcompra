@@ -1,7 +1,7 @@
 import sqlalchemy.exc
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import relationship, DeclarativeBase, Mapped, mapped_column
-from sqlalchemy import Integer, String, Float, ForeignKey, select
+from sqlalchemy import Integer, String, Float, ForeignKey, select, delete
 from typing import List
 from flask import Flask
 from flask_login import UserMixin
@@ -29,18 +29,21 @@ class Product(Base):
                                                         order_by="ProductPrice.price.asc()")
 
     def serialize(self):
-        serialize_products =  {column.name: getattr(self, column.name) for column in self.__table__.columns}
+        serialize_products = {column.name: getattr(self, column.name) for column in self.__table__.columns}
         serialize_prices = [{'price': price.price,
                              'supplier_name': price.supplier_info.name,
                              'due_date': price.due_date,
                              'stock': price.stock} for price in self.prices]
         serialize_products['prices'] = serialize_prices
         return serialize_products
+
+
 class Supplier(Base):
     __tablename__ = "suppliers"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String, nullable=False)
     prices: Mapped[List["ProductPrice"]] = relationship(back_populates="supplier_info")
+
 
 class ProductPrice(Base, db.Model):
     __tablename__ = "product_prices"
@@ -66,6 +69,7 @@ class User(Base, UserMixin, db.Model):
     pharmacy: Mapped[List["Pharmacy"]] = relationship(back_populates='user_info',
                                                       cascade='all, delete, delete-orphan')
 
+
 class Pharmacy(Base):
     __tablename__ = "pharmacies"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
@@ -75,6 +79,7 @@ class Pharmacy(Base):
     address: Mapped[str] = mapped_column(String(1000), nullable=False)
     user_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.id"))
     user_info: Mapped["User"] = relationship(back_populates='pharmacy')
+
 
 class Cart(Base, db.Model):
     __tablename__ = "shoppingcart"
@@ -263,9 +268,14 @@ class Database:
         # Please filter by user own cart 
         return Cart.query.filter_by(product_price_id=product_price_id, user_id=user_id).first()
 
-    @staticmethod
-    def checkout_cart(user_id, supplier):
+
+    def checkout_cart(self, user_id, supplier):
         new_order = Cart.query.filter_by(user_id=user_id, supplier_id=supplier)
+
+        # Delete cart items
+        # items_to_delete = delete(Cart).filter_by(user_id=user_id, supplier_id=supplier)
+        # self.db.session.execute(items_to_delete)
+        # self.db.session.commit()
         return new_order
 
 

@@ -9,7 +9,7 @@ from forms.forms import LoginForm, AddToCart
 from werkzeug.security import check_password_hash
 from flask_login import login_user, LoginManager, current_user, logout_user, login_required
 from helpers import same_user
-from flask_socketio import SocketIO, send, emit
+from flask_socketio import SocketIO, emit
 
 
 
@@ -45,7 +45,6 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 
 
-
 # BLUEPRINTS
 app.register_blueprint(admin_bp.construct_blueprint(db=db), url_prefix='/admin')
 app.register_blueprint(cart.construct_blueprint(db=db, socketio=socketio, app=app))
@@ -55,9 +54,10 @@ app.register_blueprint(cart.construct_blueprint(db=db, socketio=socketio, app=ap
 def load_user(user_id):
     return db.get_user(user_id=user_id)
 
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    #check for if user is authenticated
+    # check for if user is authenticated
     if current_user.is_authenticated:
         return redirect(url_for('index'))
 
@@ -79,17 +79,20 @@ def login():
             flash('Wrong user or password')
     return render_template('admin/home/login.html', form=form)
 
+
 @app.route('/user/profile')
 @login_required
 def user_profile():
     user = db.get_user(current_user.id)
     return render_template('user_profile.html', user=user)
 
+
 @app.route('/')
 @login_required
 def index():
     all_products = db.show_products()
     return render_template('index.html', products=all_products)
+
 
 @app.route('/search', methods=['GET'])
 @login_required
@@ -107,7 +110,6 @@ def search():
     else:
         return redirect(url_for('index'))
 
-
     if request.args.get('barcode'):
         if request.args.get('barcode') != request.args.get('query'):
             suggested_results = db.search_products(suggest, per_page=15);
@@ -115,7 +117,6 @@ def search():
             suggested_results = []
     return render_template('search.html', results=results, search_query=barcode, suggested_results=suggested_results,
                            suggest=suggest, form=form)
-
 
 
 @app.route('/logout')
@@ -130,6 +131,7 @@ def logout():
 @socketio.on('connect')
 def handle_connect():
     print('client connected!')
+
 
 @socketio.on('search_query')
 def handle_search_query(search_query):
