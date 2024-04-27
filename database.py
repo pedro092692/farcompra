@@ -240,6 +240,7 @@ class Database:
                 shopping_cart[supplier] = {
                     "supplier_id": item.supplier_info.id,
                     "products":  {},
+                    "total": 0,
                 }
 
             shopping_cart[supplier]["products"][product] = {
@@ -247,6 +248,9 @@ class Database:
                 "price": item.product_price_info.price,
                 "quantity": item.quantity,
             }
+
+            shopping_cart[supplier]["total"] += \
+                round(shopping_cart[supplier]["products"][product]["price"] * shopping_cart[supplier]["products"][product]["quantity"], 2)
         return shopping_cart
 
     def update_cart(self, cart_item, quantity):

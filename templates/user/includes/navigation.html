@@ -4,15 +4,17 @@
   {% endif %}
     <div class="container-fluid {{ border }}">
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        {% if request.url.split('/')[3].split('?')[0] == 'search' %}
+        {% if request.url.split('/')[3].split('?')[0] == 'search' or request.url.split('/')[3] == 'cart' %}
           <div class="form-inline mr-sm-3 w-75">
           <a href="/"><img src="{{ url_for('static', filename='img/brand/company_logo.svg') }}" class="mr-4" alt="company logo" width="65"></a>
-            <form id="filter_form" method="GET" action="/search" class="w-75">
-                <input class="form-control w-75 badge-pill text-md font-weight-bold"
-                       id="search" autofocus type="search" placeholder="Type Product Name or Barcode" autocomplete="off"
-                       value="{{ request.args.get('product_name') if request.args.get('product_name') else request.args.get('query')  }}"
-                name="query">
-            </form>
+            {% if request.url.split('/')[3].split('?')[0] == 'search' %}
+              <form id="filter_form" method="GET" action="/search" class="w-75">
+                  <input class="form-control w-75 badge-pill text-md font-weight-bold"
+                         id="search" autofocus type="search" placeholder="Type Product Name or Barcode" autocomplete="off"
+                         value="{{ request.args.get('product_name') if request.args.get('product_name') else request.args.get('query')  }}"
+                  name="query">
+              </form>
+            {% endif %}
           </div>
         {% elif request.url.split('/')[3] == 'user' %}
         <a href="/"><img src="{{ url_for('static', filename='img/brand/company_logo.svg') }}" class="mr-4" alt="company logo" width="65"></a>
@@ -23,18 +25,20 @@
       </ul>
       <ul class="navbar-nav align-items-center  ml-auto ml-md-0 ">
         <li class="nav-item dropdown mr-5">
-           <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <div class="media align-items-center">
-                <span>
-                  <i class="ni ni-basket text-xl text-primary"></i>
-                </span>
-                <div class="media-body ml-2 d-none d-lg-block">
-                  <span class="mb-0 text-sm text-dark  font-weight-bold text-capitalize">
+          {% if request.url.split('/')[3] != 'cart' %}
+             <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <div class="media align-items-center">
+                  <span>
+                    <i class="ni ni-basket text-xl text-primary"></i>
                   </span>
+                  <div class="media-body ml-2 d-none d-lg-block">
+                    <span class="mb-0 text-sm text-dark  font-weight-bold text-capitalize">
+                    </span>
+                  </div>
                 </div>
-              </div>
-            </a>
-            <div class="dropdown-menu dropdown-menu-xl  dropdown-menu-right px-2 py-2" id="cart_container">
+              </a>
+           {% endif %}
+            <div class="dropdown-menu dropdown-menu-xl  dropdown-menu-right px-2 py-2">
               {% if shopping_cart %}
                 <ul class="list-group" id="shopping_list">
                   {% for supplier in shopping_cart %}
@@ -54,7 +58,7 @@
                   {% endfor %}
                 </ul>
               <div>
-                <button class="btn btn-primary">View Cart</button>
+                <a href="{{ url_for('cart.view_cart') }}" class="btn btn-primary mt-2 w-100">{{ _('View Shopping Cart') }}</a>
               </div>
               {% else %}
                 <p class="text-center text-md mt-2 font-weight-bold">{{ _('Your Cart is empty.') }}</p>

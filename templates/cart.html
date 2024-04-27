@@ -1,0 +1,98 @@
+{% extends 'user/layouts/base.html' %}
+{% block title %} Dashboard {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+{% endblock stylesheets %}
+
+{% block content %}
+    <!-- Users -->
+    <div class="container-fluid mt-4">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <h5 class="card-header text-xl fw-bold text-capitalize" id="user_register">
+                        <img src="{{ url_for('static', filename='img/icons/cart-shopping-solid.svg') }}"
+                             alt="shopping-cart" width="30" class="mr-2">
+                        {{_('Shopping Cart')}}
+                    </h5>
+
+                    <div class="card-body">
+                        <!-- Shopping cart info -->
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col">
+                                    {% if shopping_cart %}
+                                        {% for supplier in shopping_cart %}
+                                        <div class="card">
+                                            <h2 class="card-header">
+                                                {{supplier | replace('_', ' ')}}
+                                            </h2>
+                                            <div class="card-body">
+                                                <div class="table-responsive mt-2">
+                                                    <table class="table table-striped" id="table-prices">
+                                                        <thead class="thead-light">
+                                                            <tr>
+                                                                <th scope="col" class="text-sm">{{_('Item')}}</th>
+                                                                <th scope="col" class="text-sm">{{_('Quantity')}}</th>
+                                                                <th scope="col" class="text-sm">{{_('Price')}}</th>
+                                                                <th scope="col" class="text-sm">{{_('Total')}}</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {% for product in shopping_cart[supplier]['products'] %}
+                                                                <tr>
+                                                                    <td scope="row" class="text-sm text-capitalize">
+                                                                        {{ product }}
+                                                                    </td>
+                                                                    <td scope="row" class="text-sm text-capitalize">
+                                                                        {{shopping_cart[supplier]['products'][product]['quantity']}}
+                                                                    </td>
+                                                                    <td scope="row" class="text-sm text-capitalize">
+                                                                        ${{shopping_cart[supplier]['products'][product]['price']}}
+                                                                    </td>
+                                                                    <td scope="row" class="text-sm text-capitalize">
+                                                                        {% set total = shopping_cart[supplier]['products'][product]['price'] * shopping_cart[supplier]['products'][product]['quantity'] %}
+                                                                        ${{ total | round(2) }}
+                                                                    </td>
+                                                                </tr>
+                                                            {% endfor %}
+                                                                <tr class="rounded">
+                                                                    <th colspan="3" scope="col"
+                                                                        class="text-sm text-right bg-light rounded-left">
+                                                                        {{_('Total')}}
+                                                                    </th>
+                                                                    <td scope="row" class="rounded-right text-sm font-weight-bold bg-success text-white">
+                                                                        ${{shopping_cart[supplier]['total']}}
+                                                                    </td>
+                                                                </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <a href="" class="btn btn-danger mt-2">
+                                                        {{_('Make order for')}}
+                                                        {{ supplier | replace('_', ' ')}}
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    {% else %}
+                                        <p class="text-center text-md mt-2 font-weight-bold">{{ _('Your Cart is empty.') }}</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+{% endblock javascripts %}

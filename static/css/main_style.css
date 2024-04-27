@@ -38,6 +38,13 @@
       }
 }
 
+#shopping_list{
+    max-height: 450px;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+}
+
 #quantity{
     max-width: 12%;
 }

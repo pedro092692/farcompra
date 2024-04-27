@@ -104,7 +104,7 @@ function get_products(form, product_price_id, supplier_id, stock, sp_name, produ
             const li_supplier = document.createElement('li');
             li_supplier.classList.add('list-group-item', 'text-capitalize', 'font-weight-bold');
             li_supplier.setAttribute('id', supplier_id);
-            li_supplier.innerHTML = sp_name + ':';
+            li_supplier.innerHTML = sp_name.replace('_', ' ') + ':';
             // create ul products
             const ul_products = document.createElement('ul');
             ul_products.classList.add('list-group', 'mt-2');
@@ -130,6 +130,12 @@ function get_products(form, product_price_id, supplier_id, stock, sp_name, produ
             li_supplier.appendChild(ul_products);
             ul.appendChild(li_supplier);
             cart_container.appendChild(ul);
+            //create view cart button
+            const view_cart_button = document.createElement('a');
+            view_cart_button.setAttribute('href', '/cart/');
+            view_cart_button.innerHTML = 'View Shopping Cart';
+            view_cart_button.classList.add('btn', 'btn-primary', 'mt-2', 'w-100');
+            cart_container.appendChild(view_cart_button);
         }
 
     }else{

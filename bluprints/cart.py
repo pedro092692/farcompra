@@ -42,9 +42,7 @@ def construct_blueprint(db: Database, socketio: SocketIO, app):
     def view_cart():
         user = db.get_user(current_user.id)
         shopping_cart = db.view_cart(user_id=user.id)
-        # total_cart_amount = sum(item.product_info.price * item.quantity for item in shopping_cart)
-        print(shopping_cart)
-        return shopping_cart
+        return render_template('cart.html', shopping_cart=shopping_cart)
 
 
 
