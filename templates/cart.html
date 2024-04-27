@@ -68,10 +68,16 @@
                                                                 </tr>
                                                         </tbody>
                                                     </table>
-                                                    <a href="" class="btn btn-danger mt-2">
-                                                        {{_('Make order for')}}
-                                                        {{ supplier | replace('_', ' ')}}
-                                                    </a>
+                                                    <form role="form" method="POST" novalidate
+                                                          action="{{ url_for('cart.checkout_cart') }}">
+                                                        {% set order = 'Make order for ' + supplier | replace('_', ' ') %}
+                                                        {{ form.csrf_token }}
+                                                        {{ form.supplier(class='d-none',
+                                                            value=shopping_cart[supplier]["supplier_id"]) }}
+                                                        {{ form.submit(class='btn btn-danger mt-2',
+                                                        value=order  ) }}
+
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>

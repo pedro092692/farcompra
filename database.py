@@ -263,6 +263,13 @@ class Database:
         # Please filter by user own cart 
         return Cart.query.filter_by(product_price_id=product_price_id, user_id=user_id).first()
 
+    @staticmethod
+    def checkout_cart(user_id, supplier):
+        new_order = Cart.query.filter_by(user_id=user_id, supplier_id=supplier)
+        return new_order
+
+
+
 
     @staticmethod
     def check_user(email):

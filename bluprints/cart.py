@@ -5,6 +5,7 @@ from core.supplier import Supplier
 from database import Database
 from flask_login import login_required, current_user
 from flask_socketio import SocketIO, send, emit
+from forms.forms import CheckOutCart
 
 
 
@@ -40,9 +41,24 @@ def construct_blueprint(db: Database, socketio: SocketIO, app):
     @cart.route('/')
     @login_required
     def view_cart():
+        form = CheckOutCart()
         user = db.get_user(current_user.id)
         shopping_cart = db.view_cart(user_id=user.id)
-        return render_template('cart.html', shopping_cart=shopping_cart)
+        return render_template('cart.html', shopping_cart=shopping_cart, form=form)
+
+    @cart.route('/checkout', methods=['POST', 'GET'])
+    @login_required
+    def checkout_cart():
+        if request.method == 'GET':
+            return redirect(url_for('cart.view_cart'))
+
+        if request.method == 'POST':
+            supplier = request.form['supplier']
+            user_id = current_user.id
+            order = db.checkout_cart(user_id=user_id, supplier=supplier)
+            for item in order:
+                print(item)
+        return "checking out cart"
 
 
 

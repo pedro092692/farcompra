@@ -76,6 +76,10 @@ class AddToCart(FlaskForm):
     quantity = IntegerField(render_kw={'placeholder': 'Quantity'})
     submit = submit_field('Add To Cart')
 
+class CheckOutCart(FlaskForm):
+    supplier = string_field(label='')
+    submit = submit_field('Make order for')
+
 
 
 
