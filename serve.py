@@ -48,7 +48,7 @@ login_manager.init_app(app)
 
 # BLUEPRINTS
 app.register_blueprint(admin_bp.construct_blueprint(db=db), url_prefix='/admin')
-app.register_blueprint(cart.construct_blueprint(db=db))
+app.register_blueprint(cart.construct_blueprint(db=db, socketio=socketio, app=app))
 
 
 @login_manager.user_loader
@@ -90,7 +90,9 @@ def user_profile():
 def index():
     all_products = db.show_products()
     return render_template('index.html', products=all_products)
+
 @app.route('/search', methods=['GET'])
+@login_required
 def search():
     form = AddToCart()
     if request.args.get('barcode'):
@@ -114,11 +116,6 @@ def search():
     return render_template('search.html', results=results, search_query=barcode, suggested_results=suggested_results,
                            suggest=suggest, form=form)
 
-@app.route('/pedro')
-@login_required
-def index_():
-    all_products = db.show_products()
-    return render_template('index_.html', products=all_products)
 
 
 @app.route('/logout')
@@ -148,6 +145,19 @@ def handle_search_query(search_query):
                                 })
     else:
         emit('search_results', {'results': []})
+
+
+# Cart
+@app.context_processor
+def get_cart():
+    if current_user.is_authenticated:
+        shopping_cart = db.view_cart(user_id=current_user.id)
+
+        return {"shopping_cart": shopping_cart}
+    else:
+        return {"shopping_cart": {}}
+
+
 
 
 # Errors

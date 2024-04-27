@@ -22,6 +22,45 @@
       <ul class="navbar-nav align-items-center  ml-md-auto ">
       </ul>
       <ul class="navbar-nav align-items-center  ml-auto ml-md-0 ">
+        <li class="nav-item dropdown mr-5">
+           <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <div class="media align-items-center">
+                <span>
+                  <i class="ni ni-basket text-xl text-primary"></i>
+                </span>
+                <div class="media-body ml-2 d-none d-lg-block">
+                  <span class="mb-0 text-sm text-dark  font-weight-bold text-capitalize">
+                  </span>
+                </div>
+              </div>
+            </a>
+            <div class="dropdown-menu dropdown-menu-xl  dropdown-menu-right px-2 py-2" id="cart_container">
+              {% if shopping_cart %}
+                <ul class="list-group" id="shopping_list">
+                  {% for supplier in shopping_cart %}
+                    <li id="{{ shopping_cart[supplier]['supplier_id'] }}" class="list-group-item text-capitalize font-weight-bold">
+                      {{supplier | replace('_', ' ')}}:
+                      <ul class="list-group mt-2">
+                        {% for product in shopping_cart[supplier]['products'] %}
+                          <li class="list-group-item font-weight-normal" id="{{ shopping_cart[supplier]['products'][product]['id'] }}">
+                              {{ product }} <span class="font-weight-bold">*</span>
+                              <span id="quantity">
+                                {{shopping_cart[supplier]['products'][product]['quantity']}}
+                              </span>
+                          </li>
+                        {% endfor %}
+                      </ul>
+                    </li>
+                  {% endfor %}
+                </ul>
+              <div>
+                <button class="btn btn-primary">View Cart</button>
+              </div>
+              {% else %}
+                <p class="text-center text-md mt-2 font-weight-bold">{{ _('Your Cart is empty.') }}</p>
+              {% endif %}
+            </div>
+        </li>
         <li class="nav-item dropdown">
           <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <div class="media align-items-center">

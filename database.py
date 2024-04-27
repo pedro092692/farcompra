@@ -227,7 +227,6 @@ class Database:
         )
         self.db.session.add(new_cart_item)
         self.db.session.commit()
-        return new_cart_item
 
 
 
@@ -238,13 +237,27 @@ class Database:
             product = item.product_price_info.product_info.name
             supplier = item.supplier_info.name
             if supplier not in shopping_cart:
-                shopping_cart[supplier] = {}
+                shopping_cart[supplier] = {
+                    "supplier_id": item.supplier_info.id,
+                    "products":  {},
+                }
 
-            shopping_cart[supplier][product] = {
+            shopping_cart[supplier]["products"][product] = {
+                "id": item.product_price_info.id,
                 "price": item.product_price_info.price,
-                "quantity": item.quantity
+                "quantity": item.quantity,
             }
         return shopping_cart
+
+    def update_cart(self, cart_item, quantity):
+        cart_item.quantity += quantity
+        self.db.session.commit()
+        return cart_item
+
+    @staticmethod
+    def check_product_cart(product_price_id, user_id):
+        # Please filter by user own cart 
+        return Cart.query.filter_by(product_price_id=product_price_id, user_id=user_id).first()
 
 
     @staticmethod
