@@ -27,7 +27,7 @@ function get_products(form, product_price_id, supplier_id, stock, sp_name, produ
         // update view cart
         // check if shopping cart is empty
         try{
-            const shopping_list = document.getElementById('shopping_list');
+            const shopping_list = document.getElementById('shopping_list_ul');
             const all_li = shopping_list.children;
             const suppliers_on_list = []
             // get suppliers on the shopping cart
@@ -98,7 +98,7 @@ function get_products(form, product_price_id, supplier_id, stock, sp_name, produ
             cart_container.innerHTML = '';
             //create ul
             const ul = document.createElement('ul');
-            ul.setAttribute('id', 'shopping_list');
+            ul.setAttribute('id', 'shopping_list_ul');
             ul.classList.add('list-group');
             // Create li for supplier
             const li_supplier = document.createElement('li');

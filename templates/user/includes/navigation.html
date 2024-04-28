@@ -38,9 +38,9 @@
                 </div>
               </a>
            {% endif %}
-            <div class="dropdown-menu dropdown-menu-xl  dropdown-menu-right px-2 py-2">
+            <div class="dropdown-menu dropdown-menu-xl  dropdown-menu-right px-2 py-2" id="cart_container">
               {% if shopping_cart %}
-                <ul class="list-group" id="shopping_list">
+                <ul class="list-group" id="shopping_list_ul">
                   {% for supplier in shopping_cart %}
                     <li id="{{ shopping_cart[supplier]['supplier_id'] }}" class="list-group-item text-capitalize font-weight-bold">
                       {{supplier | replace('_', ' ')}}:

@@ -38,7 +38,7 @@
       }
 }
 
-#shopping_list{
+#shopping_list_ul{
     max-height: 450px;
     overflow-y: auto;
     overflow-x: hidden;
