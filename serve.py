@@ -18,6 +18,7 @@ from flask_socketio import SocketIO, emit
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret_here'
 app.config['BABEL_DEFAULT_LOCALE'] = 'es'
+
 ### DROPZONE ###
 app.config['DROPZONE_ALLOWED_FILE_CUSTOM'] = True
 app.config['DROPZONE_ALLOWED_FILE_TYPE'] = '.csv, .xlsx, .xls'
@@ -33,6 +34,7 @@ db.create_tables()
 # Plugins
 Bootstrap5(app)
 babel = Babel(app)
+
 ### Dropzone ###
 dropzone = Dropzone(app)
 
@@ -43,7 +45,6 @@ socketio.init_app(app)
 # Login manager
 login_manager = LoginManager()
 login_manager.init_app(app)
-
 
 # BLUEPRINTS
 app.register_blueprint(admin_bp.construct_blueprint(db=db), url_prefix='/admin')
@@ -90,8 +91,8 @@ def user_profile():
 @app.route('/')
 @login_required
 def index():
-    all_products = db.show_products()
-    return render_template('index.html', products=all_products)
+    all_products = db.show_all_product(per_page=20)
+    return render_template('index.html', all_products=all_products)
 
 
 @app.route('/search', methods=['GET'])
@@ -154,19 +155,14 @@ def handle_search_query(search_query):
 def get_cart():
     if current_user.is_authenticated:
         shopping_cart = db.view_cart(user_id=current_user.id)
-
         return {"shopping_cart": shopping_cart}
     else:
         return {"shopping_cart": {}}
-
-
-
 
 # Errors
 @login_manager.unauthorized_handler
 def unauthorized():
     return redirect(url_for('login'))
-
 
 
 if __name__ == "__main__":

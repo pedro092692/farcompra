@@ -6,13 +6,13 @@ from database import Database
 from flask_login import login_required, current_user
 from flask_socketio import SocketIO, send, emit
 from forms.forms import CheckOutCart
-import pdfkit
+# import pdfkit
 
 
 def construct_blueprint(db: Database, socketio: SocketIO, app):
     cart = Blueprint('cart', __name__, url_prefix='/cart')
 
-    config = pdfkit.configuration(wkhtmltopdf='C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe')
+    # config = pdfkit.configuration(wkhtmltopdf='C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe')
 
     @socketio.on('connect')
     @login_required
@@ -59,15 +59,15 @@ def construct_blueprint(db: Database, socketio: SocketIO, app):
             user_id = current_user.id
             new_order = db.checkout_cart(user_id=user_id, supplier=supplier)
 
-            rendered = render_template('order.html')
-            pdf = pdfkit.from_string(rendered, False, configuration=config,
-                                     css='static/admin/assets/css/bootstrap/bootstrap.css')
+            # rendered = render_template('order.html')
+            # pdf = pdfkit.from_string(rendered, False, configuration=config,
+            #                          css='static/admin/assets/css/bootstrap/bootstrap.css')
+            #
+            # response = make_response(pdf)
+            # response.headers['Content-Type'] = 'application/pdf'
+            # response.headers['Content-Disposition'] = f'inline; filename={supplier}_order.pfd'
 
-            response = make_response(pdf)
-            response.headers['Content-Type'] = 'application/pdf'
-            response.headers['Content-Disposition'] = f'inline; filename={supplier}_order.pfd'
-
-            return response
+            return 'response'
 
     @cart.route('/order')
     def order():
