@@ -265,13 +265,12 @@ class Database:
 
     @staticmethod
     def check_product_cart(product_price_id, user_id):
-        # Please filter by user own cart 
         return Cart.query.filter_by(product_price_id=product_price_id, user_id=user_id).first()
 
 
-    def checkout_cart(self, user_id, supplier):
+    @staticmethod
+    def checkout_cart(user_id, supplier):
         new_order = Cart.query.filter_by(user_id=user_id, supplier_id=supplier)
-
         # Delete cart items
         # items_to_delete = delete(Cart).filter_by(user_id=user_id, supplier_id=supplier)
         # self.db.session.execute(items_to_delete)

@@ -91,8 +91,7 @@ def user_profile():
 @app.route('/')
 @login_required
 def index():
-    all_products = db.show_all_product(per_page=20)
-    return render_template('index.html', all_products=all_products)
+    return render_template('index.html')
 
 
 @app.route('/search', methods=['GET'])
@@ -144,7 +143,7 @@ def handle_search_query(search_query):
                                 'total': results.total,
                                 'has_prev': results.has_prev,
                                 'has_next': results.has_next,
-                                'search_query':search_query,
+                                'search_query': search_query,
                                 })
     else:
         emit('search_results', {'results': []})
@@ -166,5 +165,5 @@ def unauthorized():
 
 
 if __name__ == "__main__":
-    socketio.run(app, debug=True)
+    socketio.run(app, debug=True, allow_unsafe_werkzeug=True)
     # app.run(debug=True)
