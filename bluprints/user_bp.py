@@ -112,7 +112,7 @@ def construct_blueprint(db: Database):
                         rif=form.rif.data,
                         email=form.email_pharmacy.data,
                         address=form.address.data,
-                        user_email=form.user_email.data
+                        user_email=form.user_email.data,
                     )
                     flash('Pharmacy Updated')
                     return redirect(url_for('admin.user.users'))

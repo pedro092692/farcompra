@@ -6,6 +6,7 @@ from database import Database
 from flask_login import login_required, current_user
 from flask_socketio import SocketIO, send, emit
 from forms.forms import CheckOutCart
+from helpers import has_pharmacy
 import pdfkit
 
 
@@ -18,7 +19,6 @@ def construct_blueprint(db: Database, socketio: SocketIO, app):
     @login_required
     def handle_connect():
         print('client connected')
-
 
     @socketio.on('add_to_cart')
     @login_required
@@ -39,9 +39,9 @@ def construct_blueprint(db: Database, socketio: SocketIO, app):
             new_item_quantity = db.update_cart(cart_item, quantity)
             emit('update_quantity', {"quantity":new_item_quantity.quantity})
 
-
     @cart.route('/')
     @login_required
+    @has_pharmacy
     def view_cart():
         form = CheckOutCart()
         user = db.get_user(current_user.id)
@@ -49,6 +49,7 @@ def construct_blueprint(db: Database, socketio: SocketIO, app):
         return render_template('cart.html', shopping_cart=shopping_cart, form=form)
 
     @cart.route('/checkout', methods=['POST', 'GET'])
+    @has_pharmacy
     @login_required
     def checkout_cart():
         if request.method == 'GET':

@@ -8,7 +8,6 @@ from flask_wtf import CSRFProtect
 from forms.forms import LoginForm, AddToCart
 from werkzeug.security import check_password_hash
 from flask_login import login_user, LoginManager, current_user, logout_user, login_required
-from helpers import same_user
 from flask_socketio import SocketIO, emit
 # from eventlet import wsgi
 
