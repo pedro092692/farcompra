@@ -29,3 +29,13 @@
 #products_table .delete:hover{
     color: red;
 }
+
+#table-prices td{
+    font-weight: 600;
+    font-size: 16px;
+
+}
+
+#table-prices{
+
+}

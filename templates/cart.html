@@ -33,27 +33,37 @@
                                                     <table class="table table-striped" id="table-prices">
                                                         <thead class="thead-light">
                                                             <tr>
-                                                                <th scope="col" class="text-sm">{{_('Item')}}</th>
+                                                                <th scope="col" class="text-sm w-50">{{_('Item')}}</th>
                                                                 <th scope="col" class="text-sm">{{_('Quantity')}}</th>
                                                                 <th scope="col" class="text-sm">{{_('Price')}}</th>
                                                                 <th scope="col" class="text-sm">{{_('Total')}}</th>
+                                                                <th scope="col" class="text-sm">{{_('Action')}}</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             {% for product in shopping_cart[supplier]['products'] %}
                                                                 <tr>
-                                                                    <td scope="row" class="text-sm text-capitalize">
+                                                                    <td scope="row" class="text-capitalize">
                                                                         {{ product }}
                                                                     </td>
-                                                                    <td scope="row" class="text-sm text-capitalize">
-                                                                        {{shopping_cart[supplier]['products'][product]['quantity']}}
+                                                                    <td scope="row" class="text-capitalize">
+                                                                        <input type="number"
+                                                                               value={{shopping_cart[supplier]['products'][product]['quantity']}}
+                                                                               class="form-control w-25"
+                                                                               id="quantity_product">
                                                                     </td>
-                                                                    <td scope="row" class="text-sm text-capitalize">
+                                                                    <td scope="row" class="text-capitalize">
                                                                         ${{shopping_cart[supplier]['products'][product]['price']}}
                                                                     </td>
-                                                                    <td scope="row" class="text-sm text-capitalize">
+                                                                    <td scope="row" class="text-capitalize">
                                                                         {% set total = shopping_cart[supplier]['products'][product]['price'] * shopping_cart[supplier]['products'][product]['quantity'] %}
                                                                         ${{ total | round(2) }}
+                                                                    </td>
+                                                                    <td>
+                                                                        <a href="" class="btn btn-danger">
+                                                                            <i class="ni ni-fat-remove text-xl text-white"></i>
+                                                                        </a>
+
                                                                     </td>
                                                                 </tr>
                                                             {% endfor %}
@@ -63,7 +73,7 @@
                                                                         {{_('Total')}}
                                                                     </th>
                                                                     <td scope="row" class="rounded-right text-sm font-weight-bold bg-success text-white">
-                                                                        ${{shopping_cart[supplier]['total']}}
+                                                                        ${{shopping_cart[supplier]['total'] | round(2)}}
                                                                     </td>
                                                                 </tr>
                                                         </tbody>
