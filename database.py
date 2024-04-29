@@ -1,7 +1,7 @@
 import sqlalchemy.exc
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import relationship, DeclarativeBase, Mapped, mapped_column
-from sqlalchemy import Integer, String, Float, ForeignKey, select, delete
+from sqlalchemy import Integer, String, Float, ForeignKey, select, delete, join
 from typing import List
 from flask import Flask
 from flask_login import UserMixin
@@ -131,9 +131,10 @@ class Database:
         return products
 
     def search_products(self, q, per_page=10):
-        products = self.db.paginate(self.db.select(Product).filter(Product.prices.any()).\
-                                    filter(Product.name.icontains(q) |
-                                     Product.barcode.icontains(q)).order_by(Product.name), per_page=per_page)
+        products = self.db.paginate(self.db.select(Product).filter(Product.name.icontains(q) | Product.barcode.icontains(q)).order_by(Product.name), per_page=per_page)
+
+        # products = self.db.paginate(self.db.select(Product).filter(Product.prices.any()).filter(Product.name.icontains(q)).order_by(Product.name), per_page=per_page)
+
         return products
 
     def last_products(self):

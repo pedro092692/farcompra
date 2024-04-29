@@ -15,60 +15,62 @@
                     <div class="col">
                         <ul class="list-group ul-product" id="results">
                             {% for product in results %}
-                                <li class="list-group-item cursor-pointer li-product" onclick="show_product_info(this)"
-                                    onload=""
-                                    >
-                                    {{ product.name }}
+                                {% if product.prices %}
+                                    <li class="list-group-item cursor-pointer li-product" onclick="show_product_info(this)"
+                                        onload=""
+                                        >
+                                        {{ product.name }}
 
-                                    <div class="table-responsive mt-2" id="prices"
-                                         style="display:
-                                         {{ 'none' if request.args.get('barcode') != product.barcode else 'block'  }}">
-                                        <table class="table table-striped" id="table-prices">
-                                            <thead class="thead-light">
-                                                <tr>
-                                                    <th scope="col" class="text-sm">{{ _('Supplier ')}}</th>
-                                                    <th scope="col" class="text-sm">{{ _('Price')}}</th>
-                                                    <th scope="col" class="text-sm">{{ _('Due Date')}}</th>
-                                                    <th scope="col" class="text-sm">{{ _('Stock')}}</th>
-                                                    <th scope="col" class="text-sm">{{ _('Action')}}</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {% for price in product.prices %}
+                                        <div class="table-responsive mt-2" id="prices"
+                                             style="display:
+                                             {{ 'none' if request.args.get('barcode') != product.barcode else 'block'  }}">
+                                            <table class="table table-striped" id="table-prices">
+                                                <thead class="thead-light">
                                                     <tr>
-                                                       <td scope="row" class="text-sm text-capitalize">
-                                                           {{ price.supplier_info.name | replace('_', ' ') }}
-                                                       </td>
-                                                        <td scope="row" class="text-sm text-capitalize">${{ price.price }}</td>
-                                                        <td scope="row" class="text-sm text-capitalize">{{ price.due_date }}</td>
-                                                        <td scope="row" class="text-sm text-capitalize">{{ price.stock }}</td>
-                                                        <td>
-                                                            <!-- Shopping Cart Form -->
-                                                            <form id="shopping_cart" onsubmit="get_products(
-                                                                form=this,
-                                                                product_id={{price.id }},
-                                                                supplier_id={{price.supplier_id}},
-                                                                stock={{price.stock}},
-                                                                sp_name='{{price.supplier_info.name}}',
-                                                                product_name='{{price.product_info.name}}')">
-                                                                <div class="d-flex align-items-center">
-                                                                    {{ form.csrf_token }}
-                                                                    {{ form.quantity(class='form-control mr-4',
-                                                                    id='quantity',) }}
-                                                                    {{ form.submit(class='btn btn-primary') }}
-                                                                </div>
-                                                                 <p id="quantity_error" class="text-sm text-danger mt-1" style="display:none">
-                                                                     {{_('Sorry quantity must be greater than zero or minor than')}}
-                                                                     {{price.stock}}
-                                                                 </p>
-                                                            </form>
-                                                        </td>
+                                                        <th scope="col" class="text-sm">{{ _('Supplier ')}}</th>
+                                                        <th scope="col" class="text-sm">{{ _('Price')}}</th>
+                                                        <th scope="col" class="text-sm">{{ _('Due Date')}}</th>
+                                                        <th scope="col" class="text-sm">{{ _('Stock')}}</th>
+                                                        <th scope="col" class="text-sm">{{ _('Action')}}</th>
                                                     </tr>
-                                                {% endfor %}
-                                            </tbody>
-                                    </table>
-                                    </div>
-                                </li>
+                                                </thead>
+                                                <tbody>
+                                                    {% for price in product.prices %}
+                                                        <tr>
+                                                           <td scope="row" class="text-sm text-capitalize">
+                                                               {{ price.supplier_info.name | replace('_', ' ') }}
+                                                           </td>
+                                                            <td scope="row" class="text-sm text-capitalize">${{ price.price }}</td>
+                                                            <td scope="row" class="text-sm text-capitalize">{{ price.due_date }}</td>
+                                                            <td scope="row" class="text-sm text-capitalize">{{ price.stock }}</td>
+                                                            <td>
+                                                                <!-- Shopping Cart Form -->
+                                                                <form id="shopping_cart" onsubmit="get_products(
+                                                                    form=this,
+                                                                    product_id={{price.id }},
+                                                                    supplier_id={{price.supplier_id}},
+                                                                    stock={{price.stock}},
+                                                                    sp_name='{{price.supplier_info.name}}',
+                                                                    product_name='{{price.product_info.name}}')">
+                                                                    <div class="d-flex align-items-center">
+                                                                        {{ form.csrf_token }}
+                                                                        {{ form.quantity(class='form-control mr-4',
+                                                                        id='quantity',) }}
+                                                                        {{ form.submit(class='btn btn-primary') }}
+                                                                    </div>
+                                                                     <p id="quantity_error" class="text-sm text-danger mt-1" style="display:none">
+                                                                         {{_('Sorry quantity must be greater than zero or minor than')}}
+                                                                         {{price.stock}}
+                                                                     </p>
+                                                                </form>
+                                                            </td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                        </table>
+                                        </div>
+                                    </li>
+                                {% endif %}
                             {% endfor %}
                         </ul>
                     </div>

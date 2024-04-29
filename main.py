@@ -10,6 +10,7 @@ from werkzeug.security import check_password_hash
 from flask_login import login_user, LoginManager, current_user, logout_user, login_required
 from helpers import same_user
 from flask_socketio import SocketIO, emit
+# from eventlet import wsgi
 
 
 
@@ -39,6 +40,7 @@ babel = Babel(app)
 dropzone = Dropzone(app)
 
 # websockets IO
+# socketio = SocketIO(app, async_mode='eventlet')
 socketio = SocketIO()
 socketio.init_app(app)
 
@@ -165,4 +167,5 @@ def unauthorized():
 
 
 if __name__ == "__main__":
+    # app.run(debug=True)
     socketio.run(app, debug=True)

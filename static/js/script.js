@@ -58,13 +58,16 @@ window.onload = function() {
             listItem.classList.add('list-group-item', 'cursor-pointer', 'font-weight-bold', 'li-product-suggest');
             //create anchor
             const anchor = document.createElement('a');
-            listItem.innerHTML = product.name;
-            anchor.setAttribute('href', '/search?barcode='+product.barcode+'&product_name='+product.name+'&query='+search_input.value)
-            // Append anchor to li, then li to resultElement
-            listItem.appendChild(anchor);
-            resultElement.appendChild(listItem);
-           // Event delegation on resultElement
-           resultElement.addEventListener('click', function(event) {});
+            if(product.prices.length > 0){
+                listItem.innerHTML = product.name;
+
+                anchor.setAttribute('href', '/search?barcode='+product.barcode+'&product_name='+product.name+'&query='+search_input.value)
+                // Append anchor to li, then li to resultElement
+                listItem.appendChild(anchor);
+                resultElement.appendChild(listItem);
+               // Event delegation on resultElement
+               resultElement.addEventListener('click', function(event) {});
+           }
         });
         // Event delegation on resultElement
         resultElement.addEventListener('click', function(event) {
