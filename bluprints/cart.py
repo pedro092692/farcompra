@@ -22,6 +22,7 @@ def construct_blueprint(db: Database, socketio: SocketIO, app):
 
     @socketio.on('add_to_cart')
     @login_required
+    @has_pharmacy
     def handle_add_to_cart(product_price_id, supplier_id, quantity):
         user = db.get_user(current_user.id)
         # check if product exist in the cart
@@ -37,7 +38,21 @@ def construct_blueprint(db: Database, socketio: SocketIO, app):
         else:
             # Update only quantity
             new_item_quantity = db.update_cart(cart_item, quantity)
-            emit('update_quantity', {"quantity":new_item_quantity.quantity})
+            emit('update_quantity', {"quantity": new_item_quantity.quantity})
+
+    @socketio.on('update_cart_quantity')
+    @login_required
+    @has_pharmacy
+    def handle_update_cart_quantity(item_id, quantity):
+        cart_item = db.get_car_item(item_id)
+        # update cart item quantity
+        cart_item = db.update_cart_quantity(cart_item, quantity)
+        total = cart_item.product_price_info.price * quantity
+        grand_total = db.get_supplier_total(user_id=current_user.id, supplier_id=cart_item.supplier_id)
+        emit('update_cart', {"total": round(total ,2),
+                              "grand_total": grand_total,
+                              })
+
 
     @cart.route('/')
     @login_required

@@ -49,13 +49,14 @@
                                                                     <td scope="row" class="text-capitalize">
                                                                         <input type="number"
                                                                                value={{shopping_cart[supplier]['products'][product]['quantity']}}
-                                                                               class="form-control w-25"
-                                                                               id="quantity_product">
+                                                                               class="form-control"
+                                                                               row_id={{shopping_cart[supplier]["products"][product]["id_cart"]}}
+                                                                               id="quantity_product" onchange="update_cart_quantity(this)">
                                                                     </td>
-                                                                    <td scope="row" class="text-capitalize">
+                                                                    <td scope="row" class="text-capitalize" id="price">
                                                                         ${{shopping_cart[supplier]['products'][product]['price']}}
                                                                     </td>
-                                                                    <td scope="row" class="text-capitalize">
+                                                                    <td scope="row" class="text-capitalize" id="total">
                                                                         {% set total = shopping_cart[supplier]['products'][product]['price'] * shopping_cart[supplier]['products'][product]['quantity'] %}
                                                                         ${{ total | round(2) }}
                                                                     </td>
@@ -72,7 +73,7 @@
                                                                         class="text-sm text-right bg-light rounded-left">
                                                                         {{_('Total')}}
                                                                     </th>
-                                                                    <td scope="row" class="rounded-right text-sm font-weight-bold bg-success text-white">
+                                                                    <td scope="row" class="rounded-right text-sm font-weight-bold bg-success text-white" id="grand-total">
                                                                         ${{shopping_cart[supplier]['total'] | round(2)}}
                                                                     </td>
                                                                 </tr>
@@ -111,4 +112,5 @@
 
 <!-- Specific JS goes HERE -->
 {% block javascripts %}
+<script src="{{ url_for('static', filename='js/cart.js') }}"></script>
 {% endblock javascripts %}

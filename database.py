@@ -253,20 +253,36 @@ class Database:
                 "id": item.product_price_info.id,
                 "price": item.product_price_info.price,
                 "quantity": item.quantity,
+                "id_cart": item.id,
             }
 
             shopping_cart[supplier]["total"] += \
                 round(shopping_cart[supplier]["products"][product]["price"] * shopping_cart[supplier]["products"][product]["quantity"], 2)
         return shopping_cart
 
+    def get_supplier_total(self, user_id, supplier_id):
+        supplier_list = Cart.query.filter_by(user_id=user_id, supplier_id=supplier_id).all()
+        total = 0
+        for item in supplier_list:
+            total += item.product_price_info.price * item.quantity
+        return round(total, 2)
+
     def update_cart(self, cart_item, quantity):
         cart_item.quantity += quantity
+        self.db.session.commit()
+        return cart_item
+
+    def update_cart_quantity(self, cart_item, quantity):
+        cart_item.quantity = quantity
         self.db.session.commit()
         return cart_item
 
     @staticmethod
     def check_product_cart(product_price_id, user_id):
         return Cart.query.filter_by(product_price_id=product_price_id, user_id=user_id).first()
+
+    def get_car_item(self, cart_item_id):
+        return self.db.get_or_404(Cart, cart_item_id)
 
 
     @staticmethod
