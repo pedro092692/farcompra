@@ -55,6 +55,13 @@ def construct_blueprint(db: Database, socketio: SocketIO, app):
                              "supplier": cart_item.supplier_info.name,
                               })
 
+    @socketio.on('delete_cart_item')
+    @login_required
+    @has_pharmacy
+    def handle_delete_cart_item(cart_item_id):
+        cart_item = db.get_car_item(cart_item_id)
+        # Delete cart item
+        db.delete_cart_item(cart_item=cart_item)
 
     @cart.route('/')
     @login_required

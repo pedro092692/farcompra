@@ -284,6 +284,10 @@ class Database:
     def get_car_item(self, cart_item_id):
         return self.db.get_or_404(Cart, cart_item_id)
 
+    def delete_cart_item(self, cart_item):
+        self.db.session.delete(cart_item)
+        self.db.session.commit()
+
 
     @staticmethod
     def checkout_cart(user_id, supplier):

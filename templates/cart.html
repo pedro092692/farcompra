@@ -61,7 +61,7 @@
                                                                         ${{ total | round(2) }}
                                                                     </td>
                                                                     <td>
-                                                                        <a href="" class="btn btn-danger">
+                                                                        <a class="btn btn-danger" onclick="delete_cart_item({{shopping_cart[supplier]['products'][product]['id_cart']}})">
                                                                             <i class="ni ni-fat-remove text-xl text-white"></i>
                                                                         </a>
 
