@@ -8,17 +8,10 @@ function update_cart_quantity(input){
     socket.emit('update_cart_quantity', item_id, new_quantity)
 
     socket.on('update_cart', function(cart_item){
-        let currentElement = input;
-          while (currentElement && currentElement.tagName !== 'TABLE') {
-            currentElement = currentElement.parentElement;
-        }
-
-       const table = currentElement;
-
-        const td_total = table.querySelector('#total');
-        const td_grand_total = table.querySelector('#grand-total');
-        td_total.innerHTML = cart_item.total;
-        td_grand_total.innerHTML = cart_item.grand_total;
+        const td_total = document.getElementById('total-'+cart_item.id);
+        td_total.innerHTML = '$'+cart_item.total;
+        const td_grand_total = document.getElementById('grand-total-'+cart_item.supplier);
+        td_grand_total.innerHTML = '$'+cart_item.grand_total;
     });
 }
 

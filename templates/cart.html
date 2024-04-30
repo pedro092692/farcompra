@@ -56,7 +56,7 @@
                                                                     <td scope="row" class="text-capitalize" id="price">
                                                                         ${{shopping_cart[supplier]['products'][product]['price']}}
                                                                     </td>
-                                                                    <td scope="row" class="text-capitalize" id="total">
+                                                                    <td scope="row" class="text-capitalize" id="total-{{shopping_cart[supplier]['products'][product]['id_cart']}}">
                                                                         {% set total = shopping_cart[supplier]['products'][product]['price'] * shopping_cart[supplier]['products'][product]['quantity'] %}
                                                                         ${{ total | round(2) }}
                                                                     </td>
@@ -73,7 +73,7 @@
                                                                         class="text-sm text-right bg-light rounded-left">
                                                                         {{_('Total')}}
                                                                     </th>
-                                                                    <td scope="row" class="rounded-right text-sm font-weight-bold bg-success text-white" id="grand-total">
+                                                                    <td scope="row" class="rounded-right text-sm font-weight-bold bg-success text-white" id="grand-total-{{ supplier }}">
                                                                         ${{shopping_cart[supplier]['total'] | round(2)}}
                                                                     </td>
                                                                 </tr>

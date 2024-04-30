@@ -49,8 +49,10 @@ def construct_blueprint(db: Database, socketio: SocketIO, app):
         cart_item = db.update_cart_quantity(cart_item, quantity)
         total = cart_item.product_price_info.price * quantity
         grand_total = db.get_supplier_total(user_id=current_user.id, supplier_id=cart_item.supplier_id)
-        emit('update_cart', {"total": round(total ,2),
+        emit('update_cart', {"total": round(total, 2),
                               "grand_total": grand_total,
+                             "id": cart_item.id,
+                             "supplier": cart_item.supplier_info.name,
                               })
 
 
