@@ -21,10 +21,10 @@
                         <!-- Shopping cart info -->
                         <div class="container-fluid">
                             <div class="row">
-                                <div class="col">
+                                <div class="col" id="main-col">
                                     {% if shopping_cart %}
                                         {% for supplier in shopping_cart %}
-                                        <div class="card">
+                                        <div class="card" supplier="{{supplier}}">
                                             <h2 class="card-header text-capitalize">
                                                 {{supplier | replace('_', ' ')}}
                                             </h2>
@@ -80,13 +80,16 @@
                                                         </tbody>
                                                     </table>
                                                     <form role="form" method="POST" novalidate
+                                                          id="form-{{supplier}}"
                                                           action="{{ url_for('cart.checkout_cart') }}">
                                                         {% set order = 'Make order for ' + supplier | replace('_', ' ') %}
                                                         {{ form.csrf_token }}
                                                         {{ form.supplier(class='d-none',
                                                             value=shopping_cart[supplier]["supplier_id"]) }}
-                                                        {{ form.submit(class='btn btn-danger mt-2',
-                                                        value=order  ) }}
+                                                        <button class="mt-2 btn btn-danger text-capitalize" onclick="checkout_supplier('{{supplier}}')">
+                                                            {{ _('Make order for: ') }} {{ supplier | replace('_', ' ') }}
+                                                        </button>
+
 
                                                     </form>
                                                 </div>

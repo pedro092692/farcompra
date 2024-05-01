@@ -6,33 +6,41 @@
     {{ bootstrap.load_css() }}
 </head>
 <body class="p-5">
-{{ order }}
   <div class="container">
     <div class="row">
       <div class="col">
         <div class="card">
-          <div class="d-flex gap-4 card-header justify-content-between align-items-center">
-            <h2 class="text-capitalize">{{ user.pharmacy.name }}</h2>
-            <h5 class="text-capitalize">{{ _('Supplier Name') }}</h5>
+          <div class="card-header justify-content-between align-items-center">
+            <div class="">
+              <h2 class="text-capitalize">{{ user.pharmacy[0].name }}</h2>
+              <h6>j-{{ user.pharmacy[0].rif }}</h6>
+            </div>
+            <div class="mt-4">
+              <h6>{{ _('Order for:') }}</h6>
+              <h5 class="text-capitalize">{{ supplier | replace('_', ' ') }}</h5>
+            </div>
           </div>
+
           <div class="card-body">
             <div class="table">
               <table class="table table-striped">
                 <thead>
                   <tr>
                     <th>Barcode</th>
-                    <th>Cod</th>
                     <th>Name</th>
                     <th>Quantity</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>134332</td>
-                    <td>001</td>
-                    <td>Acetaminofen</td>
-                    <td>12</td>
-                  </tr>
+                {% if order %}
+                  {% for item in order %}
+                    <tr>
+                      <td>{{ item.product_price_info.product_info.barcode }}</td>
+                      <td>{{ item.product_price_info.product_info.name }}</td>
+                      <td>{{item.quantity}}</td>
+                    </tr>
+                  {% endfor %}
+                {% endif %}
                 </tbody>
               </table>
             </div>

@@ -289,14 +289,17 @@ class Database:
         self.db.session.commit()
 
 
-    @staticmethod
-    def checkout_cart(user_id, supplier):
-        new_order = Cart.query.filter_by(user_id=user_id, supplier_id=supplier)
+
+    def checkout_cart(self, user_id, supplier):
         # Delete cart items
-        # items_to_delete = delete(Cart).filter_by(user_id=user_id, supplier_id=supplier)
-        # self.db.session.execute(items_to_delete)
-        # self.db.session.commit()
-        return new_order
+        items_to_delete = delete(Cart).filter_by(user_id=user_id, supplier_id=supplier)
+        self.db.session.execute(items_to_delete)
+        self.db.session.commit()
+
+    @staticmethod
+    def get_cart_by_supplier(user_id, supplier):
+        supplier_items = Cart.query.filter_by(user_id=user_id, supplier_id=supplier)
+        return supplier_items
 
 
 

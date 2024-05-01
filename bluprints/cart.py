@@ -72,6 +72,7 @@ def construct_blueprint(db: Database, socketio: SocketIO, app):
         shopping_cart = db.view_cart(user_id=user.id)
         return render_template('cart.html', shopping_cart=shopping_cart, form=form)
 
+
     @cart.route('/checkout', methods=['POST', 'GET'])
     @has_pharmacy
     @login_required
@@ -83,23 +84,20 @@ def construct_blueprint(db: Database, socketio: SocketIO, app):
             supplier = request.form['supplier']
             user_id = current_user.id
             user = db.get_user(user_id)
-            new_order = db.checkout_cart(user_id=user_id, supplier=supplier)
+            new_order = db.get_cart_by_supplier(user_id=user_id, supplier=supplier)
 
-            rendered = render_template('order.html', user=user)
+            rendered = render_template('order.html', order=new_order.all(), user=user, supplier=new_order[0].supplier_info.name)
             pdf = pdfkit.from_string(rendered, False, configuration=config,
                                      css='static/admin/assets/css/bootstrap/bootstrap.css')
 
             response = make_response(pdf)
             response.headers['Content-Type'] = 'application/pdf'
-            response.headers['Content-Disposition'] = f'inline; filename={supplier}_order.pfd'
+            response.headers['Content-Disposition'] = f'inline; filename={new_order[0].supplier_info.name}_order.pdf'
+
+            # Delete items from cart
+            db.checkout_cart(user_id=user_id, supplier=supplier)
 
             return response
-
-    @cart.route('/order')
-    def order():
-        user = db.get_user(current_user.id)
-        new_order = db.checkout_cart(user_id=3, supplier=3)
-        return render_template('order.html', order=new_order.all(), user=user)
 
     return cart
 

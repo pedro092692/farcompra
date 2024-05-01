@@ -33,8 +33,48 @@ function delete_cart_item(cart_item_id){
           icon: "success"
         });
         socket.emit('delete_cart_item', cart_item_id)
+        setTimeout(function(){
+            location.reload();
+        }, 1800);
+
       }
     });
 }
+
+function checkout_supplier(supplier){
+    event.preventDefault();
+    let form = document.getElementById('form-'+supplier);
+    let container_div = document.querySelector("[supplier='"+supplier+"']");
+    let main_div = document.getElementById('main-col');
+
+    container_div.style.display = 'none';
+
+    let = hidden_suppliers = []
+    for(item in main_div.children){
+       let display_style = main_div.children[item];
+       try{
+            let style = main_div.children[item].style.display
+            if(style === ''){
+                style = 'block';
+            }
+
+            hidden_suppliers.push(style);
+
+       }catch(TypeError){
+       }
+    }
+    if(! hidden_suppliers.includes('block')){
+        let p = document.createElement('p')
+        p.classList.add('text-center', 'text-md', 'mt-2', 'font-weight-bold')
+        p.innerHTML = 'Your Cart is empty.';
+        main_div.appendChild(p);
+    }
+
+
+    form.submit();
+
+
+}
+
 
 
