@@ -97,7 +97,8 @@ def construct_blueprint(db: Database, socketio: SocketIO, app):
             # Delete items from cart
             db.checkout_cart(user_id=user_id, supplier=supplier)
 
-            return response
+
+            return redirect(url_for('cart.view_cart'))
 
     return cart
 

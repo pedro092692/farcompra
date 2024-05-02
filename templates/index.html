@@ -10,11 +10,11 @@
 
     <div class="content bg-white">
         <div class="brand-logo mt-5">
-            <img src="{{ url_for('static', filename='img/brand/company_logo.svg') }}" alt="company logo" width="260">
+            <img src="{{ url_for('static', filename='img/brand/company_logo.svg') }}" alt="company logo" id="main-logo">
         </div>
 
         <div class="form mt-4">
-            <form id="filter_form" method="GET" action="/search">
+            <form id="filter_form" method="GET" action="/search" >
                 <input class="form-control badge-pill text-md font-weight-bold"
                        id="search" autofocus type="search" placeholder="Type Product Name or Barcode" autocomplete="off"
                        name="query">

@@ -38,11 +38,12 @@ class UpdateData:
                     e = new_connection.error_log
                     self.errors.append(e)
 
-        file_handler = FileHandler()
-        file_handler.convert_all_to_csv()
-        self.add_new_products_to_db()
-        self.add_new_products_prices_to_db()
-        file_handler.remove_all_files(path=PATH)
+        if len(self.errors) < len(self.wholesalers) - 3:
+            file_handler = FileHandler()
+            file_handler.convert_all_to_csv()
+            self.add_new_products_to_db()
+            self.add_new_products_prices_to_db()
+            file_handler.remove_all_files(path=PATH)
 
 
     def add_new_products_to_db(self):
