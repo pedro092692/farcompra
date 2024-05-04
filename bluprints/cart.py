@@ -92,13 +92,12 @@ def construct_blueprint(db: Database, socketio: SocketIO, app):
 
             response = make_response(pdf)
             response.headers['Content-Type'] = 'application/pdf'
-            response.headers['Content-Disposition'] = f'inline; filename={new_order[0].supplier_info.name}_order.pdf'
+            response.headers['Content-Disposition'] = f'attachment; filename={new_order[0].supplier_info.name}_order.pdf'
 
             # Delete items from cart
             db.checkout_cart(user_id=user_id, supplier=supplier)
 
-
-            return redirect(url_for('cart.view_cart'))
+            return response
 
     return cart
 
