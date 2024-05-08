@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired, FileAllowed
 from wtforms import StringField, SubmitField, EmailField, PasswordField, TextAreaField, IntegerField, RadioField, \
-    SelectField
+    SelectField, FloatField
 from wtforms.validators import DataRequired, Email, Length
 from werkzeug.utils import secure_filename
 from flask_babel import gettext
@@ -52,6 +52,7 @@ class EditUserForm(FlaskForm):
 
 ### Pharmacies ###
 
+
 class RegisterPharmacyForm(FlaskForm):
     name_pharmacy = string_field(label='Pharmacy name')
     rif = IntegerField(label='RIF', validators=[DataRequired()])
@@ -59,6 +60,11 @@ class RegisterPharmacyForm(FlaskForm):
     address = string_field(label='Address')
     user_email = email_field(label='User Email')
     submit_pharmacy = submit_field(label='Register Pharmacy')
+
+
+class PharmacyDiscount(FlaskForm):
+    percent_discount = IntegerField(label='Percent Discount', validators=[DataRequired()])
+    submit = submit_field('Save')
 
 
 ### Login ###

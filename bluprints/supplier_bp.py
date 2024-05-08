@@ -10,7 +10,7 @@ def construct_blueprint(db: Database, errors):
     @supplier.route('/suppliers', methods=['GET'])
     def suppliers():
         load_suppliers = Supplier()
-        list_suppliers =  load_suppliers.supplier_list()
+        list_suppliers = load_suppliers.supplier_list()
         ftp_suppliers = db.get_ftp_suppliers(list_suppliers['ftp'])
         no_ftp_suppliers = db.get_ftp_suppliers(list_suppliers['no_ftp'])
         return render_template('admin/home/suppliers.html', suppliers_ftp=ftp_suppliers,

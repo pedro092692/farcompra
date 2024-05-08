@@ -1,7 +1,7 @@
 import sqlalchemy.exc
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import relationship, DeclarativeBase, Mapped, mapped_column
-from sqlalchemy import Integer, String, Float, ForeignKey, select, delete, join
+from sqlalchemy import Integer, String, Float, ForeignKey, select, delete, join, func, case, and_
 from typing import List
 from flask import Flask
 from flask_login import UserMixin
@@ -68,6 +68,8 @@ class User(Base, UserMixin, db.Model):
     active: Mapped[str] = mapped_column(String(20), nullable=False)
     pharmacy: Mapped[List["Pharmacy"]] = relationship(back_populates='user_info',
                                                       cascade='all, delete, delete-orphan')
+    discount: Mapped[List["PharmacyDiscount"]] = relationship(back_populates='user_info',
+                                                              cascade='all, delete, delete-orphan')
 
 
 class Pharmacy(Base):
@@ -93,6 +95,15 @@ class Cart(Base, db.Model):
 
     def __repr__(self):
         return f'<CartItem {self.user_id}, {self.product_price_id}, {self.quantity}>'
+
+
+class PharmacyDiscount(Base):
+    __tablename__ = "pharmacy_discount"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    user_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.id"), nullable=False)
+    supplier_id: Mapped[int] = mapped_column(Integer, ForeignKey("suppliers.id"), nullable=False)
+    discount: Mapped[float] = mapped_column(Float, nullable=False)
+    user_info: Mapped["User"] = relationship(back_populates="discount")
 
 
 class Database:
@@ -132,9 +143,29 @@ class Database:
 
     def search_products(self, q, per_page=10):
         products = self.db.paginate(self.db.select(Product).filter(Product.name.icontains(q) | Product.barcode.icontains(q)).order_by(Product.name), per_page=per_page)
-
         # products = self.db.paginate(self.db.select(Product).filter(Product.prices.any()).filter(Product.name.icontains(q)).order_by(Product.name), per_page=per_page)
 
+        return products
+
+    def discount(self, q):
+
+        discount_rate = 0.5  # 5% discount
+
+        query = self.db.session.query(Product, ProductPrice) \
+            .join(ProductPrice, Product.id == ProductPrice.product_id) \
+            .filter(ProductPrice.supplier_id == 1) \
+            .with_entities(Product, func.round((ProductPrice.price * (1 - discount_rate)), 2).label(
+            "discounted_price"))  # Round to 2 decimal places
+
+        # result = self.db.session.query(Product, ProductPrice, ProductPrice.supplier_id).outerjoin(ProductPrice, Product.id == ProductPrice.product_id).filter(
+        #     Product.name.icontains(q) | Product.barcode.icontains(q),
+        #     ProductPrice.supplier_id.in_([1])
+        # ).all()
+
+        # result = self.db.paginate(query, per_page=8)
+        # discounted_products = query.all()
+
+        products = self.db.paginate(self.db.select(Product).filter(Product.name.icontains(q) | Product.barcode.icontains(q)).order_by(Product.name), per_page=15)
         return products
 
     def last_products(self):
@@ -219,6 +250,31 @@ class Database:
         pharmacy.email = email
         pharmacy.address = address
         pharmacy.user_id = user_id.id
+        self.db.session.commit()
+
+    def add_discount(self, user_id, supplier_id, discount):
+        new_discount = PharmacyDiscount(
+            user_id=user_id,
+            supplier_id=supplier_id,
+            discount=discount,
+        )
+        self.db.session.add(new_discount)
+        self.db.session.commit()
+
+    def get_user_discount(self, user_id, supplier_id):
+        supplier_discount = self.db.session.execute(select(PharmacyDiscount).
+                                                    filter_by(user_id=user_id, supplier_id=supplier_id)).first()
+        return supplier_discount
+
+    def get_user_discounts(self, user_id):
+        user_discount = self.db.session.execute(select(PharmacyDiscount).filter_by(user_id=user_id)).scalars().all()
+
+        # all_discount = {'supplier': supplier.supplier_id, 'discount': supplier.discount} for supplier in user_discount
+        all_discount = {supplier.supplier_id: {'discount': supplier.discount} for supplier in user_discount}
+        return all_discount
+
+    def edit_user_discount(self, discount_item, new_discount):
+        discount_item.discount = new_discount
         self.db.session.commit()
 
 
@@ -320,7 +376,7 @@ class Database:
 
 
     def all_suppliers(self):
-        all_suppliers = self.db.session.execute(self.db.select(Supplier)).scalars().all()
+        all_suppliers = self.db.session.execute(self.db.select(Supplier).order_by(Supplier.name)).scalars().all()
         return all_suppliers
 
     def get_ftp_suppliers(self, suppliers: list):

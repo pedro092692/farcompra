@@ -5,11 +5,11 @@ from database import Database
 from flask_dropzone import Dropzone
 from flask_babel import Babel
 from flask_wtf import CSRFProtect
-from forms.forms import LoginForm, AddToCart
+from forms.forms import LoginForm, AddToCart, PharmacyDiscount
 from werkzeug.security import check_password_hash
 from flask_login import login_user, LoginManager, current_user, logout_user, login_required
 from flask_socketio import SocketIO, emit
-# from eventlet import wsgi
+from helpers import calc_discount
 
 
 
@@ -82,11 +82,18 @@ def login():
     return render_template('admin/home/login.html', form=form)
 
 
-@app.route('/user/profile')
+@app.route('/user/profile', methods=['GET'])
 @login_required
 def user_profile():
     user = db.get_user(current_user.id)
-    return render_template('user_profile.html', user=user)
+    suppliers = db.all_suppliers()
+    discount = {}
+    if current_user.discount:
+        for user_discount in current_user.discount:
+            discount[user_discount.supplier_id] = {
+                "discount_supplier": user_discount.discount
+            }
+    return render_template('user_profile.html', user=user, suppliers=suppliers, user_discount=discount)
 
 
 @app.route('/')
@@ -99,25 +106,45 @@ def index():
 @login_required
 def search():
     form = AddToCart()
+    prices_discount = []
     if request.args.get('barcode'):
         barcode = request.args.get('barcode')
         results = db.search_products(barcode, per_page=15)
         suggest = request.args.get('query')
+
+        if current_user.discount:
+            user_discount = db.get_user_discounts(current_user.id)
+            suppliers = [item for item in user_discount]
+            prices_discount = calc_discount(results, suppliers, user_discount)
+
     elif request.args.get('query'):
         results = db.search_products(request.args.get('query'), per_page=15)
         barcode = request.args.get('query')
         suggest = request.args.get('query')
-        suggested_results = db.search_products('\n', per_page=15);
+        suggested_results = db.search_products(suggest, per_page=15)
+
+        if current_user.discount:
+            user_discount = db.get_user_discounts(current_user.id)
+            suppliers = [item for item in user_discount]
+            prices_discount = calc_discount(results, suppliers, user_discount)
+            discount_suggest = calc_discount(suggested_results, suppliers, user_discount)
+
     else:
         return redirect(url_for('index'))
 
     if request.args.get('barcode'):
         if request.args.get('barcode') != request.args.get('query'):
-            suggested_results = db.search_products(suggest, per_page=15);
+            suggested_results = db.search_products(suggest, per_page=15)
+            if current_user.discount:
+                user_discount = db.get_user_discounts(current_user.id)
+                suppliers = [item for item in user_discount]
+                discount_suggest = calc_discount(suggested_results, suppliers, user_discount)
         else:
             suggested_results = []
+            discount_suggest = []
+
     return render_template('search.html', results=results, search_query=barcode, suggested_results=suggested_results,
-                           suggest=suggest, form=form)
+                           suggest=suggest, form=form, prices_discount=prices_discount, discount_suggest=discount_suggest)
 
 
 @app.route('/logout')
@@ -148,6 +175,20 @@ def handle_search_query(search_query):
                                 })
     else:
         emit('search_results', {'results': []})
+
+
+@socketio.on('update_discount')
+def handle_search_query(supplier_id, discount_amount):
+    discount_amount = int(discount_amount) / 100
+
+    # check if exist discount
+    discount_user = db.get_user_discount(current_user.id, supplier_id)
+    if discount_user:
+        db.edit_user_discount(discount_user[0], discount_amount)
+    else:
+        # Add discount
+        new_discount = db.add_discount(current_user.id, supplier_id, discount_amount)
+
 
 
 # Cart

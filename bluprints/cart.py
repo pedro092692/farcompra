@@ -27,6 +27,7 @@ def construct_blueprint(db: Database, socketio: SocketIO, app):
         user = db.get_user(current_user.id)
         # check if product exist in the cart
         cart_item = db.check_product_cart(product_price_id, user.id)
+        print(cart_item)
         if not cart_item:
             # Add product to the cart
             new_cart = db.add_to_cart(

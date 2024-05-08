@@ -28,3 +28,43 @@ def has_pharmacy(func):
             return redirect(url_for('index'))
         return func(*args, *kwargs)
     return decorated_function
+
+
+def calc_discount(results, suppliers: list, info: dict):
+    prices_discount = []
+
+    for product in results:
+        for price in product.prices:
+            if price.supplier_info.id in suppliers:
+                prices_discount.append(
+                    {
+                        "product_id": price.product_info.id,
+                        "product_price_id": price.id,
+                        "product_name": product.name,
+                        "supplier_id": price.supplier_info.id,
+                        "supplier": price.supplier_info.name,
+                        "price": round(price.price * (1 - info[price.supplier_info.id]['discount']), 2),
+                        "due_date": price.due_date,
+                        "stock": price.stock,
+                    }
+
+                )
+
+            else:
+                prices_discount.append(
+                    {
+                        "product_id": product.id,
+                        "product_price_id": price.id,
+                        "product_name": product.name,
+                        "supplier_id": price.supplier_info.id,
+                        "supplier": price.supplier_info.name,
+                        "price": price.price,
+                        "due_date": price.due_date,
+                        "stock": price.stock,
+                    }
+
+                )
+
+    prices_discount.sort(key=lambda item: item['price'])
+
+    return prices_discount

@@ -61,6 +61,46 @@
                                         <p class="text-lg text-capitalize fw-bold">{{ user.pharmacy[0].email }}</p>
                                     </div>
                                 </div>
+                                <!-- Discount info --->
+                                <div class="row">
+                                    <div class="col">
+                                        <h5 class="text-xl fw-bold text-capitalize mt-4" >{{_('Supplier Discount')}}</h5>
+                                        <div class="table-responsive mt-4">
+                                            <table class="table table-striped w-25">
+                                                <thead class="thead-light">
+                                                        <tr>
+                                                            <th scope="col" class="text-sm">{{ _('Supplier ')}}</th>
+                                                            <th scope="col" class="text-sm">{{ _('Percent Discount')}}</th>
+                                                        </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for supplier in suppliers %}
+                                                        <tr>
+                                                            <td scope="row" class="text-sm text-capitalize w-25">
+                                                                <strong>{{ supplier.name | replace('_', ' ') }}
+                                                                </strong>
+                                                            </td>
+                                                            <td class="w-25">
+                                                                <div class="d-flex align-items-center">
+
+                                                                    <input type="number"
+                                                                           name="percent-{{supplier.name}}"
+                                                                           id="percent-{{supplier.name}}"
+                                                                           class="form-control mr-4" min="0" max="100"
+                                                                           value="{{ (user_discount[supplier.id].discount_supplier * 100) | round(2) if user_discount[supplier.id] else 0.0 }}">
+                                                                    <button class="btn btn-primary"
+                                                                    onclick="update_supplier_discount({{ supplier.id}}, 'percent-{{supplier.name}}')">
+                                                                        {{ _('Save') }}
+                                                                    </button>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
                             {% else %}
                                 <h2>{{ _('No pharmacy info to show') }}</h2>
                             {% endif %}
@@ -78,4 +118,5 @@
 
 <!-- Specific JS goes HERE -->
 {% block javascripts %}
+<script src="{{ url_for('static', filename='js/discount.js') }}"></script>
 {% endblock javascripts %}
