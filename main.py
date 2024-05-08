@@ -206,6 +206,17 @@ def unauthorized():
     return redirect(url_for('login'))
 
 
+@app.errorhandler(401)
+def custom_401(error):
+    return render_template('admin/home/page-404.html')
+
+@app.errorhandler(404)
+def custom_404(error):
+    return render_template('admin/home/page-404.html')
+
+
+
+
 if __name__ == "__main__":
     # app.run(debug=True)
     socketio.run(app, debug=True)
