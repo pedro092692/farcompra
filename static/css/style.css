@@ -36,6 +36,13 @@
 
 }
 
-#table-prices{
 
+.brand-logo-img{
+    width: 65px;
+}
+
+@media only screen and (max-width: 640px) {
+    .brand-logo-img{
+        width: 50px;
+    }
 }

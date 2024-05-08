@@ -6,7 +6,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         {% if request.url.split('/')[3].split('?')[0] == 'search' or request.url.split('/')[3] == 'cart' %}
           <div class="form-inline mr-sm-3 w-75">
-          <a href="/"><img src="{{ url_for('static', filename='img/brand/company_logo.svg') }}" class="mr-4" alt="company logo" width="65"></a>
+          <a href="/"><img src="{{ url_for('static', filename='img/brand/company_logo.svg') }}" class="mr-2 mr-md-4 brand-logo-img" alt="company logo"></a>
             {% if request.url.split('/')[3].split('?')[0] == 'search' %}
               <form id="filter_form" method="GET" action="/search" class="w-75">
                   <input class="form-control w-75 badge-pill text-md font-weight-bold"
@@ -17,7 +17,7 @@
             {% endif %}
           </div>
         {% elif request.url.split('/')[3] == 'user' %}
-        <a href="/"><img src="{{ url_for('static', filename='img/brand/company_logo.svg') }}" class="mr-4" alt="company logo" width="65"></a>
+        <a href="/"><img src="{{ url_for('static', filename='img/brand/company_logo.svg') }}" class="mr-2 mr-md-4 brand-logo-img" alt="company logo"></a>
         {% endif %}
 
       <!-- Navbar links -->
@@ -76,7 +76,11 @@
               </span>
               <div class="media-body ml-2 d-none d-lg-block">
                 <span class="mb-0 text-sm text-dark  font-weight-bold text-capitalize">
-                 {{ current_user.name }} {{ current_user.last_name }}
+                  {% if current_user.pharmacy %}
+                    {{ current_user.pharmacy[0].name }}
+                  {% else %}
+                    {{ current_user.name }} {{ current_user.last_name }}
+                  {% endif %}
                 </span>
               </div>
             </div>
