@@ -3,7 +3,7 @@ from flask_bootstrap import Bootstrap5
 from bluprints import admin_bp, cart
 from database import Database
 from flask_dropzone import Dropzone
-from flask_babel import Babel
+from flask_babel import Babel, gettext
 from flask_wtf import CSRFProtect
 from forms.forms import LoginForm, AddToCart, PharmacyDiscount
 from werkzeug.security import check_password_hash
@@ -121,13 +121,13 @@ def search():
         results = db.search_products(request.args.get('query'), per_page=15)
         barcode = request.args.get('query')
         suggest = request.args.get('query')
-        suggested_results = db.search_products(suggest, per_page=15)
+        suggested_results = []
 
         if current_user.discount:
             user_discount = db.get_user_discounts(current_user.id)
             suppliers = [item for item in user_discount]
             prices_discount = calc_discount(results, suppliers, user_discount)
-            discount_suggest = calc_discount(suggested_results, suppliers, user_discount)
+            discount_suggest = []
 
     else:
         return redirect(url_for('index'))
@@ -135,6 +135,7 @@ def search():
     if request.args.get('barcode'):
         if request.args.get('barcode') != request.args.get('query'):
             suggested_results = db.search_products(suggest, per_page=15)
+
             if current_user.discount:
                 user_discount = db.get_user_discounts(current_user.id)
                 suppliers = [item for item in user_discount]
@@ -144,7 +145,8 @@ def search():
             discount_suggest = []
 
     return render_template('search.html', results=results, search_query=barcode, suggested_results=suggested_results,
-                           suggest=suggest, form=form, prices_discount=prices_discount, discount_suggest=discount_suggest)
+                           suggest=suggest, form=form, prices_discount=prices_discount,
+                           discount_suggest=discount_suggest, get_text=gettext)
 
 
 @app.route('/logout')
@@ -162,9 +164,9 @@ def handle_connect():
 
 
 @socketio.on('search_query')
-def handle_search_query(search_query):
+def handle_search_query(search_query, per_page):
     if search_query:
-        results = db.search_products(q=search_query, per_page=8)
+        results = db.search_products(q=search_query, per_page=per_page)
         emit('search_results', {'results': [item.serialize() for item in results if item.prices],
                                 'pages': [page for page in results.iter_pages()],
                                 'page': results.page,
@@ -178,7 +180,7 @@ def handle_search_query(search_query):
 
 
 @socketio.on('update_discount')
-def handle_search_query(supplier_id, discount_amount):
+def handle_search_query_discount(supplier_id, discount_amount):
     discount_amount = int(discount_amount) / 100
 
     # check if exist discount

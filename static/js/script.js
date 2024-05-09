@@ -18,7 +18,7 @@ window.onload = function() {
     const resultElement = document.getElementById('results');
 
     function search(){
-        socket.emit('search_query', search_input.value);
+        socket.emit('search_query', search_input.value, per_page=8);
     }
 
     document.addEventListener('click', function(event){
@@ -28,7 +28,7 @@ window.onload = function() {
         if (!search_input.contains(clickElement)){
             div_suggest.style.display = 'none';
         }else{
-            socket.emit('search_query', search_input.value);
+            socket.emit('search_query', search_input.value, per_page=8);
             socket.on('search_results', function(data){
                 if(data.results.length > 0){
                 div_suggest.style.display = 'block';

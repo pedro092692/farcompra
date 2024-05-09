@@ -8,12 +8,21 @@
           <div class="form-inline mr-sm-3 w-75">
           <a href="/"><img src="{{ url_for('static', filename='img/brand/company_logo.svg') }}" class="mr-2 mr-md-4 brand-logo-img" alt="company logo"></a>
             {% if request.url.split('/')[3].split('?')[0] == 'search' %}
-              <form id="filter_form" method="GET" action="/search" class="w-75">
+              <form type="search"  id="filter_form" method="GET" action="/search" class="w-75">
                   <input class="form-control w-75 badge-pill text-md font-weight-bold"
-                         id="search" autofocus type="search" placeholder="Type Product Name or Barcode" autocomplete="off"
+                         id="search" autofocus placeholder="{{_('Type Product Name or Barcode')}}" autocomplete="off"
                          value="{{ request.args.get('product_name') if request.args.get('product_name') else request.args.get('query')  }}"
                   name="query">
               </form>
+            <!-- suggest list -->
+            <div class="suggest-list-s" id="suggest-list">
+                <div class="card">
+                    <div class="card-body">
+                        <ul class="list-group ul-product-su" id="results">
+                        </ul>
+                    </div>
+                </div>
+            </div>
             {% endif %}
           </div>
         {% elif request.url.split('/')[3] == 'user' %}

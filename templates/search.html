@@ -61,10 +61,11 @@
                                                                             sp_name='{{price.supplier}}',
                                                                             product_name='{{price.product_name}}')">
                                                                             <div class="d-flex align-items-center">
+
                                                                                 {{ form.csrf_token }}
                                                                                 {{ form.quantity(class='form-control mr-4',
-                                                                                id='quantity',) }}
-                                                                                {{ form.submit(class='btn btn-primary') }}
+                                                                                id='quantity', placeholder=get_text('Quantity')) }}
+                                                                                {{ form.submit(class='btn btn-primary', value=get_text('Add To Cart')) }}
                                                                             </div>
                                                                              <p id="quantity_error" class="text-sm text-danger mt-1" style="display:none">
                                                                                  {{_('Sorry quantity must be greater than zero or minor than')}}
@@ -107,8 +108,8 @@
                                                                             <div class="d-flex align-items-center">
                                                                                 {{ form.csrf_token }}
                                                                                 {{ form.quantity(class='form-control mr-4',
-                                                                                id='quantity',) }}
-                                                                                {{ form.submit(class='btn btn-primary') }}
+                                                                                id='quantity', placeholder=get_text('Quantity')) }}
+                                                                                {{ form.submit(class='btn btn-primary', value=get_text('Add To Cart')) }}
                                                                             </div>
                                                                              <p id="quantity_error" class="text-sm text-danger mt-1" style="display:none">
                                                                                  {{_('Sorry quantity must be greater than zero or minor than')}}
@@ -167,7 +168,6 @@
                 </nav>
             {% endif %}
         <!-- Suggested results -->
-        {% if results.pages < 2 %}
             {% if suggested_results %}
                 <div class="container-fluid mt-2 mb-3" id="search_container">
                     <div class="row">
@@ -214,10 +214,11 @@
                                                                                     sp_name='{{price.supplier}}',
                                                                                     product_name='{{price.product_name}}')">
                                                                                     <div class="d-flex align-items-center">
+
                                                                                         {{ form.csrf_token }}
                                                                                         {{ form.quantity(class='form-control mr-4',
-                                                                                        id='quantity',) }}
-                                                                                        {{ form.submit(class='btn btn-primary') }}
+                                                                                        id='quantity', placeholder=get_text('Quantity')) }}
+                                                                                        {{ form.submit(class='btn btn-primary', value=get_text('Add To Cart')) }}
                                                                                     </div>
                                                                                      <p id="quantity_error" class="text-sm text-danger mt-1" style="display:none">
                                                                                          {{_('Sorry quantity must be greater than zero or minor than')}}
@@ -242,10 +243,11 @@
                                                                         <!-- Shopping Cart Form -->
                                                                         <form class="">
                                                                             <div class="d-flex align-items-center">
+                                                                                {{ get_text('Quantity') }}
                                                                                 {{ form.csrf_token }}
                                                                                 {{ form.quantity(class='form-control mr-4',
-                                                                                id='quantity') }}
-                                                                                {{ form.submit(class='btn btn-primary') }}
+                                                                                id='quantity', placeholder=get_text('Quantity')) }}
+                                                                                {{ form.submit(class='btn btn-primary', value=get_text('Add To Cart')) }}
                                                                             </div>
                                                                         </form>
                                                                     </td>
@@ -263,7 +265,6 @@
                     </div>
                 </div>
 
-            {% endif %}
         {% if suggested_results %}
             <!-- pagination-->
                 {% if suggested_results.pages > 1  %}
@@ -297,7 +298,7 @@
                             {% endfor %}
                           </ul>
                     </nav>
-                {% elif results.pages != 0 %}
+                {% elif suggested_results.pages < 1 %}
                     <h2>Sorry not results for {{ search_query }}</h2>
                 {% endif %}
         {% endif %}

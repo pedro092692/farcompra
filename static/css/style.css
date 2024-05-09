@@ -63,8 +63,20 @@
     left: -3px;
 }
 
+
+.suggest-list-s{
+    display: none;
+    position: absolute;
+    z-index: 100;
+    top: 70px;
+    left: 120px;
+}
+
 @media only screen and (max-width: 640px) {
     .brand-logo-img{
         width: 50px;
+    }
+    .suggest-list-s{
+    left: 0;
     }
 }
