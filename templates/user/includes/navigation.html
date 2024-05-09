@@ -30,9 +30,16 @@
             {% if request.url.split('/')[3] != 'cart' %}
                <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <div class="media align-items-center">
-                    <span>
+                    <span class="">
                       <i class="ni ni-cart text-xl text-primary"></i>
                     </span>
+                    {% if shopping_cart %}
+                      <div class="cart-active">
+                      </div>
+                    {% else %}
+                      <div class="cart-active-2" id="cart-active">
+                        </div>
+                    {% endif %}
                     <div class="media-body ml-2 d-none d-lg-block">
                       <span class="mb-0 text-sm text-dark  font-weight-bold text-capitalize">
                       </span>

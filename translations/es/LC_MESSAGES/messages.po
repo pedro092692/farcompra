@@ -1,92 +1,295 @@
+# Spanish translations for PROJECT.
+# Copyright (C) 2024 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-04-02 19:59-0400\n"
-"PO-Revision-Date: 2024-04-03 00:05+0000\n"
+"POT-Creation-Date: 2024-05-08 20:00-0400\n"
+"PO-Revision-Date: 2024-05-08 20:12-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: Spanish\n"
 "Language: es\n"
+"Language-Team: es <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Loco-Source-Locale: es_VE\n"
 "Generated-By: Babel 2.14.0\n"
-"\n"
-"X-Loco-Parser: loco_parse_po\n"
-"X-Generator: Loco https://localise.biz/"
 
-#: templates/admin/home/index.html:22 
-#: templates/admin/includes/navigation.html:82 
+#: forms/forms.py:24
+msgid "Files"
+msgstr "Archivos"
+
+#: templates/cart.html:17
+msgid "Shopping Cart"
+msgstr "Carro De Compras"
+
+#: templates/cart.html:36
+msgid "Item"
+msgstr ""
+
+#: templates/cart.html:37
+msgid "Quantity"
+msgstr "Cantidad"
+
+#: templates/cart.html:38 templates/search.html:31 templates/search.html:187
+#: templates/search_results.html:45
+msgid "Price"
+msgstr "Precio"
+
+#: templates/cart.html:39 templates/cart.html:74
+msgid "Total"
+msgstr ""
+
+#: templates/admin/home/products.html:70 templates/admin/home/suppliers.html:29
+#: templates/admin/home/users.html:39 templates/admin/home/users.html:95
+#: templates/cart.html:40 templates/search.html:36 templates/search.html:190
+#: templates/search_results.html:48
+msgid "Action"
+msgstr "Acción"
+
+#: templates/cart.html:90
+msgid "Make order for: "
+msgstr "Hacer pedido para"
+
+#: templates/cart.html:100 templates/user/includes/navigation.html:73
+msgid "Your Cart is empty."
+msgstr "Tu carrito esta vacío"
+
+#: templates/order.html:19
+msgid "Order for:"
+msgstr "Pedido para:"
+
+#: templates/search.html:30 templates/search.html:186
+#: templates/user_profile.html:72
+msgid "Supplier "
+msgstr "Proveedor"
+
+#: templates/search.html:32 templates/search.html:188
+#: templates/search_results.html:46
+msgid "Due Date"
+msgstr "Fecha de vencimiento"
+
+#: templates/search.html:33 templates/search.html:189
+#: templates/search_results.html:47
+msgid "Stock"
+msgstr ""
+
+#: templates/search.html:70 templates/search.html:114 templates/search.html:223
+msgid "Sorry quantity must be greater than zero or minor than"
+msgstr "La cantidad debe ser mayor que cero o menor que"
+
+#: templates/search_results.html:44
+msgid "Supplier"
+msgstr "Proveedor"
+
+#: templates/user_profile.html:14
+msgid "My User Info"
+msgstr "Proveedor"
+
+#: templates/admin/home/index.html:78 templates/admin/home/index.html:115
+#: templates/admin/home/products.html:69 templates/admin/home/suppliers.html:28
+#: templates/admin/home/suppliers.html:63 templates/admin/home/users.html:36
+#: templates/admin/home/users.html:90 templates/user_profile.html:20
+#: templates/user_profile.html:52
+msgid "Name"
+msgstr "Nombre\n"
+
+#: templates/user_profile.html:22
+msgid "Last Name"
+msgstr "Apellido"
+
+#: templates/admin/home/users.html:38 templates/admin/home/users.html:92
+#: templates/user_profile.html:26 templates/user_profile.html:60
+msgid "Email"
+msgstr "Correo electrónico"
+
+#: templates/admin/home/index.html:116 templates/user_profile.html:31
+msgid "Pharmacy"
+msgstr "Farmacia"
+
+#: templates/user_profile.html:45
+msgid "My Pharmacy Info"
+msgstr "Información de mi farmacia"
+
+#: templates/admin/home/users.html:93 templates/user_profile.html:56
+msgid "Address"
+msgstr "Dirección"
+
+#: templates/user_profile.html:67
+msgid "Supplier Discount"
+msgstr "Descuento de proveedor"
+
+#: templates/user_profile.html:73
+msgid "Percent Discount"
+msgstr "Porcentaje de descuento"
+
+#: templates/user_profile.html:93
+msgid "Save"
+msgstr "Guardar"
+
+#: templates/user_profile.html:105
+msgid "No pharmacy info to show"
+msgstr "No hay información de farmacia para mostrar"
+
+#: templates/admin/home/index.html:22 templates/admin/home/products.html:63
+#: templates/admin/includes/navigation.html:112
 #: templates/admin/includes/sidenav.html:29
 msgid "Products"
 msgstr "Productos"
 
-#: templates/admin/home/index.html:23
+#: templates/admin/home/index.html:23 templates/admin/home/products.html:24
 msgid "Update Now"
 msgstr "Actualizar ahora"
 
-#: templates/admin/home/index.html:40 
-#: templates/admin/includes/navigation.html:76 
+#: templates/admin/home/index.html:40 templates/admin/home/users.html:13
+#: templates/admin/includes/navigation.html:106
 #: templates/admin/includes/sidenav.html:23
 msgid "Users"
 msgstr "Usuarios"
 
 #: templates/admin/home/index.html:41
 msgid "Add New User"
-msgstr "Agregar Un Nuevo Usuario"
+msgstr "Agregar nuevo usuario"
 
 #: templates/admin/home/index.html:65
 msgid "Last Products"
-msgstr "Últimos Productos"
+msgstr "últimos productos"
 
-#: templates/admin/home/index.html:68 templates/admin/home/index.html:103
+#: templates/admin/home/index.html:68 templates/admin/home/index.html:107
 msgid "See all"
 msgstr "Ver todo"
 
-#: templates/admin/home/index.html:77
+#: templates/admin/home/index.html:77 templates/admin/home/products.html:68
 msgid "Barcode"
 msgstr "Código de barras"
 
-#: templates/admin/home/index.html:78 templates/admin/home/index.html:111
-msgid "Name"
-msgstr "Nombre"
-
-#: templates/admin/home/index.html:100
+#: templates/admin/home/index.html:104
 msgid "Last Users"
 msgstr "Últimos usuarios"
 
-#: templates/admin/home/index.html:112
-msgid "Pharmacy"
-msgstr "Farmacia"
+#: templates/admin/home/login.html:17
+msgid "Welcome to farcompra"
+msgstr "Bienvenido a farcompra"
 
-#: templates/admin/includes/footer.html:14
-msgid "Develop by PythonTotal"
-msgstr "Desarrollado por PythonTotal"
+#: templates/admin/home/login.html:65
+msgid "Support"
+msgstr "Ayuda"
 
-#: templates/admin/includes/navigation.html:32
-msgid "You have"
-msgstr "Tu tienes"
+#: templates/admin/home/page-404.html:22
+msgid "Page not found"
+msgstr "Página no encontrada"
 
-#: templates/admin/includes/navigation.html:32
-msgid "notifications."
-msgstr "Notificaciones"
+#: templates/admin/home/page-404.html:23
+msgid "Home"
+msgstr "Inicio"
 
-#: templates/admin/includes/navigation.html:57
-msgid "View all"
-msgstr "Ver Todo"
+#: templates/admin/home/pharmacy-edit.html:15
+#: templates/admin/home/user-edit.html:14 templates/admin/home/users.html:51
+#: templates/admin/home/users.html:115
+msgid "Edit"
+msgstr "Editar"
 
-#: templates/admin/includes/navigation.html:70 
-#: templates/admin/includes/sidenav.html:17
-msgid "Dashboard"
-msgstr "Panel principal"
+#: templates/admin/home/products.html:15
+msgid "Update Products"
+msgstr "Actualizar productos"
 
-#: templates/admin/includes/navigation.html:88 
+#: templates/admin/home/products.html:23
+msgid "Automatic Products Update"
+msgstr "Actualización automática de productos."
+
+#: templates/admin/home/products.html:43
+msgid "Update Manually"
+msgstr "Actualizar manualmente"
+
+#: templates/admin/home/products.html:57
+msgid "Inventory Control"
+msgstr "Control de inventario"
+
+#: templates/admin/home/suppliers.html:13
+#: templates/admin/includes/navigation.html:118
 #: templates/admin/includes/sidenav.html:35
 msgid "Suppliers"
 msgstr "Proveedores"
 
-#: templates/admin/includes/navigation.html:111
+#: templates/admin/home/suppliers.html:21
+msgid "Suppliers List with FTP connection"
+msgstr "Listado de proveedores con conexión FTP"
+
+#: templates/admin/home/suppliers.html:40
+msgid "Download File"
+msgstr "Descargar archivo"
+
+#: templates/admin/home/suppliers.html:56
+msgid "Suppliers List with NO FTP connection"
+msgstr "Listado de proveedores sin conexión FTP"
+
+#: templates/admin/home/users.html:20 templates/admin/home/users.html:74
+msgid "Register"
+msgstr "Registrar"
+
+#: templates/admin/home/users.html:30
+msgid "Users List"
+msgstr "Lista de usuarios"
+
+#: templates/admin/home/users.html:37
+msgid "Las Name"
+msgstr "Apellido"
+
+#: templates/admin/home/users.html:68
+msgid "Pharmacies"
+msgstr "Farmacias"
+
+#: templates/admin/home/users.html:84
+msgid "Pharmacy List"
+msgstr "Lista de farmacias"
+
+#: templates/admin/home/users.html:91
+msgid "RIF"
+msgstr ""
+
+#: templates/admin/home/users.html:94
+msgid "Owner"
+msgstr "Propietario"
+
+#: templates/admin/includes/footer.html:14
+#: templates/user/includes/footer.html:14
+msgid "Develop by PythonTotal"
+msgstr ""
+
+#: templates/admin/includes/navigation.html:37
+msgid "You have Notifications"
+msgstr "Tienes notificaciones"
+
+#: templates/admin/includes/navigation.html:78
+msgid "Delete all"
+msgstr "Eliminar todo"
+
+#: templates/admin/includes/navigation.html:84
+msgid "No notifications"
+msgstr "Sin notificaciones"
+
+#: templates/admin/includes/navigation.html:100
+#: templates/admin/includes/sidenav.html:17
+msgid "Dashboard"
+msgstr "Panel"
+
+#: templates/admin/includes/navigation.html:141
+#: templates/user/includes/navigation.html:105
 msgid "My profile"
-msgstr "Mi Perfil "
+msgstr "Mi perfil"
+
+#: templates/admin/includes/sidenav.html:41
+msgid "Comparator"
+msgstr "Comparador"
+
+#: templates/user/includes/navigation.html:70
+msgid "View Shopping Cart"
+msgstr "Ver Carrito de compras"
+
+#: templates/user/includes/navigation.html:99
+msgid "Admin Panel"
+msgstr "Panel de administrador"
+

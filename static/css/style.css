@@ -41,6 +41,28 @@
     width: 65px;
 }
 
+
+.cart-active{
+    position: relative;
+    width: 10px;
+    height: 10px;
+    background-color: red;
+    border-radius: 50%;
+    top: -10px;
+    left: -3px;
+}
+
+.cart-active-2{
+    display: none;
+    position: relative;
+    width: 10px;
+    height: 10px;
+    background-color: red;
+    border-radius: 50%;
+    top: -10px;
+    left: -3px;
+}
+
 @media only screen and (max-width: 640px) {
     .brand-logo-img{
         width: 50px;
