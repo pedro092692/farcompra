@@ -47,7 +47,7 @@ class EditUserForm(FlaskForm):
     last_name = string_field(label='Last Name')
     email = email_field()
     password = PasswordField(label='Password')
-    role = RadioField(label='Type User',default='user', choices=['admin', 'user'], validators=[DataRequired()])
+    role = RadioField(label='Type User', default='user', choices=['admin', 'user'], validators=[DataRequired()])
     submit_user = submit_field(label='Update User')
 
 ### Pharmacies ###
@@ -79,8 +79,8 @@ class LoginForm(FlaskForm):
 ### Add To Cart ###
 
 class AddToCart(FlaskForm):
-    quantity = IntegerField(render_kw={'placeholder': 'Quantity'})
-    submit = submit_field('Add To Cart')
+    quantity = IntegerField(render_kw={'placeholder': gettext('Quantity')})
+    submit = submit_field(gettext('Add To Cart'))
 
 class CheckOutCart(FlaskForm):
     supplier = string_field(label='')

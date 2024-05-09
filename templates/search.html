@@ -174,7 +174,7 @@
                         <div class="col">
                             <ul class="list-group ul-product" id="results">
                                 {% for product in suggested_results %}
-                                    {% if product.barcode != request.args.get('barcode') %}
+                                    {% if product.barcode != request.args.get('barcode') and product.prices %}
                                         <li class="list-group-item cursor-pointer li-product" onclick="show_product_info(this)">
                                             {{ product.name }}
                                             <div class="table-responsive mt-2" id="prices"
@@ -266,6 +266,7 @@
             {% endif %}
         {% if suggested_results %}
             <!-- pagination-->
+                {% if suggested_results.pages > 1  %}
                     <nav aria-label="Page navigation">
                           <ul class="pagination">
                             {%  for page in suggested_results.iter_pages() %}
@@ -296,6 +297,9 @@
                             {% endfor %}
                           </ul>
                     </nav>
+                {% elif results.pages != 0 %}
+                    <h2>Sorry not results for {{ search_query }}</h2>
+                {% endif %}
         {% endif %}
         {% endif %}
     </div>

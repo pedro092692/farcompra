@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-05-08 20:00-0400\n"
+"POT-Creation-Date: 2024-05-08 21:46-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,6 +21,14 @@ msgstr ""
 msgid "Files"
 msgstr "Archivos"
 
+#: forms/forms.py:82 templates/cart.html:37
+msgid "Quantity"
+msgstr "Cantidad"
+
+#: forms/forms.py:83
+msgid "Add To Cart"
+msgstr "Añadir al carro"
+
 #: templates/cart.html:17
 msgid "Shopping Cart"
 msgstr "Carro De Compras"
@@ -28,10 +36,6 @@ msgstr "Carro De Compras"
 #: templates/cart.html:36
 msgid "Item"
 msgstr ""
-
-#: templates/cart.html:37
-msgid "Quantity"
-msgstr "Cantidad"
 
 #: templates/cart.html:38 templates/search.html:31 templates/search.html:187
 #: templates/search_results.html:45
@@ -42,10 +46,9 @@ msgstr "Precio"
 msgid "Total"
 msgstr ""
 
-#: templates/admin/home/products.html:70
-#: templates/admin/home/suppliers.html:29 templates/admin/home/users.html:39
-#: templates/admin/home/users.html:95 templates/cart.html:40
-#: templates/search.html:36 templates/search.html:190
+#: templates/admin/home/products.html:70 templates/admin/home/suppliers.html:29
+#: templates/admin/home/users.html:39 templates/admin/home/users.html:95
+#: templates/cart.html:40 templates/search.html:36 templates/search.html:190
 #: templates/search_results.html:48
 msgid "Action"
 msgstr "Acción"
@@ -57,6 +60,10 @@ msgstr "Hacer pedido para"
 #: templates/cart.html:100 templates/user/includes/navigation.html:73
 msgid "Your Cart is empty."
 msgstr "Tu carrito esta vacío"
+
+#: templates/index.html:19
+msgid "Type Product Name or Barcode"
+msgstr "Escriba el nombre de un producto o el código de barras"
 
 #: templates/order.html:19
 msgid "Order for:"
@@ -83,21 +90,19 @@ msgstr "La cantidad debe ser mayor que cero o menor que"
 
 #: templates/search_results.html:44
 msgid "Supplier"
-msgstr "Proveedor"
+msgstr ""
 
 #: templates/user_profile.html:14
 msgid "My User Info"
-msgstr "Proveedor"
+msgstr "Mi información de usuario"
 
 #: templates/admin/home/index.html:78 templates/admin/home/index.html:115
-#: templates/admin/home/products.html:69
-#: templates/admin/home/suppliers.html:28
+#: templates/admin/home/products.html:69 templates/admin/home/suppliers.html:28
 #: templates/admin/home/suppliers.html:63 templates/admin/home/users.html:36
 #: templates/admin/home/users.html:90 templates/user_profile.html:20
 #: templates/user_profile.html:52
 msgid "Name"
-msgstr ""
-"Nombre\n"
+msgstr "Nombre"
 
 #: templates/user_profile.html:22
 msgid "Last Name"
@@ -144,7 +149,7 @@ msgstr "Productos"
 
 #: templates/admin/home/index.html:23 templates/admin/home/products.html:24
 msgid "Update Now"
-msgstr "Actualizar ahora"
+msgstr ""
 
 #: templates/admin/home/index.html:40 templates/admin/home/users.html:13
 #: templates/admin/includes/navigation.html:106
@@ -294,4 +299,8 @@ msgstr "Ver Carrito de compras"
 #: templates/user/includes/navigation.html:99
 msgid "Admin Panel"
 msgstr "Panel de administrador"
+
+#: templates/user/includes/navigation.html:110
+msgid "Logout"
+msgstr "Cerrar sesión"
 
