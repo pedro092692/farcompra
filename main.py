@@ -110,6 +110,7 @@ def index():
 def search():
     form = AddToCart()
     prices_discount = []
+    discount_suggest = []
     if request.args.get('barcode'):
         barcode = request.args.get('barcode')
         results = db.search_products(barcode, per_page=15)
