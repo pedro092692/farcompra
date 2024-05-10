@@ -1,15 +1,16 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, session
+from flask import Flask, render_template, request, redirect, url_for, flash, session, abort
 from flask_bootstrap import Bootstrap5
 from bluprints import admin_bp, cart
 from database import Database
 from flask_dropzone import Dropzone
 from flask_babel import Babel, gettext
 from flask_wtf import CSRFProtect
-from forms.forms import LoginForm, AddToCart, PharmacyDiscount
+from forms.forms import LoginForm, AddToCart, PharmacyDiscount, RegisterUserForm
+from werkzeug.security import generate_password_hash
 from werkzeug.security import check_password_hash
 from flask_login import login_user, LoginManager, current_user, logout_user, login_required
 from flask_socketio import SocketIO, emit
-from helpers import calc_discount
+from helpers import calc_discount, is_active
 from dotenv import load_dotenv
 import os
 
@@ -60,6 +61,25 @@ def load_user(user_id):
     return db.get_user(user_id=user_id)
 
 
+@app.route('/register', methods=['GET', 'POST'])
+def first_register():
+    all_user = db.all_users()
+    if not all_user:
+        form = RegisterUserForm()
+        if form.validate_on_submit():
+            new_user = db.add_user(
+                name=form.name.data,
+                last_name=form.last_name.data,
+                email=form.email.data,
+                password=generate_password_hash(form.password.data, method='pbkdf2:sha256', salt_length=8),
+                role='admin'
+            )
+            return redirect(url_for('login'))
+
+        return render_template('register.html', form=form)
+    else:
+        return abort(404)
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     # check for if user is authenticated
@@ -87,6 +107,7 @@ def login():
 
 @app.route('/user/profile', methods=['GET'])
 @login_required
+@is_active
 def user_profile():
     user = db.get_user(current_user.id)
     suppliers = db.all_suppliers()
@@ -101,12 +122,14 @@ def user_profile():
 
 @app.route('/')
 @login_required
+@is_active
 def index():
     return render_template('index.html')
 
 
 @app.route('/search', methods=['GET'])
 @login_required
+@is_active
 def search():
     form = AddToCart()
     prices_discount = []

@@ -201,13 +201,13 @@ class Database:
 
 
     ### Users ###
-    def add_user(self, name, last_name, email, password):
+    def add_user(self, name, last_name, email, password, role='user'):
         new_user = User(
             name=name,
             last_name=last_name,
             email=email,
             password=password,
-            role='user',
+            role=role,
             active='yes'
         )
         self.db.session.add(new_user)

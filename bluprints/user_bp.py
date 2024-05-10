@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, render_template, url_for, redirect, flash, abort
+from flask import Blueprint, render_template, render_template, url_for, redirect, flash, abort, session
 from forms.forms import RegisterUserForm, RegisterPharmacyForm, EditUserForm
 from werkzeug.security import generate_password_hash, check_password_hash
 from database import Database
@@ -85,6 +85,7 @@ def construct_blueprint(db: Database):
                          password=password,
                          role=form.role.data,
                          active=form.active.data)
+
 
             flash('User Updated')
             return redirect(url_for('admin.user.users'))

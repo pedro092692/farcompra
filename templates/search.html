@@ -187,7 +187,9 @@
                                                             <th scope="col" class="text-sm">{{ _('Price')}}</th>
                                                             <th scope="col" class="text-sm">{{ _('Due Date')}}</th>
                                                             <th scope="col" class="text-sm">{{ _('Stock')}}</th>
+                                                            {% if current_user.pharmacy %}
                                                             <th scope="col" class="text-sm">{{ _('Action')}}</th>
+                                                            {% endif %}
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -239,18 +241,19 @@
                                                                     <td scope="row" class="text-sm text-capitalize">${{ price.price }}</td>
                                                                     <td scope="row" class="text-sm text-capitalize">{{ price.due_date }}</td>
                                                                     <td scope="row" class="text-sm text-capitalize">{{ price.stock }}</td>
-                                                                    <td>
-                                                                        <!-- Shopping Cart Form -->
-                                                                        <form class="">
-                                                                            <div class="d-flex align-items-center" id="action-container">
-                                                                                {{ get_text('Quantity') }}
-                                                                                {{ form.csrf_token }}
-                                                                                {{ form.quantity(class='form-control mr-4',
-                                                                                id='quantity', placeholder=get_text('Quantity')) }}
-                                                                                {{ form.submit(class='btn btn-primary', value=get_text('Add To Cart')) }}
-                                                                            </div>
-                                                                        </form>
-                                                                    </td>
+                                                                    {% if current_user.pharmacy %}
+                                                                        <td>
+                                                                            <!-- Shopping Cart Form -->
+                                                                            <form class="">
+                                                                                <div class="d-flex align-items-center" id="action-container">
+                                                                                    {{ form.csrf_token }}
+                                                                                    {{ form.quantity(class='form-control mr-4',
+                                                                                    id='quantity', placeholder=get_text('Quantity')) }}
+                                                                                    {{ form.submit(class='btn btn-primary', value=get_text('Add To Cart')) }}
+                                                                                </div>
+                                                                            </form>
+                                                                        </td>
+                                                                    {% endif %}
                                                                 </tr>
                                                             {% endfor %}
                                                         {% endif %}

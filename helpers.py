@@ -1,6 +1,6 @@
-from flask import request, abort, redirect, url_for
+from flask import request, abort, redirect, url_for, session
 from functools import wraps
-from flask_login import current_user
+from flask_login import current_user, logout_user
 
 
 def is_admin(func):
@@ -27,6 +27,19 @@ def has_pharmacy(func):
         if not current_user.pharmacy:
             return redirect(url_for('index'))
         return func(*args, *kwargs)
+    return decorated_function
+
+
+def is_active(func):
+    @wraps(func)
+    def decorated_function(*args, **kwargs):
+        if current_user.active == 'no':
+            session.clear()
+            logout_user()
+            response = redirect(url_for('login'))
+            response.cache_control.no_cache = True
+            return response
+        return func(*args, **kwargs)
     return decorated_function
 
 
