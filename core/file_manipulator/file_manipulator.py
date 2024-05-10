@@ -42,7 +42,6 @@ class FileHandler:
             file.seek(0)
             file.writelines(lines)
 
-
     def convert_to_csv(self, file_name, extension):
         if extension == '.csv' and file_name == 'dronena.csv':
             with open(f'{self.path}/{file_name}', mode='r') as file:
@@ -123,8 +122,6 @@ class FileHandler:
                             str_bar_code_df = function(filename='').column_float_to_string(no_nan_df, 'barcode')
                             function(filename=file).dataframe_to_csv(dataframe=str_bar_code_df, path=self.path,
                                                                      filename=file)
-
-
 
     def remove_all_files(self, path):
         path_files = os.listdir(path)
