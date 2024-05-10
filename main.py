@@ -10,13 +10,16 @@ from werkzeug.security import check_password_hash
 from flask_login import login_user, LoginManager, current_user, logout_user, login_required
 from flask_socketio import SocketIO, emit
 from helpers import calc_discount
+from dotenv import load_dotenv
+import os
 
 
-
+# Load env
+load_dotenv()
 
 # INIT APP
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'secret_here'
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 app.config['BABEL_DEFAULT_LOCALE'] = 'es'
 
 ### DROPZONE ###

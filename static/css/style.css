@@ -72,6 +72,9 @@
     left: 120px;
 }
 
+
+
+
 @media only screen and (max-width: 640px) {
     .brand-logo-img{
         width: 50px;
@@ -79,4 +82,8 @@
     .suggest-list-s{
     left: 0;
     }
+
+    #action-container{
+    width: 550px;
+}
 }

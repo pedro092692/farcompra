@@ -1,8 +1,12 @@
+import os
+
+
+
 wholesalers = {
     "vital_clinic":{
         "url": "drogueriavitalclinic.com.ve",
-        "user": "cliente@drogueriavitalclinic.com.ve",
-        "password": "2P0-3/+5WrbB",
+        "user": os.environ.get('VITAL_CLINIC_USER'),
+        "password": os.environ.get('VITAL_CLINIC_PASS'),
         "path": '/Existencia',
         "file_name": 'inventario.txt',
         "name": "vital_clinic",
@@ -16,8 +20,8 @@ wholesalers = {
 
     "drocerca":{
         "url": "drocerca.proteoerp.org",
-        "user": "C00VV1",
-        "password": "U*b7xGLT",
+        "user": os.environ.get('DROCERCA_USER'),
+        "password": os.environ.get('DROCERCA_PASS'),
         "path": '/',
         "file_name": 'inventario.txt',
         "name": "drocerca",
@@ -32,8 +36,8 @@ brand;price_usd;price_ves_discount;group;due_date;active_ingredient;scale;discou
 
     "dronena":{
         "url": "ftp.dronena.com",
-        "user": "0491-foraneo",
-        "password": "6luc2ztd",
+        "user": os.environ.get('DRONENA_USER'),
+        "password": os.environ.get('DRONENA_PASS'),
         "path": '/Clientes/0491',
         "file_name": 'inventario.txt',
         "name": "dronena",
@@ -49,8 +53,8 @@ type;product_code;lot;due_date;regulated;cold_chain;discount_3;discount_4;origin
 
     "harissa": {
         "url": "vantecsolser.com",
-        "user": "harissa@vantecsolser.com",
-        "password": "t6tUlAzrG!Js",
+        "user": os.environ.get('HARISSA_USER'),
+        "password": os.environ.get('HARISSA_PASS'),
         "path": '/',
         "file_name": 'inventario.txt',
         "name": "harissa",
@@ -66,7 +70,7 @@ stock_2;stock_2;stock_3;stock_4;regulated;unknown_1;unknown_2;unknown_3;unknown_
     "test_server": {
             "url": "",
             "user": "anonymous",
-            "password": "pedro",
+            "password": "",
             "path": '/data',
             "file_name": 'inventario.txt',
             "name": "test_server",
@@ -82,8 +86,8 @@ stock_2;stock_2;stock_3;stock_4;regulated;unknown_1;unknown_2;unknown_3;unknown_
 
     "drovencentro": {
         "url": "",
-        "user": "F600249",
-        "password": "Clientes1234",
+        "user": "",
+        "password": "",
         "path": '',
         "file_name": 'drovencentro.xlsx',
         "name": "drovencentro",
@@ -117,8 +121,8 @@ soon_payment_discount;discount_per_volume;min_amount_per_volume;discount_per_row
 
     "joskar": {
         "url": "ftp.drogueriajoskar.com",
-        "user": "u551098694.invftp02",
-        "password": "mayorFTP01",
+        "user": os.environ.get('JOSKAR_USER'),
+        "password": os.environ.get('JOSKAR_PASS'),
         "path": '/catalogo',
         "file_name": 'catalogo_mayor.txt',
         "name": "joskar",
@@ -132,8 +136,8 @@ soon_payment_discount;discount_per_volume;min_amount_per_volume;discount_per_row
 
     "insuaminca":{
         "url": "ftp.insuaminca.com.ve",
-        "user": "comercial@insuaminca.com.ve",
-        "password": "rbfrtgttECDB",
+        "user": os.environ.get('INSUAMINCA_USER'),
+        "password": os.environ.get('INSUAMINCA_PASS'),
         "path": '/Inventario',
         "file_name": 'inventario.txt',
         "name": "insuaminca",
