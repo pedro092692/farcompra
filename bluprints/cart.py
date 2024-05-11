@@ -6,7 +6,7 @@ from database import Database
 from flask_login import login_required, current_user
 from flask_socketio import SocketIO, send, emit
 from forms.forms import CheckOutCart
-from helpers import has_pharmacy
+from helpers import has_pharmacy, discount_cart
 import pdfkit
 
 
@@ -50,8 +50,16 @@ def construct_blueprint(db: Database, socketio: SocketIO, app):
         cart_item = db.update_cart_quantity(cart_item, quantity)
         total = cart_item.product_price_info.price * quantity
         grand_total = db.get_supplier_total(user_id=current_user.id, supplier_id=cart_item.supplier_id)
+
+        if current_user.discount:
+            user_discount = db.get_user_discounts(current_user.id)
+            suppliers = [item for item in user_discount]
+            if cart_item.supplier_id in suppliers:
+                total = total * (1 - user_discount[cart_item.supplier_id]['discount'])
+                grand_total = grand_total * (1 - user_discount[cart_item.supplier_id]['discount'])
+
         emit('update_cart', {"total": round(total, 2),
-                              "grand_total": grand_total,
+                              "grand_total": round(grand_total, 2),
                              "id": cart_item.id,
                              "supplier": cart_item.supplier_info.name,
                               })
@@ -71,20 +79,10 @@ def construct_blueprint(db: Database, socketio: SocketIO, app):
         form = CheckOutCart()
         user = db.get_user(current_user.id)
         shopping_cart = db.view_cart(user_id=user.id)
+
         if current_user.discount:
             user_discount = db.get_user_discounts(current_user.id)
-            suppliers = [item for item in user_discount]
-
-            for item in shopping_cart:
-                if shopping_cart[item]['supplier_id'] in suppliers:
-                    # apply discount
-                    for product in shopping_cart[item]['products']:
-                        shopping_cart[item]['products'][product]['price'] = \
-                            round(shopping_cart[item]['products'][product]['price'] * \
-                            (1 - user_discount[shopping_cart[item]['supplier_id']]['discount']), 2)
-
-                    shopping_cart[item]['total'] = round(shopping_cart[item]['total'] *
-                                                (1 - user_discount[shopping_cart[item]['supplier_id']]['discount']), 2)
+            discount_cart(shopping_cart=shopping_cart, user_discount=user_discount)
 
         return render_template('cart.html', shopping_cart=shopping_cart, form=form)
 

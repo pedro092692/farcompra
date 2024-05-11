@@ -81,3 +81,20 @@ def calc_discount(results, suppliers: list, info: dict):
     prices_discount.sort(key=lambda item: item['price'])
 
     return prices_discount
+
+
+def discount_cart(shopping_cart, user_discount):
+    suppliers = [item for item in user_discount]
+
+    for item in shopping_cart:
+        if shopping_cart[item]['supplier_id'] in suppliers:
+            # apply discount
+            for product in shopping_cart[item]['products']:
+                shopping_cart[item]['products'][product]['price'] = \
+                    round(shopping_cart[item]['products'][product]['price'] * \
+                          (1 - user_discount[shopping_cart[item]['supplier_id']]['discount']), 2)
+
+            shopping_cart[item]['total'] = round(shopping_cart[item]['total'] *
+                                                 (1 - user_discount[shopping_cart[item]['supplier_id']]['discount']), 2)
+
+    return shopping_cart
