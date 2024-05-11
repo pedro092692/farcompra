@@ -12,6 +12,7 @@ from flask_login import login_user, LoginManager, current_user, logout_user, log
 from flask_socketio import SocketIO, emit
 from helpers import calc_discount, is_active
 from dotenv import load_dotenv
+from datetime import datetime
 import os
 
 
@@ -228,6 +229,15 @@ def get_cart():
         return {"shopping_cart": shopping_cart}
     else:
         return {"shopping_cart": {}}
+
+# Date
+@app.context_processor
+def date():
+    current_year = datetime.now().year
+    return {'current_year': current_year}
+
+
+
 
 # Errors
 @login_manager.unauthorized_handler
