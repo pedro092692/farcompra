@@ -30,7 +30,8 @@ def construct_blueprint(db: Database):
     def index():
         message = got_message()
         last_products = db.last_products()
-        return render_template('/admin/home/index.html', messages=message, last_products=last_products)
+        last_users = db.last_users()
+        return render_template('/admin/home/index.html', messages=message, last_products=last_products, last_users=last_users)
 
     @admin.route('/products', methods=['GET', 'POST'])
     def products():

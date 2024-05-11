@@ -136,14 +136,12 @@ class Database:
         data.to_sql('product_prices', engine, index=False, if_exists='append', chunksize=3000)
 
     def show_products(self, per_page=20):
-        # products = self.db.session.execute(self.db.select(Product).order_by(Product.name)).scalars().all()
         products = self.db.paginate(self.db.select(Product).filter(Product.prices.any()).order_by(Product.name),
                                     per_page=per_page)
         return products
 
     def search_products(self, q, per_page=10):
         products = self.db.paginate(self.db.select(Product).filter(Product.name.icontains(q) | Product.barcode.icontains(q)).order_by(Product.name), per_page=per_page)
-        # products = self.db.paginate(self.db.select(Product).filter(Product.prices.any()).filter(Product.name.icontains(q)).order_by(Product.name), per_page=per_page)
 
         return products
 
@@ -156,14 +154,6 @@ class Database:
             .filter(ProductPrice.supplier_id == 1) \
             .with_entities(Product, func.round((ProductPrice.price * (1 - discount_rate)), 2).label(
             "discounted_price"))  # Round to 2 decimal places
-
-        # result = self.db.session.query(Product, ProductPrice, ProductPrice.supplier_id).outerjoin(ProductPrice, Product.id == ProductPrice.product_id).filter(
-        #     Product.name.icontains(q) | Product.barcode.icontains(q),
-        #     ProductPrice.supplier_id.in_([1])
-        # ).all()
-
-        # result = self.db.paginate(query, per_page=8)
-        # discounted_products = query.all()
 
         products = self.db.paginate(self.db.select(Product).filter(Product.name.icontains(q) | Product.barcode.icontains(q)).order_by(Product.name), per_page=15)
         return products
@@ -227,6 +217,10 @@ class Database:
     def all_users(self):
         all_users = self.db.session.execute(self.db.select(User).order_by(User.id.desc()).limit(8)).scalars().all()
         return all_users
+
+    def last_users(self):
+        last_users = self.db.session.execute(self.db.select(User).order_by(User.id.desc()).limit(8)).scalars().all()
+        return last_users
 
 
     def add_pharmacy(self, rif, name, email, address, user_id):

@@ -104,7 +104,7 @@
                   <h3 class="mb-0">{{ _('Last Users') }}</h3>
                 </div>
                 <div class="col text-right">
-                  <a href="#!" class="btn btn-sm btn-primary">{{ _('See all') }}</a>
+                  <a href="{{ url_for('admin.user.users') }}" class="btn btn-sm btn-primary">{{ _('See all') }}</a>
                 </div>
               </div>
             </div>
@@ -117,14 +117,12 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                      <th scope="row">
-                        Pedro Bastidas
-                      </th>
-                      <td>
-                        La nueva Gracia de Dios
-                      </td>
-                  </tr>
+                  {% for user in last_users %}
+                    <tr>
+                      <td scope="row" class="text-capitalize text-sm">{{user.name}}</td>
+                      <td scope="row" class="text-capitalize text-sm">{{user.pharmacy[0].name if user.pharmacy else 'No Pharmacy'}}</td>
+                    </tr>
+                  {% endfor %}
                 </tbody>
 
               </table>
