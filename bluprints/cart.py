@@ -71,6 +71,21 @@ def construct_blueprint(db: Database, socketio: SocketIO, app):
         form = CheckOutCart()
         user = db.get_user(current_user.id)
         shopping_cart = db.view_cart(user_id=user.id)
+        if current_user.discount:
+            user_discount = db.get_user_discounts(current_user.id)
+            suppliers = [item for item in user_discount]
+
+            for item in shopping_cart:
+                if shopping_cart[item]['supplier_id'] in suppliers:
+                    # apply discount
+                    for product in shopping_cart[item]['products']:
+                        shopping_cart[item]['products'][product]['price'] = \
+                            round(shopping_cart[item]['products'][product]['price'] * \
+                            (1 - user_discount[shopping_cart[item]['supplier_id']]['discount']), 2)
+
+                    shopping_cart[item]['total'] = round(shopping_cart[item]['total'] *
+                                                (1 - user_discount[shopping_cart[item]['supplier_id']]['discount']), 2)
+
         return render_template('cart.html', shopping_cart=shopping_cart, form=form)
 
 
