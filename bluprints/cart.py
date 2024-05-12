@@ -7,13 +7,13 @@ from flask_login import login_required, current_user
 from flask_socketio import SocketIO, send, emit
 from forms.forms import CheckOutCart
 from helpers import has_pharmacy, discount_cart
-import pdfkit
+# import pdfkit
 
 
 def construct_blueprint(db: Database, socketio: SocketIO, app):
     cart = Blueprint('cart', __name__, url_prefix='/cart')
 
-    config = pdfkit.configuration(wkhtmltopdf='C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe')
+    # config = pdfkit.configuration(wkhtmltopdf='C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe')
 
     @socketio.on('connect')
     @login_required
@@ -100,18 +100,16 @@ def construct_blueprint(db: Database, socketio: SocketIO, app):
             user = db.get_user(user_id)
             new_order = db.get_cart_by_supplier(user_id=user_id, supplier=supplier)
 
-            rendered = render_template('order.html', order=new_order.all(), user=user, supplier=new_order[0].supplier_info.name)
-            pdf = pdfkit.from_string(rendered, False, configuration=config,
-                                     css='static/admin/assets/css/bootstrap/bootstrap.css')
+            if new_order.all():
+                rendered = render_template('order.html', order=new_order.all(), user=user, supplier=new_order[0].supplier_info.name)
+            else:
+                return redirect(url_for('cart.view_cart'))
 
-            response = make_response(pdf)
-            response.headers['Content-Type'] = 'application/pdf'
-            response.headers['Content-Disposition'] = f'attachment; filename={new_order[0].supplier_info.name}_order.pdf'
 
             # Delete items from cart
             db.checkout_cart(user_id=user_id, supplier=supplier)
 
-            return response
+            return rendered
 
     return cart
 

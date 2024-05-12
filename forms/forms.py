@@ -75,6 +75,12 @@ class LoginForm(FlaskForm):
     submit = submit_field(label='Sign in')
 
 
+### Suppliers ###
+class SupplierForm(FlaskForm):
+    name = string_field(label='Supplier name')
+    submit = submit_field(label='save')
+
+
 
 ### Add To Cart ###
 

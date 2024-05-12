@@ -1,9 +1,9 @@
 from flask import Blueprint, render_template, blueprints, url_for, redirect, send_file, current_app
 from database import Database
 from core.supplier import Supplier
+from forms.forms import SupplierForm
 def construct_blueprint(db: Database, errors):
     supplier = Blueprint('supplier', __name__, template_folder='templates')
-
 
 
 
@@ -16,6 +16,16 @@ def construct_blueprint(db: Database, errors):
         return render_template('admin/home/suppliers.html', suppliers_ftp=ftp_suppliers,
                                no_ftp_suppliers=no_ftp_suppliers,
                                messages=errors.errors)
+
+    @supplier.route('/suppliers/add', methods=['GET', 'POST'])
+    def add_supplier():
+        form = SupplierForm()
+        if form.validate_on_submit():
+            supplier_name = form.name.data
+            # add new supplier
+            db.add_supplier(name=supplier_name)
+
+        return render_template('admin/home/add_supplier.html', form=form)
 
     @supplier.route('/suppliers/download/<supplier_id>')
     def download_from_supplier(supplier_id):

@@ -381,6 +381,13 @@ class Database:
     def get_supplier(self, supplier_id):
         return self.db.get_or_404(Supplier, supplier_id)
 
+    def add_supplier(self, name):
+        new_supplier = Supplier(
+            name=name
+        )
+        self.db.session.add(new_supplier)
+        self.db.session.commit()
+
 
 
 
