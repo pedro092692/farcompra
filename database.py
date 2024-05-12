@@ -6,6 +6,7 @@ from typing import List
 from flask import Flask
 from flask_login import UserMixin
 import pandas
+import os
 
 # CREATE DATABASE
 class Base(DeclarativeBase):
@@ -113,7 +114,7 @@ class Database:
         self.app = app
 
         # DATABASE INIT
-        self.app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///farcompra.db'
+        self.app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DB_URI', 'sqlite:///farcompra.db')
         self.db.init_app(self.app)
 
 
