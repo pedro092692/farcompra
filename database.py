@@ -109,7 +109,7 @@ class PharmacyDiscount(Base):
 
 class Database:
 
-    def __init__(self, app: Flask ):
+    def __init__(self, app: Flask):
         self.db = db
         self.app = app
 
