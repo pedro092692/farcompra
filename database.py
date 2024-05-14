@@ -26,7 +26,7 @@ class Product(Base):
     barcode: Mapped[str] = mapped_column(String(250), unique=True, nullable=False)
     name: Mapped[str] = mapped_column(String(1000), nullable=False)
     prices: Mapped[List["ProductPrice"]] = relationship(back_populates="product_info",
-                                                        cascade='all, delete, delete-orphan',
+                                                        cascade='all, delete',
                                                         order_by="ProductPrice.price.asc()")
 
     def serialize(self):
@@ -49,7 +49,7 @@ class Supplier(Base):
 class ProductPrice(Base, db.Model):
     __tablename__ = "product_prices"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    product_id: Mapped[int] = mapped_column(Integer, ForeignKey("products.id"))
+    product_id: Mapped[int] = mapped_column(Integer, ForeignKey("products.id", ondelete='CASCADE'))
     product_info: Mapped["Product"] = relationship(back_populates="prices")
     price: Mapped[float] = mapped_column(Float, nullable=False)
     due_date: Mapped[str] = mapped_column(String(250), nullable=True)
@@ -88,7 +88,7 @@ class Cart(Base, db.Model):
     __tablename__ = "shoppingcart"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     user_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.id"), nullable=False)
-    product_price_id: Mapped[int] = mapped_column(Integer, ForeignKey("product_prices.id"), nullable=False)
+    product_price_id: Mapped[int] = mapped_column(Integer, ForeignKey("product_prices.id", ondelete='CASCADE'), nullable=False)
     product_price_info: Mapped["ProductPrice"] = relationship()
     supplier_id: Mapped[int] = mapped_column(Integer, ForeignKey("suppliers.id"), nullable=False)
     supplier_info: Mapped["Supplier"] = relationship()

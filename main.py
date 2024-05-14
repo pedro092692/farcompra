@@ -255,8 +255,7 @@ def custom_404(error):
     return render_template('admin/home/page-404.html')
 
 
-
-
 if __name__ == "__main__":
     # app.run(debug=True)
-    socketio.run(app)
+    socketio.run(app, debug=True)
+
