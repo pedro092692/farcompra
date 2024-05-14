@@ -132,7 +132,7 @@
                 </div>
             </div>
         {% else %}
-            <h2>Sorry not results for {{ search_query }}</h2>
+            <h2>{{_('Sorry not results for')}} {{ search_query }}</h2>
         {% endif %}
         <!-- pagination-->
             {% if results.pages > 1 %}
@@ -302,7 +302,7 @@
                           </ul>
                     </nav>
                 {% elif suggested_results.pages < 1 %}
-                    <h2>Sorry not results for {{ search_query }}</h2>
+                    <h2>{{_('Sorry not results for')}} {{ search_query }}</h2>
                 {% endif %}
         {% endif %}
         {% endif %}

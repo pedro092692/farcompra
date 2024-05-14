@@ -79,7 +79,7 @@
                           <form method="POST" id="{{product.id}}">
                             {{ form.csrf_token }}
                             {{ form.product_id(value=product.id) }}
-                            <button class="btn btn-danger" onclick="confirm({{ product.id }});">Delete</button>
+                            <button class="btn btn-danger" onclick="confirm({{ product.id }});">{{_('Delete')}}</button>
                           </form>
                         </td>
                       </tr>

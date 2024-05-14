@@ -18,18 +18,18 @@ function update_cart_quantity(input){
 function delete_cart_item(cart_item_id){
     socket.connect();
     Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
+      title: "¿Estás seguro?",
+      text: "¡No podrás revertir esto!",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!"
+      confirmButtonText: "¡Sí, bórralo!"
     }).then((result) => {
       if (result.isConfirmed) {
         Swal.fire({
-          title: "Deleted!",
-          text: "Your file has been deleted.",
+          title: "¡Eliminado!",
+          text: "Su registro ha sido eliminado.",
           icon: "success"
         });
         socket.emit('delete_cart_item', cart_item_id)

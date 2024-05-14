@@ -99,11 +99,11 @@ def login():
                 if user.active == 'yes':
                     login_user(user)
                     return redirect(url_for('index'))
-                flash('Please Active your User')
+                flash(gettext('Please Active your User'))
             else:
-                flash('Wrong user or password!')
+                flash(gettext('Wrong user or password!'))
         else:
-            flash('Wrong user or password')
+            flash(gettext('Wrong user or password'))
     return render_template('admin/home/login.html', form=form)
 
 
