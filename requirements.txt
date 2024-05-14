@@ -65,5 +65,6 @@ wsproto==1.2.0
 WTForms==3.1.2
 zope.event==5.0
 zope.interface==6.3
+openpyxl==3.1.2
 
 
