@@ -72,18 +72,34 @@
     left: 120px;
 }
 
+.main-logo{
+    width: 350px;
+}
+
+
+
 
 
 
 @media only screen and (max-width: 640px) {
+    .main-logo{
+        width: 250px;
+    }
+
+    #main-logo{
+        transform: scale(0.8);
+    }
+
     .brand-logo-img{
         width: 50px;
     }
+
     .suggest-list-s{
     left: 0;
     }
 
     #action-container{
     width: 550px;
-}
+
+    }
 }
