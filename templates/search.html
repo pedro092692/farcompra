@@ -244,13 +244,24 @@
                                                                     {% if current_user.pharmacy %}
                                                                         <td>
                                                                             <!-- Shopping Cart Form -->
-                                                                            <form class="">
-                                                                                <div class="d-flex align-items-center" id="action-container">
-                                                                                    {{ form.csrf_token }}
-                                                                                    {{ form.quantity(class='form-control mr-4',
-                                                                                    id='quantity', placeholder=get_text('Quantity')) }}
-                                                                                    {{ form.submit(class='btn btn-primary', value=get_text('Add To Cart')) }}
-                                                                                </div>
+                                                                            <form id="shopping_cart" onsubmit="get_products(
+                                                                                    form=this,
+                                                                                    product_id={{price.id }},
+                                                                                    supplier_id={{price.supplier_id}},
+                                                                                    stock={{price.stock}},
+                                                                                    sp_name='{{price.supplier_info.name}}',
+                                                                                    product_name='{{price.product_info.name}}')">
+                                                                                    <div class="d-flex align-items-center" id="action-container">
+
+                                                                                        {{ form.csrf_token }}
+                                                                                        {{ form.quantity(class='form-control mr-4',
+                                                                                        id='quantity', placeholder=get_text('Quantity')) }}
+                                                                                        {{ form.submit(class='btn btn-primary', value=get_text('Add To Cart')) }}
+                                                                                    </div>
+                                                                                     <p id="quantity_error" class="text-sm text-danger mt-1" style="display:none">
+                                                                                         {{_('Sorry quantity must be greater than zero or minor than')}}
+                                                                                         {{price.stock}}
+                                                                                     </p>
                                                                             </form>
                                                                         </td>
                                                                     {% endif %}

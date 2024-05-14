@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-05-14 18:58-0400\n"
-"PO-Revision-Date: 2024-05-14 19:16-0400\n"
+"PO-Revision-Date: 2024-05-14 19:38-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: es\n"
 "Language-Team: es <LL@li.org>\n"
@@ -114,7 +114,7 @@ msgstr "Lo sentimos, la cantidad debe ser mayor que cero o menor que"
 
 #: templates/search.html:135 templates/search.html:305
 msgid "Sorry not results for"
-msgstr "La cantidad debe ser mayor que cero o menor que"
+msgstr "Lo sentimos, no hay resultados para"
 
 #: templates/user_profile.html:14
 msgid "My User Info"

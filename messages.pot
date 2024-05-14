@@ -113,7 +113,7 @@ msgstr "Lo sentimos, la cantidad debe ser mayor que cero o menor que"
 
 #: templates/search.html:135 templates/search.html:305
 msgid "Sorry not results for"
-msgstr "La cantidad debe ser mayor que cero o menor que"
+msgstr "Lo sentimos, no hay resultados para"
 
 #: templates/user_profile.html:14
 msgid "My User Info"
