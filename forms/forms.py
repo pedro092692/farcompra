@@ -4,7 +4,7 @@ from wtforms import StringField, SubmitField, EmailField, PasswordField, TextAre
     SelectField, FloatField
 from wtforms.validators import DataRequired, Email, Length
 from werkzeug.utils import secure_filename
-from flask_babel import gettext
+from flask_babel import gettext, lazy_gettext
 
 
 def string_field(label):
@@ -72,7 +72,7 @@ class PharmacyDiscount(FlaskForm):
 class LoginForm(FlaskForm):
     username = string_field(label='User Name')
     password = password_field()
-    submit = submit_field(label=gettext('Sign in'))
+    submit = submit_field(label=lazy_gettext('Sign in'))
 
 
 ### Suppliers ###

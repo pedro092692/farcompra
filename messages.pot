@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-05-15 09:41-0400\n"
+"POT-Creation-Date: 2024-05-15 13:16-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -319,4 +319,5 @@ msgstr "Panel Administrativo"
 #: templates/user/includes/navigation.html:119
 msgid "Logout"
 msgstr "Cerrar sesión"
+
 

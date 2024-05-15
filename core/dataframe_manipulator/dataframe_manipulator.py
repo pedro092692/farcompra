@@ -163,7 +163,7 @@ class DataFrameHandler:
         return no_nan_df
     @staticmethod
     def drop_zero(dataframe: pd.DataFrame, column: str) -> pd.DataFrame:
-        no_zero_df = dataframe[dataframe[column] > 0 ]
+        no_zero_df = dataframe[dataframe[column] > 0]
         return no_zero_df
 
 
