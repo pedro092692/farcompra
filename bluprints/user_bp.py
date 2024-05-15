@@ -76,7 +76,7 @@ def construct_blueprint(db: Database):
             password = user_ob.password
 
             if form.password.data:
-                password = form.password.data
+                password = generate_password_hash(form.password.data, method='pbkdf2:sha256', salt_length=8)
 
             db.edit_user(user_id=user_ob.id,
                          name=form.name.data,
