@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-05-14 18:58-0400\n"
+"POT-Creation-Date: 2024-05-15 09:41-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -32,6 +32,10 @@ msgstr "Usuario o contraseña incorrectos"
 #: forms/forms.py:24
 msgid "Files"
 msgstr "Archivos"
+
+#: forms/forms.py:75
+msgid "Sign in"
+msgstr "Iniciar sesión"
 
 #: forms/forms.py:82 templates/cart.html:37
 msgid "Quantity"

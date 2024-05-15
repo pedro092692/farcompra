@@ -238,8 +238,6 @@ def date():
     return {'current_year': current_year}
 
 
-
-
 # Errors
 @login_manager.unauthorized_handler
 def unauthorized():
@@ -257,5 +255,5 @@ def custom_404(error):
 
 if __name__ == "__main__":
     # app.run(debug=True)
-    socketio.run(app)
+    socketio.run(app, debug=True)
 

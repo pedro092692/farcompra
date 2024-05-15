@@ -72,7 +72,7 @@ class PharmacyDiscount(FlaskForm):
 class LoginForm(FlaskForm):
     username = string_field(label='User Name')
     password = password_field()
-    submit = submit_field(label='Sign in')
+    submit = submit_field(label=gettext('Sign in'))
 
 
 ### Suppliers ###
