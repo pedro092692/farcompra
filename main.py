@@ -93,7 +93,7 @@ def login():
         username = form.username.data
         password = form.password.data
         # check if users exists
-        user = db.check_user(username)
+        user = db.check_user(username.lower())
         if user:
             if check_password_hash(user.password, password):
                 if user.active == 'yes':

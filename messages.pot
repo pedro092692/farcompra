@@ -310,7 +310,7 @@ msgstr "Comparador"
 
 #: templates/user/includes/navigation.html:79
 msgid "View Shopping Cart"
-msgstr "Ver carrito de compras"
+msgstr "Ver carrito"
 
 #: templates/user/includes/navigation.html:108
 msgid "Admin Panel"
