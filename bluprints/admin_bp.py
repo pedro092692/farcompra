@@ -7,7 +7,7 @@ from .user_bp import construct_blueprint as bp_user
 from .supplier_bp import construct_blueprint as bp_supplier
 from forms.forms import CsvForm, DeleteProduct
 from flask_login import login_user, current_user, login_required
-from helpers import is_admin
+import os
 
 def construct_blueprint(db: Database):
     admin = Blueprint('admin', __name__, template_folder='templates')
@@ -35,6 +35,7 @@ def construct_blueprint(db: Database):
 
     @admin.route('/products', methods=['GET', 'POST'])
     def products():
+        print(os.listdir('core/data/manual_uploads'))
         new_data.testing()
         delete_product_form = DeleteProduct()
         messages = got_message()
