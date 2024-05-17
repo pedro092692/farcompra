@@ -21,7 +21,7 @@ class DataFrameHandler:
             filename = self.filename
         try:
             data_frame = pd.read_csv(f'{path}/{filename}', sep=';', on_bad_lines='skip', skiprows=None,
-                                     encoding='utf-8', encoding_errors='ignore', engine='python')
+                                     encoding='utf-8', encoding_errors='ignore')
             return data_frame
 
         except FileNotFoundError as e:
