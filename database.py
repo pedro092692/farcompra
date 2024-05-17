@@ -126,7 +126,7 @@ class Database:
     ### PRODUCTS ###
     def add_products(self, data:pandas.DataFrame):
         engine = self.db.engine
-        data.to_sql('products', engine, index=False, if_exists='append', index_label='barcode', chunksize=1000)
+        data.to_sql('products', engine, index=False, if_exists='append', index_label='barcode', chunksize=100)
 
     def add_product_prices(self, data: pandas.DataFrame, mode='auto'):
         if mode == 'auto':
