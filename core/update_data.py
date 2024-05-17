@@ -74,7 +74,6 @@ class UpdateData:
                     if file_path.split('.')[1] in allowed_file:
                         print(file_path)
                         file_handler.remove_all_files(path=MANUAL_PATH)
-                        break
 
                 file.save(os.path.join(MANUAL_PATH, file.filename))
                 self.manually_update()
