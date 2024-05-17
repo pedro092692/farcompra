@@ -58,6 +58,7 @@ class UpdateData:
 
 
     def manually_upload(self, file):
+        file_handler = FileHandler(mode='manual', path=MANUAL_PATH)
         file_name = file.filename.split('.')[0]
         if file_name in self.wholesalers.keys():
 
@@ -65,6 +66,16 @@ class UpdateData:
             if file.filename.split('.')[1] not in allowed_file:
                 self.errors.append('File Upload No Valid Format')
             else:
+
+                list_of_files = os.listdir(MANUAL_PATH)
+
+                #checking for files in path
+                for file_path in list_of_files:
+                    if file_path.split('.')[1] in allowed_file:
+                        print(file_path)
+                        file_handler.remove_all_files(path=MANUAL_PATH)
+                        break
+
                 file.save(os.path.join(MANUAL_PATH, file.filename))
                 self.manually_update()
 
