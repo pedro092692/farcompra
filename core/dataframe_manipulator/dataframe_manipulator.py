@@ -81,6 +81,11 @@ class DataFrameHandler:
                 else:
                     self.errors['dollar'] = {'error': 'Error getting dollar value please add it manually.'}
 
+            # Add price discount only for nena
+            if supplier_id == 3:
+                df['price_usd'] = round(df['price_usd'] * (1 - (df['discount_2'] / 100)), 2)
+
+
             # adding supplier id column
             df.insert(4, 'supplier_id', supplier_id)
 

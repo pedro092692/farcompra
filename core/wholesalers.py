@@ -47,7 +47,7 @@ brand;price_usd;price_ves_discount;group;due_date;active_ingredient;scale;discou
 type;product_code;lot;due_date;regulated;cold_chain;discount_3;discount_4;original;unknown_1;unknown_2;unknown_3',
         "fix_barcode": False,
         "supplier_id": 3,
-        "price_dollar": False
+        "price_dollar": False,
 
     },
 
