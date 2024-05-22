@@ -143,7 +143,7 @@ soon_payment_discount;discount_per_volume;min_amount_per_volume;discount_per_row
         "name": "insuaminca",
         "csv": False,
         "has_header": False,
-        "header":  "id;barcode;name;due_date;price_usd;sale_percent;final_price;stock",
+        "header":  "id;barcode;name;due_date;final_price;sale_percent;price_usd;stock",
         "fix_barcode": False,
         "supplier_id": 8,
         "price_dollar": True
