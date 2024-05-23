@@ -41,6 +41,10 @@ class RegisterUserForm(FlaskForm):
     password = password_field()
     submit_user = submit_field(label='Register User')
 
+class SearchUserForm(FlaskForm):
+    query = email_field(label='User Email')
+    submit_search = submit_field(label=lazy_gettext('Search User'))
+
 class EditUserForm(FlaskForm):
     active = RadioField(label='User Is Active', default='Yes', choices=['yes', 'no'], validators=[DataRequired()])
     name = string_field(label='Name')
