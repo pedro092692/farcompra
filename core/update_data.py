@@ -79,6 +79,8 @@ class UpdateData:
                 file.save(os.path.join(MANUAL_PATH, file.filename))
                 self.manually_update()
 
+        return 'ok'
+
     def manually_update(self):
         file_handler = FileHandler(mode='manual', path=MANUAL_PATH)
         file_handler.convert_all_to_csv()
@@ -91,6 +93,8 @@ class UpdateData:
             self.db.add_product_prices(new_prices_list, mode='manual')
             ### remove all files in manual uploads ###
             file_handler.remove_all_files(path=MANUAL_PATH)
+
+        return 'ok'
 
 
 
