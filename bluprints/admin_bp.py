@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, abort, redirect, url_for, request, send_file
 from core.wholesalers import wholesalers
 from core.update_data import UpdateData
+from core.file_manipulator.file_manipulator import FileHandler
 from core.supplier import Supplier
 from database import Database
 from .user_bp import construct_blueprint as bp_user
@@ -35,7 +36,12 @@ def construct_blueprint(db: Database):
 
     @admin.route('/products', methods=['GET', 'POST'])
     def products():
+        # deleting all garbage
+        file_manipulator = FileHandler()
+        file_manipulator.remove_all_files(path='core/data/manual_uploads')
+
         print(os.listdir('core/data/manual_uploads'))
+
         new_data.testing()
         delete_product_form = DeleteProduct()
         messages = got_message()
