@@ -92,7 +92,7 @@ class DataFrameHandler:
             df_list.append(df)
 
         # Creating df list with not zero stock and only necessaries columns
-
+        print(csv_file_list)
         product_prices_df_list = [self.drop_zero(self.extract_columns(dataframe=df,
                             columns=['barcode', 'price_usd', 'due_date', 'stock', 'supplier_id']),
                                     column='stock') for df in df_list]

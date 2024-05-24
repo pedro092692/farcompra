@@ -146,6 +146,9 @@ class Database:
 
         return products
 
+    def products_by_supplier(self, supplier_id):
+        pass
+
     def discount(self, q):
 
         discount_rate = 0.5  # 5% discount

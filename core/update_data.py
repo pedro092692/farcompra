@@ -2,6 +2,7 @@ from .FTP.ftp import FTP
 from .file_manipulator.file_manipulator import FileHandler
 from .dataframe_manipulator.dataframe_manipulator import DataFrameHandler
 from database import Database
+from core.wholesalers import wholesalers
 from flask import url_for, redirect
 import os
 
@@ -75,11 +76,10 @@ class UpdateData:
             if file.filename.split('.')[1] not in allowed_file:
                 self.errors.append('File Upload No Valid Format')
             else:
-
                 file.save(os.path.join(MANUAL_PATH, file.filename))
-                self.manually_update()
+                self.manually_update(filename=file_name)
 
-    def manually_update(self):
+    def manually_update(self, filename=''):
         file_handler = FileHandler(mode='manual', path=MANUAL_PATH)
         file_handler.convert_all_to_csv()
         csv_files_list = FileHandler(mode='manual', path=MANUAL_PATH).csv_file_list()
@@ -88,7 +88,15 @@ class UpdateData:
         if add_new_products:
             ### updating products prices manually ###
             new_prices_list = self.df_handler.dataframe_products_prices(csv_file_list=csv_files_list, path=MANUAL_PATH)
-            self.db.add_product_prices(new_prices_list, mode='manual')
+            ### check for old products in the list ###
+            # 1) get supplier id
+            try:
+                supplier_id = wholesalers[filename]['supplier_id']
+
+            except KeyError:
+                print('Error with file name no supplier found')
+
+            # self.db.add_product_prices(new_prices_list, mode='manual')
             ### remove all files in manual uploads ###
             file_handler.remove_all_files(path=MANUAL_PATH)
 
