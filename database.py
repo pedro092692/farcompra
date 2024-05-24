@@ -146,8 +146,16 @@ class Database:
 
         return products
 
-    def products_by_supplier(self, supplier_id):
-        pass
+    def products_by_supplier(self, supplier_id, count=False):
+        if count:
+            total_products = self.db.session.execute(
+                select(func.count(ProductPrice.id)).filter(ProductPrice.supplier_id == supplier_id)
+            ).scalar()
+            return total_products
+
+    def drop_products_by_supplier(self, supplier_id):
+        ProductPrice.query.filter(ProductPrice.supplier_id == supplier_id).delete()
+        self.db.session.commit()
 
     def discount(self, q):
 

@@ -132,7 +132,7 @@ class FileHandler:
     def csv_file_list(self) -> list:
         files = []
         for file in self.list_files:
-            if file.endswith(self.valid_extensions):
+            if file.endswith('.csv'):
                 files.append(file)
         return files
 

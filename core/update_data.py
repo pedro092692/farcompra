@@ -92,11 +92,18 @@ class UpdateData:
             # 1) get supplier id
             try:
                 supplier_id = wholesalers[filename]['supplier_id']
+                # check for products on the price list
+                count_products = self.db.products_by_supplier(supplier_id=supplier_id, count=True)
+                if count_products > 0:
+                    self.db.drop_products_by_supplier(supplier_id=supplier_id)
+                    self.db.add_product_prices(new_prices_list, mode='manual')
+                else:
+                    self.db.add_product_prices(new_prices_list, mode='manual')
 
             except KeyError:
                 print('Error with file name no supplier found')
 
-            # self.db.add_product_prices(new_prices_list, mode='manual')
+
             ### remove all files in manual uploads ###
             file_handler.remove_all_files(path=MANUAL_PATH)
 
