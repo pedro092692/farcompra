@@ -119,7 +119,7 @@ class FileHandler:
                         if self.wholesalers[file[:dot_extension_index]]['fix_barcode']:
                             data_frame = function(filename=file).load_data_frame(path=self.path)
                             no_nan_df = function.drop_nan(data_frame, columns=['barcode'])
-                            str_bar_code_df = function(filename=file).column_float_to_string(no_nan_df, 'barcode')
+                            str_bar_code_df = function(filename=file).column_to_string(no_nan_df, 'barcode')
                             function(filename=file).dataframe_to_csv(dataframe=str_bar_code_df, path=self.path,
                                                                      filename=file)
 
