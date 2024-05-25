@@ -186,6 +186,9 @@ class Database:
         self.db.session.query(ProductPrice).delete()
         self.db.session.commit()
 
+    def delete_all_products(self):
+        self.db.session.query(Product).delete()
+        self.db.session.commit()
 
     def get_product(self, product_id):
         product = self.db.get_or_404(Product, product_id)

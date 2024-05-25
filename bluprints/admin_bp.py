@@ -55,7 +55,14 @@ def construct_blueprint(db: Database):
         return render_template('admin/home/products.html', messages=messages, products=all_products,
                                form=delete_product_form)
 
+    @admin.route('/products/delete', methods=['GET', 'POST'])
+    def delete_products():
+        if request.method == 'POST':
+            print('Time for reset all products....')
+            db.delete_all_products()
+            return redirect(url_for('admin.products'))
 
+        return render_template('admin/home/delete_products.html')
 
     ### Operations ###
     @admin.route('/update-now', methods=['GET'])
