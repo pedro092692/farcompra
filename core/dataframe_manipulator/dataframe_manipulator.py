@@ -54,6 +54,9 @@ class DataFrameHandler:
         barcode_product_name_df_list = [self.extract_columns(dataframe=df,
                                     columns=['barcode', 'name']) for df in df_list]
 
+        print(barcode_product_name_df_list[0].barcode[1])
+        print(type(barcode_product_name_df_list[0].barcode[1]))
+
         if len(df_list) > 1:
             df_barcode_product_name = self.contact_dataframes(barcode_product_name_df_list, True, 'barcode')
         else:
