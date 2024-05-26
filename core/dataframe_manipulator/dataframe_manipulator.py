@@ -158,8 +158,7 @@ class DataFrameHandler:
 
     @staticmethod
     def column_to_string(dataframe: pd.DataFrame, column_name: str) -> pd.DataFrame:
-        str_column = dataframe[column_name].astype('str')
-        dataframe[column_name] = str_column
+        dataframe[column_name] = dataframe[column_name].astype('str')
         return dataframe
 
     @staticmethod

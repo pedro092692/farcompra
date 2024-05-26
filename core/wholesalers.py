@@ -114,7 +114,7 @@ stock_2;stock_2;stock_3;stock_4;regulated;unknown_1;unknown_2;unknown_3;unknown_
         "header":  "barcode;id;name;wholesale_price_ves;price_usd_reference;final_price_ves;price_usd;stock;\
 laboratory;credit_days;percent_supplier;dicount_supplier;digital_discount;\
 soon_payment_discount;discount_per_volume;min_amount_per_volume;discount_per_row;min_amount_per_row;rows;due_date",
-        "fix_barcode": True,
+        "fix_barcode": False,
         "supplier_id": 6,
         "price_dollar": True
     },
