@@ -56,7 +56,7 @@ class DataFrameHandler:
 
         # deleting all '.' in dataframe
         for df in barcode_product_name_df_list:
-            df.barcode.astype(str).replace('.', '')
+            df.barcode = df.barcode.astype(str).str.replace('.', '')
 
         if len(df_list) > 1:
             df_barcode_product_name = self.contact_dataframes(barcode_product_name_df_list, True, 'barcode')
