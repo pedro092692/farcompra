@@ -58,6 +58,10 @@ class DataFrameHandler:
             df_barcode_product_name = self.contact_dataframes(barcode_product_name_df_list, True, 'barcode')
         else:
             if df_list:
+                if csv_file_list[0] == 'cobeca.csv':
+                    # deleting all '.' in dataframe
+                    for df in barcode_product_name_df_list:
+                        df.barcode = df.barcode.astype(str).str.replace('.0', '')
 
                 df_barcode_product_name = barcode_product_name_df_list[0].drop_duplicates(subset='barcode')
             else:
@@ -101,6 +105,10 @@ class DataFrameHandler:
         if len(df_list) > 1:
             df_product_prices = self.contact_dataframes(product_prices_df_list, drop=False)
         else:
+            if csv_file_list[0] == 'cobeca.csv':
+                # deleting all '.' in dataframe
+                for df in product_prices_df_list:
+                    df.barcode = df.barcode.astype(str).str.replace('.0', '')
 
             df_product_prices = product_prices_df_list[0]
 
