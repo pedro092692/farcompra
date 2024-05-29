@@ -4,7 +4,8 @@ import os
 
 wholesalers = {
     "vital_clinic":{
-        "url": "drogueriavitalclinic.com.ve",
+        # "url": "drogueriavitalclinic.com.ve",
+        "url": "",
         "user": os.environ.get('VITAL_CLINIC_USER'),
         "password": os.environ.get('VITAL_CLINIC_PASS'),
         "path": '/Existencia',
@@ -19,7 +20,8 @@ wholesalers = {
     },
 
     "drocerca":{
-        "url": "drocerca.proteoerp.org",
+        # "url": "drocerca.proteoerp.org",
+        "url": "",
         "user": os.environ.get('DROCERCA_USER'),
         "password": os.environ.get('DROCERCA_PASS'),
         "path": '/',
@@ -35,7 +37,8 @@ brand;price_usd;price_ves_discount;group;due_date;active_ingredient;scale;discou
     },
 
     "dronena":{
-        "url": "ftp.dronena.com",
+        # "url": "ftp.dronena.com",
+        "url": "",
         "user": os.environ.get('DRONENA_USER'),
         "password": os.environ.get('DRONENA_PASS'),
         "path": '/Maracay/c806',
@@ -60,8 +63,8 @@ type;product_code;lot;due_date;regulated;cold_chain;discount_3;discount_4;origin
         "name": "harissa",
         "csv": True,
         "has_header": False,
-        "header":  "0;name;product_code;product_group;barcode;price_no_tax;stock;\
-stock_2;stock_2;stock_3;stock_4;regulated;unknown_1;unknown_2;unknown_3;unknown_4;unknown_5;laboratory;price_usd;due_date",
+        "header":  "id;name;product_code;product_group;barcode;price_no_tax;stock;\
+stock_2;stock_2;stock_3;stock_4;regulated;unknown_1;unknown_2;unknown_3;unknown_4;unknown_5;laboratory;price_usd;due_date;unknown_6,",
         "fix_barcode": False,
         "supplier_id": 4,
         "price_dollar": True
@@ -120,7 +123,8 @@ soon_payment_discount;discount_per_volume;min_amount_per_volume;discount_per_row
     },
 
     "joskar": {
-        "url": "ftp.drogueriajoskar.com",
+        # "url": "ftp.drogueriajoskar.com",
+        "url": "",
         "user": os.environ.get('JOSKAR_USER'),
         "password": os.environ.get('JOSKAR_PASS'),
         "path": '/catalogo',
@@ -135,7 +139,8 @@ soon_payment_discount;discount_per_volume;min_amount_per_volume;discount_per_row
     },
 
     "insuaminca":{
-        "url": "ftp.insuaminca.com.ve",
+        # "url": "ftp.insuaminca.com.ve",
+        "url": "",
         "user": os.environ.get('INSUAMINCA_USER'),
         "password": os.environ.get('INSUAMINCA_PASS'),
         "path": '/Inventario',
