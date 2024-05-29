@@ -4,8 +4,7 @@ import os
 
 wholesalers = {
     "vital_clinic":{
-        # "url": "drogueriavitalclinic.com.ve",
-        "url": "",
+        "url": "drogueriavitalclinic.com.ve",
         "user": os.environ.get('VITAL_CLINIC_USER'),
         "password": os.environ.get('VITAL_CLINIC_PASS'),
         "path": '/Existencia',
@@ -20,8 +19,7 @@ wholesalers = {
     },
 
     "drocerca":{
-        # "url": "drocerca.proteoerp.org",
-        "url": "",
+        "url": "drocerca.proteoerp.org",
         "user": os.environ.get('DROCERCA_USER'),
         "password": os.environ.get('DROCERCA_PASS'),
         "path": '/',
@@ -37,8 +35,7 @@ brand;price_usd;price_ves_discount;group;due_date;active_ingredient;scale;discou
     },
 
     "dronena":{
-        # "url": "ftp.dronena.com",
-        "url": "",
+        "url": "ftp.dronena.com",
         "user": os.environ.get('DRONENA_USER'),
         "password": os.environ.get('DRONENA_PASS'),
         "path": '/Maracay/c806',
@@ -123,8 +120,7 @@ soon_payment_discount;discount_per_volume;min_amount_per_volume;discount_per_row
     },
 
     "joskar": {
-        # "url": "ftp.drogueriajoskar.com",
-        "url": "",
+        "url": "ftp.drogueriajoskar.com",
         "user": os.environ.get('JOSKAR_USER'),
         "password": os.environ.get('JOSKAR_PASS'),
         "path": '/catalogo',
@@ -139,8 +135,7 @@ soon_payment_discount;discount_per_volume;min_amount_per_volume;discount_per_row
     },
 
     "insuaminca":{
-        # "url": "ftp.insuaminca.com.ve",
-        "url": "",
+        "url": "ftp.insuaminca.com.ve",
         "user": os.environ.get('INSUAMINCA_USER'),
         "password": os.environ.get('INSUAMINCA_PASS'),
         "path": '/Inventario',
