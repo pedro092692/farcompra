@@ -38,7 +38,7 @@ brand;price_usd;price_ves_discount;group;due_date;active_ingredient;scale;discou
         "url": "ftp.dronena.com",
         "user": os.environ.get('DRONENA_USER'),
         "password": os.environ.get('DRONENA_PASS'),
-        "path": '/Maracay/c806',
+        "path": '/Maracay/5203',
         "file_name": 'inventario.txt',
         "name": "dronena",
         "csv": False,
