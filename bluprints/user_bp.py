@@ -24,7 +24,7 @@ def construct_blueprint(db: Database):
         if form_user.submit_user.data and form_user.validate():
             email = form_user.email.data
             if db.check_user(email):
-                print('This is email already taken.')
+                form_user.email.errors.append('this email is already taken')
             else:
                 new_user = db.add_user(
                     name=form_user.name.data,
