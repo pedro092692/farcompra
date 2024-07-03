@@ -377,7 +377,7 @@ class Database:
         return self.db.get_or_404(User, user_id)
 
     def all_pharmacies(self):
-        all_pharmacies = self.db.session.execute(self.db.select(Pharmacy)).scalars().all()
+        all_pharmacies = self.db.session.execute(self.db.select(Pharmacy).order_by(Pharmacy.id.desc()).limit(8)).scalars().all()
         return all_pharmacies
 
     def get_pharmacy(self, pharmacy_id):
