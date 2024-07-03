@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, render_template, url_for, redirect, flash, abort, session
-from forms.forms import RegisterUserForm, RegisterPharmacyForm, EditUserForm, SearchUserForm
+from forms.forms import RegisterUserForm, RegisterPharmacyForm, EditUserForm, SearchUserForm, SearchPharmacyForm
 from werkzeug.security import generate_password_hash, check_password_hash
 from database import Database
 from flask_login import current_user
@@ -13,6 +13,7 @@ def construct_blueprint(db: Database):
         form_user = RegisterUserForm()
         form_pharmacy = RegisterPharmacyForm()
         form_search_user = SearchUserForm()
+        form_search_pharmacy = SearchPharmacyForm()
 
         ### users ###
         registered_users = db.all_users()
@@ -63,11 +64,20 @@ def construct_blueprint(db: Database):
             else:
                 form_pharmacy.user_email.errors.append('This user not exist in our records.')
 
+        if form_search_pharmacy.submit_search_pharmacy.data and form_search_pharmacy.validate():
+            query = form_search_pharmacy.query_email.data.lower()
+            searched_pharmacy = db.check_pharmacy(email=query)
+            if searched_pharmacy:
+                return redirect(url_for('admin.user.pharmacy_edit', pharmacy_id=searched_pharmacy.id))
+            else:
+                form_search_pharmacy.query_email.errors.append('Pharmacy not found')
+
         return render_template('admin/home/users.html', form_user=form_user,
                                form_pharmacy=form_pharmacy,
                                users=registered_users,
                                pharmacies=registered_pharmacies,
-                               form_search_user=form_search_user,)
+                               form_search_user=form_search_user,
+                               form_search_pharmacy=form_search_pharmacy)
 
     @user.route('/user-edit/<user_id>', methods=['GET', 'POST'])
     def edit_user(user_id):

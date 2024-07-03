@@ -73,7 +73,7 @@ class User(Base, UserMixin, db.Model):
                                                               cascade='all, delete, delete-orphan')
 
 
-class Pharmacy(Base):
+class Pharmacy(Base, db.Model):
     __tablename__ = "pharmacies"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     rif: Mapped[int] = mapped_column(Integer, nullable=False)
@@ -372,6 +372,10 @@ class Database:
     @staticmethod
     def check_user(email):
         return User.query.filter_by(email=email).first()
+
+    @staticmethod
+    def check_pharmacy(email):
+        return Pharmacy.query.filter_by(email=email).first()
 
     def get_user(self, user_id):
         return self.db.get_or_404(User, user_id)

@@ -65,6 +65,10 @@ class RegisterPharmacyForm(FlaskForm):
     user_email = email_field(label='User Email')
     submit_pharmacy = submit_field(label='Register Pharmacy')
 
+class SearchPharmacyForm(FlaskForm):
+    query_email = email_field(label='Pharmacy Email')
+    submit_search_pharmacy = submit_field(label=lazy_gettext('Search Pharmacy'))
+
 
 class PharmacyDiscount(FlaskForm):
     percent_discount = IntegerField(label='Percent Discount', validators=[DataRequired()])
