@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, render_template, url_for, redirect, flash, abort, session
-from forms.forms import RegisterUserForm, RegisterPharmacyForm, EditUserForm, SearchUserForm, SearchPharmacyForm
+from forms.forms import RegisterUserForm, RegisterPharmacyForm, EditUserForm, SearchUserForm, SearchPharmacyForm, \
+    DeleteUserForm
 from werkzeug.security import generate_password_hash, check_password_hash
 from database import Database
 from flask_login import current_user
@@ -94,7 +95,12 @@ def construct_blueprint(db: Database):
             role=user_ob.role,
 
         )
-        if form.validate_on_submit():
+
+        delete_user_form = DeleteUserForm(
+            user_id=user_ob.id
+        )
+
+        if form.submit_user.data and form.validate():
             password = user_ob.password
 
             if form.password.data:
@@ -112,8 +118,15 @@ def construct_blueprint(db: Database):
             flash('User Updated')
             return redirect(url_for('admin.user.users'))
 
+        if delete_user_form.validate_on_submit():
+            db.delete_user(user_id=user_ob.id)
+            flash('User Deleted')
+            return redirect(url_for('admin.user.users'))
 
-        return render_template('admin/home/user-edit.html', form=form, user=user_ob)
+        return render_template('admin/home/user-edit.html', form=form,
+                                                            user=user_ob,
+                                                            delete_user=delete_user_form,
+                                                            user_id=user_ob.id)
 
     @user.route('/pharmacy-edit/<pharmacy_id>', methods=['GET', 'POST'])
     def pharmacy_edit(pharmacy_id):

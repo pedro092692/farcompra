@@ -15,6 +15,11 @@
                     <div class="card-body">
                         <!-- form user-->
                         {{ render_form(form, novalidate=True) }}
+                        <form method="POST" class="mt-4" id="{{user_id}}">
+                            {{ form.csrf_token }}
+                            {{ delete_user.user_id }}
+                            <button class="btn btn-danger" onclick="confirm({{ user_id }});">{{_('Delete')}}</button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -28,4 +33,6 @@
 
 <!-- Specific JS goes HERE -->
 {% block javascripts %}
+    <!--Sweet alert 2-->
+    <script src="{{ url_for('static', filename='admin/assets/js/sweet_alert.js') }}"></script>
 {% endblock javascripts %}

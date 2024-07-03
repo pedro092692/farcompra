@@ -237,6 +237,11 @@ class Database:
         last_users = self.db.session.execute(self.db.select(User).order_by(User.id.desc()).limit(8)).scalars().all()
         return last_users
 
+    def delete_user(self, user_id):
+        user = self.get_user(user_id=user_id)
+        self.db.session.delete(user)
+        self.db.session.commit()
+
 
     def add_pharmacy(self, rif, name, email, address, user_id):
         new_pharmacy = Pharmacy(
