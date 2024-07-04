@@ -8,7 +8,7 @@
           <div class="form-inline mr-sm-3 w-75">
           <a href="/"><img src="{{ url_for('static', filename='img/brand/company_logo.svg') }}" class="mr-2 mr-md-4 brand-logo-img" alt="company logo"></a>
             {% if request.url.split('/')[3].split('?')[0] == 'search' %}
-              <form type="search"  id="filter_form" method="GET" action="/search" class="w-75">
+              <form type="search"  id="filter_form" method="GET" action="/search" class="search-form">
                   <input type="search" class="form-control w-75 badge-pill text-md font-weight-bold"
                          id="search" autofocus placeholder="{{_('Type Product Name or Barcode')}}" autocomplete="off"
                          value="{{ request.args.get('product_name') if request.args.get('product_name') else request.args.get('query')  }}"
@@ -35,7 +35,7 @@
       <ul class="navbar-nav align-items-center ml-auto ml-md-0 ">
       <!-- check if actual user has pharmacy-->
       {% if current_user.pharmacy %}
-          <li class="nav-item dropdown mr-2">
+          <li class="nav-item dropdown">
             {% if request.url.split('/')[3] != 'cart' %}
                <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <div class="media align-items-center">

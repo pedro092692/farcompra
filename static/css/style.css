@@ -77,6 +77,10 @@
 }
 
 
+.search-form{
+    width: 80%;
+}
+
 
 
 
@@ -96,6 +100,10 @@
 
     .suggest-list-s{
     left: 0;
+    }
+
+    .search-form{
+      width: 60%;
     }
 
     #action-container{
