@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-05-15 13:16-0400\n"
-"PO-Revision-Date: 2024-05-16 08:38-0400\n"
+"PO-Revision-Date: 2024-07-04 17:00-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: es\n"
 "Language-Team: es <LL@li.org>\n"
@@ -71,8 +71,8 @@ msgid "Action"
 msgstr "Acción"
 
 #: templates/cart.html:90
-msgid "Make order for: "
-msgstr "Hacer pedido para"
+msgid "Generate PDF Order for: "
+msgstr "Generar PDF para"
 
 #: templates/cart.html:100 templates/user/includes/navigation.html:82
 msgid "Your Cart is empty."

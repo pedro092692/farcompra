@@ -82,12 +82,12 @@
                                                     <form role="form" method="POST" novalidate
                                                           id="form-{{supplier}}"
                                                           action="{{ url_for('cart.checkout_cart') }}">
-                                                        {% set order = 'Make order for ' + supplier | replace('_', ' ') %}
+                                                        {% set order = 'Generate PDF Order for ' + supplier | replace('_', ' ') %}
                                                         {{ form.csrf_token }}
                                                         {{ form.supplier(class='d-none',
                                                             value=shopping_cart[supplier]["supplier_id"]) }}
                                                         <button class="mt-2 btn btn-danger text-capitalize" onclick="checkout_supplier('{{supplier}}')">
-                                                            {{ _('Make order for: ') }} {{ supplier | replace('_', ' ') }}
+                                                            {{ _('Generate PDF Order for: ') }} {{ supplier | replace('_', ' ') }}
                                                         </button>
 
 

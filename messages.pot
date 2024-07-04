@@ -70,8 +70,8 @@ msgid "Action"
 msgstr "Acción"
 
 #: templates/cart.html:90
-msgid "Make order for: "
-msgstr "Hacer pedido para"
+msgid "Generate PDF Order for: "
+msgstr "Generar PDF para"
 
 #: templates/cart.html:100 templates/user/includes/navigation.html:82
 msgid "Your Cart is empty."
