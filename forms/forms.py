@@ -54,6 +54,11 @@ class EditUserForm(FlaskForm):
     role = RadioField(label='Type User', default='user', choices=['admin', 'user'], validators=[DataRequired()])
     submit_user = submit_field(label='Update User')
 
+
+class QuickUser(FlaskForm):
+    pharmacy_name = string_field(label='Pharmacy name')
+    submit_user = submit_field(label='Add new user')
+
 class DeleteUserForm(FlaskForm):
     user_id = StringField(validators=[DataRequired()], render_kw={"class": "d-none"})
     delete_user = submit_field('Delete', render_kw={'class': 'btn btn-danger'})

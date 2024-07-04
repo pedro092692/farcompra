@@ -1,0 +1,44 @@
+{% extends 'admin/layouts/base.html' %}
+{% block title %} Farcompra {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+{% endblock stylesheets %}
+
+{% block content %}
+    <!-- Users -->
+    <div class="container-fluid mt-4">
+        <div class="row">
+            <div class="col">
+                {% if not user_info %}
+                    <div class="card">
+                        <h5 class="card-header text-xl fw-bold text-capitalize" id="user_register">{{_('Quick User Add')}}</h5>
+                        <div class="card-body">
+                            <!-- form user-->
+                            {{ render_form(form, novalidate=True) }}
+                        </div>
+                    </div>
+                {% else %}
+                <div class="card">
+                    <h5 class="card-header text-xl fw-bold text-capitalize" >{{_('User info')}}</h5>
+                    <div class="card-body">
+                        <p>User email: {{ user_data['email'] }}</p>
+                        <p>User Password: {{ user_data['password'] }}</p>
+                    </div>
+                </div>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+    <!--Sweet alert 2-->
+    <script src="{{ url_for('static', filename='admin/assets/js/sweet_alert.js') }}"></script>
+{% endblock javascripts %}

@@ -25,6 +25,9 @@
                     {% endif %}
                 </form>
             </div>
+            <div class="card-body d-flex align-items-center">
+                <a href="{{ url_for('admin.user.quick_add') }}" class="btn btn-primary">Quick add user</a>
+            </div>
         </div>
         {{ render_flash_message(color='success') }}
         <div class="row">

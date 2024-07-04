@@ -1,9 +1,10 @@
 from flask import Blueprint, render_template, render_template, url_for, redirect, flash, abort, session
 from forms.forms import RegisterUserForm, RegisterPharmacyForm, EditUserForm, SearchUserForm, SearchPharmacyForm, \
-    DeleteUserForm
+    DeleteUserForm, QuickUser
 from werkzeug.security import generate_password_hash, check_password_hash
 from database import Database
 from flask_login import current_user
+import random
 
 def construct_blueprint(db: Database):
     user = Blueprint('user', __name__, template_folder='templates')
@@ -127,6 +128,39 @@ def construct_blueprint(db: Database):
                                                             user=user_ob,
                                                             delete_user=delete_user_form,
                                                             user_id=user_ob.id)
+
+    @user.route('/quick-add', methods=['GET', 'POST'])
+    def quick_add():
+        form = QuickUser()
+        show_info = False
+        user_data = {}
+        if form.validate_on_submit():
+            pharmacy_name = form.pharmacy_name.data.replace(' ', '')
+            email = f'{pharmacy_name}@farcompra.com'
+            if db.check_user(email):
+                form.pharmacy_name.errors.append('This name is already taken')
+            else:
+                password = f'FARCO{random.randint(10, 19)}{random.randint(10, 19)}'
+                new_user = db.add_user(name=pharmacy_name,
+                            last_name=pharmacy_name,
+                            email=email,
+                            password=generate_password_hash(password, method='pbkdf2:sha256', salt_length=8))
+
+                db.add_pharmacy(rif='123456789',
+                                name=pharmacy_name,
+                                email=email,
+                                address='Aragua',
+                                user_id=new_user.id)
+
+                show_info = True
+
+                user_data = {
+                    'name': pharmacy_name,
+                    'email': email,
+                    'password': password
+                }
+
+        return render_template('admin/home/quick-add.html', form=form, user_info=show_info, user_data=user_data)
 
     @user.route('/pharmacy-edit/<pharmacy_id>', methods=['GET', 'POST'])
     def pharmacy_edit(pharmacy_id):
