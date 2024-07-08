@@ -3,21 +3,38 @@ import os
 
 
 wholesalers = {
-    "vital_clinic":{
-        "url": "drogueriavitalclinic.com.ve",
-        "user": os.environ.get('VITAL_CLINIC_USER'),
-        "password": os.environ.get('VITAL_CLINIC_PASS'),
-        "path": '/Existencia',
-        "file_name": 'inventario.txt',
-        "name": "vital_clinic",
-        "csv": True,
-        "has_header": False,
-        "header" : 'id;barcode;name;due_date;price_usd;unknown;price_usd_2;stock',
+    "drovencentro": {
+        "url": "",
+        "user": "",
+        "password": "",
+        "path": '',
+        "file_name": 'drovencentro.xlsx',
+        "name": "drovencentro",
+        "csv": False,
+        "has_header": True,
+        "header": "id;name;price_usd;stock;barcode;units;due_date",
+        # "header": "barcode;name;laboratory;unknown;unknown;discount;ves_net;price_usd;stock;tax;id;active_ingredient;order;total;due_date",
         "fix_barcode": False,
-        "supplier_id": 1,
+        "supplier_id": 5,
+        "price_dollar": False
+        # "price_dollar": True
+    },
+    "cobeca": {
+        "url": "",
+        "user": "",
+        "password": "",
+        "path": '',
+        "file_name": 'cobeca.xlsx',
+        "name": "cobeca",
+        "csv": False,
+        "has_header": True,
+        "header":  "barcode;id;name;wholesale_price_ves;price_usd_reference;final_price_ves;price_usd;stock;\
+laboratory;credit_days;percent_supplier;dicount_supplier;digital_discount;\
+soon_payment_discount;discount_per_volume;min_amount_per_volume;discount_per_row;min_amount_per_row;rows;due_date",
+        "fix_barcode": False,
+        "supplier_id": 6,
         "price_dollar": True
     },
-
     "drocerca":{
         "url": "drocerca.proteoerp.org",
         "user": os.environ.get('DROCERCA_USER'),
@@ -32,6 +49,35 @@ brand;price_usd;price_ves_discount;group;due_date;active_ingredient;scale;discou
         "fix_barcode": True,
         "supplier_id": 2,
         "price_dollar": False
+    },
+    "harissa": {
+        "url": "vantecsolser.com",
+        "user": os.environ.get('HARISSA_USER'),
+        "password": os.environ.get('HARISSA_PASS'),
+        "path": '/',
+        "file_name": 'inventario.txt',
+        "name": "harissa",
+        "csv": True,
+        "has_header": False,
+        "header":  "id;name;product_code;product_group;barcode;price_no_tax;stock;\
+stock_2;stock_2;stock_3;stock_4;regulated;unknown_1;unknown_2;unknown_3;unknown_4;unknown_5;laboratory;price_usd;due_date;unknown_6,",
+        "fix_barcode": False,
+        "supplier_id": 4,
+        "price_dollar": True
+    },
+    "vital_clinic":{
+        "url": "drogueriavitalclinic.com.ve",
+        "user": os.environ.get('VITAL_CLINIC_USER'),
+        "password": os.environ.get('VITAL_CLINIC_PASS'),
+        "path": '/Existencia',
+        "file_name": 'inventario.txt',
+        "name": "vital_clinic",
+        "csv": True,
+        "has_header": False,
+        "header" : 'id;barcode;name;due_date;price_usd;unknown;price_usd_2;stock',
+        "fix_barcode": False,
+        "supplier_id": 1,
+        "price_dollar": True
     },
 
     "dronena":{
@@ -51,22 +97,6 @@ type;product_code;lot;due_date;regulated;cold_chain;discount_3;discount_4;origin
 
     },
 
-    "harissa": {
-        "url": "vantecsolser.com",
-        "user": os.environ.get('HARISSA_USER'),
-        "password": os.environ.get('HARISSA_PASS'),
-        "path": '/',
-        "file_name": 'inventario.txt',
-        "name": "harissa",
-        "csv": True,
-        "has_header": False,
-        "header":  "id;name;product_code;product_group;barcode;price_no_tax;stock;\
-stock_2;stock_2;stock_3;stock_4;regulated;unknown_1;unknown_2;unknown_3;unknown_4;unknown_5;laboratory;price_usd;due_date;unknown_6,",
-        "fix_barcode": False,
-        "supplier_id": 4,
-        "price_dollar": True
-    },
-
     "test_server": {
             "url": "",
             "user": "anonymous",
@@ -84,40 +114,6 @@ stock_2;stock_2;stock_3;stock_4;regulated;unknown_1;unknown_2;unknown_3;unknown_
             "price_dollar": False
         },
 
-    "drovencentro": {
-        "url": "",
-        "user": "",
-        "password": "",
-        "path": '',
-        "file_name": 'drovencentro.xlsx',
-        "name": "drovencentro",
-        "csv": False,
-        "has_header": True,
-        "header": "id;name;price_usd;stock;barcode;units;due_date",
-        # "header": "barcode;name;laboratory;unknown;unknown;discount;ves_net;price_usd;stock;tax;id;active_ingredient;order;total;due_date",
-        "fix_barcode": False,
-        "supplier_id": 5,
-        "price_dollar": False
-        # "price_dollar": True
-    },
-
-
-    "cobeca": {
-        "url": "",
-        "user": "",
-        "password": "",
-        "path": '',
-        "file_name": 'cobeca.xlsx',
-        "name": "cobeca",
-        "csv": False,
-        "has_header": True,
-        "header":  "barcode;id;name;wholesale_price_ves;price_usd_reference;final_price_ves;price_usd;stock;\
-laboratory;credit_days;percent_supplier;dicount_supplier;digital_discount;\
-soon_payment_discount;discount_per_volume;min_amount_per_volume;discount_per_row;min_amount_per_row;rows;due_date",
-        "fix_barcode": False,
-        "supplier_id": 6,
-        "price_dollar": True
-    },
 
     "joskar": {
         "url": "ftp.drogueriajoskar.com",
@@ -148,7 +144,4 @@ soon_payment_discount;discount_per_volume;min_amount_per_volume;discount_per_row
         "supplier_id": 8,
         "price_dollar": True
     }
-
-
-
 }
