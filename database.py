@@ -183,7 +183,9 @@ class Database:
 
 
     def delete_products_prices(self):
-        self.db.session.query(ProductPrice).delete()
+        # Delete all products not for not auto-update suppliers
+        statement = delete(ProductPrice).where(ProductPrice.supplier_id.notin_([5, 6]))
+        self.db.session.execute(statement)
         self.db.session.commit()
 
     def delete_all_products(self):
