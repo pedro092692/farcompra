@@ -88,10 +88,10 @@ class Cart(Base, db.Model):
     __tablename__ = "shoppingcart"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     user_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.id"), nullable=False)
-    product_price_id: Mapped[int] = mapped_column(Integer, ForeignKey("product_prices.id", ondelete='CASCADE'), nullable=False)
-    product_price_info: Mapped["ProductPrice"] = relationship()
-    supplier_id: Mapped[int] = mapped_column(Integer, ForeignKey("suppliers.id"), nullable=False)
-    supplier_info: Mapped["Supplier"] = relationship()
+    product_price_id: Mapped[int] = mapped_column(Integer, nullable=False)
+    supplier_name: Mapped[str] = mapped_column(String(250), nullable=False)
+    product_name: Mapped[str] = mapped_column(String(250), nullable=False)
+    product_price: Mapped[float] = mapped_column(Float, nullable=False)
     quantity: Mapped[int] = mapped_column(Integer, nullable=False)
 
     def __repr__(self):
