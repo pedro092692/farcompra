@@ -296,40 +296,39 @@ class Database:
 
     ### Cart ###
 
-    def add_to_cart(self, user_id, product_price_id, quantity, supplier_id):
+    def add_to_cart(self, user_id, product_price_id, quantity, supplier_name, product_name, product_price):
         new_cart_item = Cart(
             user_id=user_id,
             product_price_id=product_price_id,
-            supplier_id=supplier_id,
-            quantity=quantity
+            quantity=quantity,
+            supplier_name=supplier_name,
+            product_name=product_name,
+            product_price=product_price
         )
         self.db.session.add(new_cart_item)
         self.db.session.commit()
-
-
 
     def view_cart(self, user_id):
         shopping_cart = {}
         cart = self.db.session.execute(select(Cart).filter(Cart.user_id == user_id)).scalars().all()
         for item in cart:
-            product = item.product_price_info.product_info.name
-            supplier = item.supplier_info.name
-            if supplier not in shopping_cart:
-                shopping_cart[supplier] = {
-                    "supplier_id": item.supplier_info.id,
-                    "products":  {},
-                    "total": 0,
+            if item.supplier_name not in shopping_cart:
+                shopping_cart[item.supplier_name] = {
+                    "supplier_id": 2,
+                    "products": {},
+                    "total": 0
                 }
-
-            shopping_cart[supplier]["products"][product] = {
-                "id": item.product_price_info.id,
-                "price": item.product_price_info.price,
+            shopping_cart[item.supplier_name]["products"][item.product_name] = {
+                "id": item.product_price_id,
+                "price": item.product_price,
                 "quantity": item.quantity,
-                "id_cart": item.id,
+                "id_cart": item.id
             }
 
-            shopping_cart[supplier]["total"] += \
-                round(shopping_cart[supplier]["products"][product]["price"] * shopping_cart[supplier]["products"][product]["quantity"], 2)
+            shopping_cart[item.supplier_name]["total"] += round(
+                shopping_cart[item.supplier_name]["products"][item.product_name]["price"] *
+                shopping_cart[item.supplier_name]["products"][item.product_name]["quantity"], 2
+            )
         return shopping_cart
 
     def get_supplier_total(self, user_id, supplier_id):

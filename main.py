@@ -229,8 +229,8 @@ def handle_search_query_discount(supplier_id, discount_amount):
 @app.context_processor
 def get_cart():
     if current_user.is_authenticated:
-        # shopping_cart = db.view_cart(user_id=current_user.id)
-        shopping_cart = {}
+        shopping_cart = db.view_cart(user_id=current_user.id)
+        # shopping_cart = {}
         return {"shopping_cart": shopping_cart}
     else:
         return {"shopping_cart": {}}

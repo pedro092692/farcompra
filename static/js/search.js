@@ -14,15 +14,14 @@ function show_product_info(li){
 const socket = io({autoConnect: false});
 socket.connect();
 
-function get_products(form, product_price_id, supplier_id, stock, sp_name, product_name){
+function get_products(form, product_price_id, supplier_id, stock, sp_name, product_name, product_price){
     error_field = form.querySelector('p')
-
     event.preventDefault();
     const quantity = parseInt(form.elements['quantity'].value);
     if(quantity >= 1 && quantity <= stock ){
         error_field.style.display = 'none';
         // Add product to the database
-        socket.emit('add_to_cart', product_price_id, supplier_id, quantity);
+        socket.emit('add_to_cart', product_price_id, supplier_id, quantity, sp_name, product_name, product_price);
 
         // update view cart
         // check if shopping cart is empty
