@@ -5,7 +5,6 @@ from sqlalchemy import Integer, String, Float, ForeignKey, select, delete, join,
 from typing import List
 from flask import Flask
 from flask_login import UserMixin
-from flask_migrate import Migrate
 import pandas
 import os
 
@@ -112,7 +111,6 @@ class Database:
     def __init__(self, app: Flask):
         self.db = db
         self.app = app
-        self.migrate = Migrate(self.app, self.db)
 
         # DATABASE INIT
         self.app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DB_URI', 'sqlite:///farcompra.db')

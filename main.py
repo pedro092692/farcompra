@@ -13,6 +13,7 @@ from flask_socketio import SocketIO, emit
 from helpers import calc_discount, is_active
 from dotenv import load_dotenv
 from datetime import datetime
+from flask_migrate import Migrate
 import flask_sockets
 import os
 
@@ -36,6 +37,8 @@ csrf = CSRFProtect(app)
 db = Database(app)
 # CREATE TABLES
 db.create_tables()
+# MIGRATIONS
+migrate = Migrate(app, db.db)
 
 # Plugins
 Bootstrap5(app)
