@@ -5,6 +5,7 @@ from sqlalchemy import Integer, String, Float, ForeignKey, select, delete, join,
 from typing import List
 from flask import Flask
 from flask_login import UserMixin
+from flask_migrate import Migrate
 import pandas
 import os
 
@@ -88,10 +89,9 @@ class Cart(Base, db.Model):
     __tablename__ = "shoppingcart"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     user_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.id"), nullable=False)
-    product_price_id: Mapped[int] = mapped_column(Integer, ForeignKey("product_prices.id", ondelete='CASCADE'), nullable=False)
-    product_price_info: Mapped["ProductPrice"] = relationship()
-    supplier_id: Mapped[int] = mapped_column(Integer, ForeignKey("suppliers.id"), nullable=False)
-    supplier_info: Mapped["Supplier"] = relationship()
+    product_price_id: Mapped[int] = mapped_column(Integer, nullable=False)
+    product_name: Mapped[str] = mapped_column(String(500), nullable=False)
+    product_price: Mapped[float] = mapped_column(Float, nullable=False)
     quantity: Mapped[int] = mapped_column(Integer, nullable=False)
 
     def __repr__(self):
@@ -112,6 +112,7 @@ class Database:
     def __init__(self, app: Flask):
         self.db = db
         self.app = app
+        self.migrate = Migrate(self.app, self.db)
 
         # DATABASE INIT
         self.app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DB_URI', 'sqlite:///farcompra.db')
