@@ -8,13 +8,15 @@ from flask_login import UserMixin
 import pandas
 import os
 
+
 # CREATE DATABASE
 class Base(DeclarativeBase):
     pass
 
-# CREATE EXTENSIONS
 
+# CREATE EXTENSIONS
 db = SQLAlchemy(model_class=Base)
+
 
 
 # CONFIGURE TABLES
