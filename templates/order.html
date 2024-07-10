@@ -36,8 +36,8 @@
                 {% if order %}
                   {% for item in order %}
                     <tr>
-                      <td>{{ item.product_price_info.product_info.barcode }}</td>
-                      <td>{{ item.product_price_info.product_info.name }}</td>
+                      <td>{{ item.product_info.barcode }}</td>
+                      <td>{{ item.product_name }}</td>
                       <td>{{item.quantity}}</td>
                     </tr>
                   {% endfor %}
