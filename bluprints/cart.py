@@ -50,6 +50,8 @@ def construct_blueprint(db: Database, socketio: SocketIO, app):
     def handle_update_cart_quantity(item_id, quantity):
         cart_item = db.get_car_item(item_id)
         # update cart item quantity
+        if not quantity:
+            quantity = 1
         cart_item = db.update_cart_quantity(cart_item, quantity)
         total = cart_item.product_price * quantity
         grand_total = db.get_supplier_total(user_id=current_user.id, supplier_id=cart_item.supplier_id)
