@@ -92,6 +92,7 @@ class Cart(Base, db.Model):
     user_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.id"), nullable=False)
     product_id: Mapped[int] = mapped_column(Integer, ForeignKey("products.id"), nullable=False)
     product_price_id: Mapped[int] = mapped_column(Integer, nullable=False)
+    product_info: Mapped["Product"] = relationship()
     supplier_id: Mapped[int] = mapped_column(Integer, nullable=False)
     supplier_name: Mapped[str] = mapped_column(String(250), nullable=False)
     product_name: Mapped[str] = mapped_column(String(250), nullable=False)
