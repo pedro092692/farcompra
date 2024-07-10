@@ -89,6 +89,7 @@ class Cart(Base, db.Model):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     user_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.id"), nullable=False)
     product_price_id: Mapped[int] = mapped_column(Integer, nullable=False)
+    supplier_id: Mapped[int] = mapped_column(Integer, nullable=False),
     supplier_name: Mapped[str] = mapped_column(String(250), nullable=False)
     product_name: Mapped[str] = mapped_column(String(250), nullable=False)
     product_price: Mapped[float] = mapped_column(Float, nullable=False)
@@ -296,11 +297,12 @@ class Database:
 
     ### Cart ###
 
-    def add_to_cart(self, user_id, product_price_id, quantity, supplier_name, product_name, product_price):
+    def add_to_cart(self, user_id, product_price_id, quantity, supplier_id, supplier_name, product_name, product_price):
         new_cart_item = Cart(
             user_id=user_id,
             product_price_id=product_price_id,
             quantity=quantity,
+            supplier_id=supplier_id,
             supplier_name=supplier_name,
             product_name=product_name,
             product_price=product_price
@@ -314,7 +316,7 @@ class Database:
         for item in cart:
             if item.supplier_name not in shopping_cart:
                 shopping_cart[item.supplier_name] = {
-                    "supplier_id": 2,
+                    "supplier_id": item.supplier_id,
                     "products": {},
                     "total": 0
                 }

@@ -33,14 +33,15 @@ def construct_blueprint(db: Database, socketio: SocketIO, app):
                 user_id=user.id,
                 product_price_id=product_price_id,
                 quantity=quantity,
+                supplier_id=supplier_id,
                 supplier_name=sp_name,
                 product_name=product_name,
                 product_price=product_price
             )
-        # else:
-        #     # Update only quantity
-        #     new_item_quantity = db.update_cart(cart_item, quantity)
-        #     emit('update_quantity', {"quantity": new_item_quantity.quantity})
+        else:
+            # Update only quantity
+            new_item_quantity = db.update_cart(cart_item, quantity)
+            emit('update_quantity', {"quantity": new_item_quantity.quantity})
 
     @socketio.on('update_cart_quantity')
     @login_required
