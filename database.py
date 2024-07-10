@@ -300,7 +300,8 @@ class Database:
 
     ### Cart ###
 
-    def add_to_cart(self, user_id, product_price_id, quantity, supplier_id, supplier_name, product_name, product_price):
+    def add_to_cart(self, user_id, product_price_id, quantity, supplier_id, supplier_name, product_name, product_price,
+                    product_id):
         new_cart_item = Cart(
             user_id=user_id,
             product_price_id=product_price_id,
@@ -308,7 +309,8 @@ class Database:
             supplier_id=supplier_id,
             supplier_name=supplier_name,
             product_name=product_name,
-            product_price=product_price
+            product_price=product_price,
+            product_id=product_id
         )
         self.db.session.add(new_cart_item)
         self.db.session.commit()
