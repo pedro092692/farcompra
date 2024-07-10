@@ -33,7 +33,6 @@ function get_products(form, product_price_id, supplier_id, stock, sp_name, produ
             for(const supplier_li of all_li){
                 const supplier_id_in_list = parseInt(supplier_li.getAttribute('id'));
                 suppliers_on_list.push(supplier_id_in_list);
-                alert(supplier_li.getAttribute('id'));
             }
             if(suppliers_on_list.includes(supplier_id)){
                 const supplier_li = document.getElementById(supplier_id.toString());

@@ -88,6 +88,7 @@ class Cart(Base, db.Model):
     __tablename__ = "shoppingcart"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     user_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.id"), nullable=False)
+    product_id: Mapped[int] = mapped_column(Integer, ForeignKey("products.id"), nullable=False)
     product_price_id: Mapped[int] = mapped_column(Integer, nullable=False)
     supplier_id: Mapped[int] = mapped_column(Integer, nullable=False)
     supplier_name: Mapped[str] = mapped_column(String(250), nullable=False)
@@ -337,7 +338,7 @@ class Database:
         supplier_list = Cart.query.filter_by(user_id=user_id, supplier_id=supplier_id).all()
         total = 0
         for item in supplier_list:
-            total += item.product_price_info.price * item.quantity
+            total += item.product_price * item.quantity
         return round(total, 2)
 
     def update_cart(self, cart_item, quantity):
