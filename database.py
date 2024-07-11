@@ -298,6 +298,9 @@ class Database:
         discount_item.discount = new_discount
         self.db.session.commit()
 
+    def delete_user_discount(self, user_discount):
+        self.db.session.delete(user_discount)
+        self.db.session.commit()
 
     ### Cart ###
 
