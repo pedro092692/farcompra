@@ -27,12 +27,6 @@ def construct_blueprint(db: Database, errors):
 
         return render_template('admin/home/add_supplier.html', form=form)
 
-    @supplier.route('/suppliers/delete/<supplier_id>', methods=['GET'])
-    def delete_supplier(supplier_id):
-        db.delete_supplier(supplier_id)
-
-        return redirect(url_for('admin.supplier.suppliers'))
-
     @supplier.route('/suppliers/download/<supplier_id>')
     def download_from_supplier(supplier_id):
         supplier_ = db.get_supplier(supplier_id)

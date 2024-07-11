@@ -27,8 +27,6 @@
                                 <tr>
                                     <th scope="col" class="text-sm">{{ _('Name') }}</th>
                                     <th scope="col" class="text-sm">{{ _('Action') }}</th>
-                                    <th scope="col" class="text-sm">{{ _('id') }}</th>
-                                    <th scope="col" class="text-sm">{{ _('delete') }}</th>
                                 </tr>
                               </thead>
                               <tbody>
@@ -42,10 +40,6 @@
                                                                         {{ _('Download File') }}
                                         </a>
                                         </td>
-
-                                        <td scope="row" class="text-sm"><strong>{{ supplier.id }}</strong></td>
-                                        <td scope="row" class="text-sm"><a  href="{{ url_for('admin.supplier.delete_supplier', supplier_id=supplier.id) }}">delete</a></td>
-
                                     </tr>
                                     </tr>
                                 {% endfor %}
@@ -67,16 +61,12 @@
                               <thead class="thead-light">
                                 <tr>
                                     <th scope="col" class="text-sm">{{ _('Name') }}</th>
-                                    <th scope="col" class="text-sm">{{ _('id') }}</th>
-                                    <th scope="col" class="text-sm">{{ _('delete') }}</th>
                                 </tr>
                               </thead>
                               <tbody>
                                 {% for supplier in no_ftp_suppliers %}
                                     <tr>
                                         <td scope="row" class="text-sm"><strong>{{ supplier.name }}</strong></td>
-                                        <td scope="row" class="text-sm"><strong>{{ supplier.id }}</strong></td>
-                                        <td scope="row" class="text-sm"><a href="{{ url_for('admin.supplier.delete_supplier', supplier_id=supplier.id) }}">delete</a></td>
                                     </tr>
                                     </tr>
                                 {% endfor %}
