@@ -206,6 +206,11 @@ class Database:
             self.db.session.delete(product)
             self.db.session.commit()
 
+    def delete_supplier(self, supplier_id):
+        supplier = self.get_supplier(supplier_id)
+        if supplier:
+            self.db.session.delete(supplier)
+            self.db.session.commit()
 
     ### Users ###
     def add_user(self, name, last_name, email, password, role='user'):

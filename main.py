@@ -255,5 +255,5 @@ def custom_404(error):
 
 if __name__ == "__main__":
     # app.run(debug=True)
-    socketio.run(app, debug=False)
+    socketio.run(app, debug=True)
 

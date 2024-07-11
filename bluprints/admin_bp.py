@@ -40,8 +40,6 @@ def construct_blueprint(db: Database):
         file_manipulator = FileHandler()
         file_manipulator.remove_all_files(path='core/data/manual_uploads')
 
-        print(os.listdir('core/data/manual_uploads'))
-
         new_data.testing()
         delete_product_form = DeleteProduct()
         messages = got_message()
