@@ -66,7 +66,8 @@ stock_2;stock_2;stock_3;stock_4;regulated;unknown_1;unknown_2;unknown_3;unknown_
         "price_dollar": True
     },
     "vital_clinic":{
-        "url": "drogueriavitalclinic.com.ve",
+        # "url": "drogueriavitalclinic.com.ve" old ftp server,
+        "url": "195.35.33.28",
         "user": os.environ.get('VITAL_CLINIC_USER'),
         "password": os.environ.get('VITAL_CLINIC_PASS'),
         "path": '/Existencia',
