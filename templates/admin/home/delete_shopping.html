@@ -1,0 +1,33 @@
+{% extends 'admin/layouts/base.html' %}
+{% block title %} Farcompra {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+{% endblock stylesheets %}
+
+{% block content %}
+    <!-- Products -->
+    <div class="container-fluid mt-4">
+        <div class="card">
+            <div class="card-body">
+                <h2 id="users">{{ _('Delete all shopping cart items...') }}</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col-xl-3">
+                <div class="card">
+                    <div class="card-body">
+                        <form action="{{ url_for('admin.delete_shopping_cart') }}" method="POST">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <input type="submit" value="Delete all shopping cart items...!" class="btn btn-danger">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+{% endblock javascripts %}

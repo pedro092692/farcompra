@@ -64,6 +64,14 @@ def construct_blueprint(db: Database):
 
         return render_template('admin/home/delete_products.html')
 
+    @admin.route('/products/cart/delete', methods=['GET', 'POST'])
+    def delete_shopping_cart():
+        if request.method == 'POST':
+            print('time for reset shopping cart....')
+            db.delete_all_shopping_cart_items()
+            return redirect(url_for('admin.index'))
+        return render_template('admin/home/delete_shopping.html')
+
     ### Operations ###
     @admin.route('/update-now', methods=['GET'])
     def update_now():

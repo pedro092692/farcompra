@@ -197,6 +197,12 @@ class Database:
         self.db.session.query(Product).delete()
         self.db.session.commit()
 
+
+    # delete all shopping cart items
+    def delete_all_shopping_cart_items(self):
+        self.db.session.query(Cart).delete()
+        self.db.session.commit()
+
     def get_product(self, product_id):
         product = self.db.get_or_404(Product, product_id)
         return product
