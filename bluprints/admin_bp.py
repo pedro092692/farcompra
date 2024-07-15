@@ -9,12 +9,15 @@ from .supplier_bp import construct_blueprint as bp_supplier
 from forms.forms import CsvForm, DeleteProduct
 from flask_login import login_user, current_user, login_required
 import os
+from flask_crontab import Crontab
 
-def construct_blueprint(db: Database):
+def construct_blueprint(db: Database, app):
     admin = Blueprint('admin', __name__, template_folder='templates')
     admin.register_blueprint(bp_user(db))
     new_data = UpdateData(wholesalers, db)
     admin.register_blueprint(bp_supplier(db, errors=new_data))
+    # CRONTAB
+    crontab = Crontab(app)
 
     def got_message():
         message = ''
@@ -77,6 +80,12 @@ def construct_blueprint(db: Database):
         messages = got_message()
         new_data.download()
         return redirect(request.referrer)
+
+    @crontab.job(minute='*/30')
+    def auto_update():
+        messages = got_message()
+        print('products updated...')
+        new_data.download()
 
     @admin.route('/uploads', methods=['POST'])
     def uploads():

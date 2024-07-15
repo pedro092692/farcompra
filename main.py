@@ -57,7 +57,7 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 
 # BLUEPRINTS
-app.register_blueprint(admin_bp.construct_blueprint(db=db), url_prefix='/admin')
+app.register_blueprint(admin_bp.construct_blueprint(db=db, app=app), url_prefix='/admin')
 app.register_blueprint(cart.construct_blueprint(db=db, socketio=socketio, app=app))
 
 
@@ -225,7 +225,6 @@ def handle_search_query_discount(supplier_id, discount_amount):
     else:
         # Add discount
         new_discount = db.add_discount(current_user.id, supplier_id, discount_amount)
-
 
 
 # Cart
