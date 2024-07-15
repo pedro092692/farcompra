@@ -71,7 +71,6 @@ def construct_blueprint(db: Database):
             return redirect(url_for('admin.index'))
         return render_template('admin/home/delete_shopping.html')
 
-
     ### Operations ###
     @admin.route('/update-now', methods=['GET'])
     def update_now():

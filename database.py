@@ -8,13 +8,15 @@ from flask_login import UserMixin
 import pandas
 import os
 
+
 # CREATE DATABASE
 class Base(DeclarativeBase):
     pass
 
-# CREATE EXTENSIONS
 
+# CREATE EXTENSIONS
 db = SQLAlchemy(model_class=Base)
+
 
 
 # CONFIGURE TABLES
@@ -88,10 +90,13 @@ class Cart(Base, db.Model):
     __tablename__ = "shoppingcart"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     user_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.id"), nullable=False)
-    product_price_id: Mapped[int] = mapped_column(Integer, ForeignKey("product_prices.id", ondelete='CASCADE'), nullable=False)
-    product_price_info: Mapped["ProductPrice"] = relationship()
-    supplier_id: Mapped[int] = mapped_column(Integer, ForeignKey("suppliers.id"), nullable=False)
-    supplier_info: Mapped["Supplier"] = relationship()
+    product_id: Mapped[int] = mapped_column(Integer, ForeignKey("products.id"), nullable=False)
+    product_price_id: Mapped[int] = mapped_column(Integer, nullable=False)
+    product_info: Mapped["Product"] = relationship()
+    supplier_id: Mapped[int] = mapped_column(Integer, nullable=False)
+    supplier_name: Mapped[str] = mapped_column(String(250), nullable=False)
+    product_name: Mapped[str] = mapped_column(String(250), nullable=False)
+    product_price: Mapped[float] = mapped_column(Float, nullable=False)
     quantity: Mapped[int] = mapped_column(Integer, nullable=False)
 
     def __repr__(self):
@@ -303,50 +308,55 @@ class Database:
         discount_item.discount = new_discount
         self.db.session.commit()
 
+    def delete_user_discount(self, user_discount):
+        self.db.session.delete(user_discount)
+        self.db.session.commit()
 
     ### Cart ###
 
-    def add_to_cart(self, user_id, product_price_id, quantity, supplier_id):
+    def add_to_cart(self, user_id, product_price_id, quantity, supplier_id, supplier_name, product_name, product_price,
+                    product_id):
         new_cart_item = Cart(
             user_id=user_id,
             product_price_id=product_price_id,
+            quantity=quantity,
             supplier_id=supplier_id,
-            quantity=quantity
+            supplier_name=supplier_name,
+            product_name=product_name,
+            product_price=product_price,
+            product_id=product_id
         )
         self.db.session.add(new_cart_item)
         self.db.session.commit()
-
-
 
     def view_cart(self, user_id):
         shopping_cart = {}
         cart = self.db.session.execute(select(Cart).filter(Cart.user_id == user_id)).scalars().all()
         for item in cart:
-            product = item.product_price_info.product_info.name
-            supplier = item.supplier_info.name
-            if supplier not in shopping_cart:
-                shopping_cart[supplier] = {
-                    "supplier_id": item.supplier_info.id,
-                    "products":  {},
-                    "total": 0,
+            if item.supplier_name not in shopping_cart:
+                shopping_cart[item.supplier_name] = {
+                    "supplier_id": item.supplier_id,
+                    "products": {},
+                    "total": 0
                 }
-
-            shopping_cart[supplier]["products"][product] = {
-                "id": item.product_price_info.id,
-                "price": item.product_price_info.price,
+            shopping_cart[item.supplier_name]["products"][item.product_name] = {
+                "id": item.product_price_id,
+                "price": item.product_price,
                 "quantity": item.quantity,
-                "id_cart": item.id,
+                "id_cart": item.id
             }
 
-            shopping_cart[supplier]["total"] += \
-                round(shopping_cart[supplier]["products"][product]["price"] * shopping_cart[supplier]["products"][product]["quantity"], 2)
+            shopping_cart[item.supplier_name]["total"] += round(
+                shopping_cart[item.supplier_name]["products"][item.product_name]["price"] *
+                shopping_cart[item.supplier_name]["products"][item.product_name]["quantity"], 2
+            )
         return shopping_cart
 
     def get_supplier_total(self, user_id, supplier_id):
         supplier_list = Cart.query.filter_by(user_id=user_id, supplier_id=supplier_id).all()
         total = 0
         for item in supplier_list:
-            total += item.product_price_info.price * item.quantity
+            total += item.product_price * item.quantity
         return round(total, 2)
 
     def update_cart(self, cart_item, quantity):
