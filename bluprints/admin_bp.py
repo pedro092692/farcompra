@@ -81,7 +81,7 @@ def construct_blueprint(db: Database, app):
         new_data.download()
         return redirect(request.referrer)
 
-    @crontab.job(minute='*/30')
+    @crontab.job(minute='*/1')
     def auto_update():
         messages = got_message()
         print('products updated...')
