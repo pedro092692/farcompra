@@ -1,9 +1,10 @@
 import sqlalchemy.exc
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import relationship, DeclarativeBase, Mapped, mapped_column
-from sqlalchemy import Integer, String, Float, ForeignKey, select, delete, join, func, case, and_
+from sqlalchemy import Integer, String, Float, ForeignKey, select, delete, join, func, case, and_, DateTime
 from typing import List
 from flask import Flask
+from datetime import datetime
 from flask_login import UserMixin
 import pandas
 import os
@@ -110,6 +111,19 @@ class PharmacyDiscount(Base):
     supplier_id: Mapped[int] = mapped_column(Integer, ForeignKey("suppliers.id"), nullable=False)
     discount: Mapped[float] = mapped_column(Float, nullable=False)
     user_info: Mapped["User"] = relationship(back_populates="discount")
+
+
+class OrderHistory(Base):
+    __tablename__ = "order_history"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    user_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.id"), nullable=False)
+    supplier_id: Mapped[int] = mapped_column(Integer, ForeignKey("suppliers.id"), nullable=False)
+    product_name: Mapped[str] = mapped_column(String(500), nullable=False)
+    quantity: Mapped[int] = mapped_column(Integer, nullable=False)
+    price: Mapped[float] = mapped_column(Float, nullable=False)
+    data: Mapped[datetime] = mapped_column(DateTime, nullable=False, default=datetime.now())
+
+
 
 
 class Database:
