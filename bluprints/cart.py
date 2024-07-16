@@ -117,5 +117,14 @@ def construct_blueprint(db: Database, socketio: SocketIO, app):
 
             return rendered
 
+    @cart.route('/order-history', methods=['GET', 'POST'])
+    @has_pharmacy
+    @login_required
+    def order_history():
+        form = CheckOutCart()
+        user = db.get_user(current_user.id)
+        shopping_cart = db.view_cart(user_id=user.id)
+        return render_template('order-history.html', shopping_cart=shopping_cart, form=form)
+
     return cart
 
