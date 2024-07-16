@@ -90,7 +90,7 @@ def construct_blueprint(db: Database, app):
             # delete all notifications
             if new_data.errors:
                 new_data.errors = []
-            # new_data.download()
+            new_data.download()
 
     @admin.route('/uploads', methods=['POST'])
     def uploads():
