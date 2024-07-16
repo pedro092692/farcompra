@@ -82,13 +82,24 @@ class DataFrameHandler:
             # Setting dollar price
             if not price_dollar:
                 if self.dollar:
-                    df['price_usd'] = round(df['price_usd'] / self.dollar, 2)
+                    try:
+                        df['price_usd'] = round(df['price_usd'] / self.dollar, 2)
+                    except TypeError:
+                        self.fix_price(df)
+                        df['price_usd'] = round(df['price_usd'] / self.dollar, 2)
                 else:
                     self.errors['dollar'] = {'error': 'Error getting dollar value please add it manually.'}
 
             # Add price discount only for nena
             if supplier_id == 3:
                 df['price_usd'] = round(df['price_usd'] * (1 - (df['discount_2'] / 100)), 2)
+
+            # fix stock
+            try:
+                if wholesalers[wholesaler]['fix_stock']:
+                    self.fix_stock(df)
+            except KeyError:
+                pass
 
 
             # adding supplier id column
@@ -195,3 +206,15 @@ class DataFrameHandler:
     def dataframe_merge(df_1: pd.DataFrame, df_2: pd.DataFrame, column: str) -> pd.DataFrame:
         merge_df = pd.merge(df_1, df_2, on=column)
         return merge_df
+
+    @staticmethod
+    def fix_stock(df: pd.DataFrame):
+        df.stock = df.stock.astype(str).str.replace(',00', '0')
+        df.stock = df.stock.astype(int)
+
+    @staticmethod
+    def fix_price(df: pd.DataFrame):
+        df.price_usd = df.price_usd.astype(str).str.replace(',', '.')
+        df.price_usd = df.price_usd.astype(float)
+
+

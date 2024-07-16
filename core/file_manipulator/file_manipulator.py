@@ -76,6 +76,8 @@ class FileHandler:
             with open(f'{self.path}/{file_name}', mode='r') as infile, open(f'{self.path}'/{file_name}, mode='w') as outfile:
                 content = infile.read().replace('\n', '')
                 outfile.write(content)
+        elif extension == '.csv' and file_name == 'drolanca.csv':
+            self.fix_drolanca(file_name=file_name)
 
 
     def convert_all_to_csv(self):
@@ -135,6 +137,27 @@ class FileHandler:
             if file.endswith('.csv'):
                 files.append(file)
         return files
+
+    def fix_drolanca(self, file_name):
+        with open(f'{self.path}/{file_name}', mode='r') as file:
+            new_file = []
+            i = 0
+            for line in file.readlines():
+                row = line.split(';')
+                product_info = row[2].split(' Vence:')
+                product_info[0] = product_info[0].replace(' -', '').rstrip()
+                product_info[1] = product_info[1].lstrip()
+                product_name = product_info[0]
+                due_date = product_info[1]
+                row[2] = product_name
+                row[10] = due_date
+                line = ';'.join(row)
+                new_file.append(line)
+
+        with open(f'{self.path}/{file_name}', mode='w') as data:
+            for lines in new_file:
+                for line in lines:
+                    data.write(line)
 
 
 
