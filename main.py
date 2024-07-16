@@ -13,6 +13,7 @@ from flask_socketio import SocketIO, emit
 from helpers import calc_discount, is_active
 from dotenv import load_dotenv
 from datetime import datetime
+from flask_migrate import Migrate
 import flask_sockets
 import os
 
@@ -36,6 +37,8 @@ csrf = CSRFProtect(app)
 db = Database(app)
 # CREATE TABLES
 db.create_tables()
+# MIGRATIONS
+migrate = Migrate(app, db.db)
 
 # Plugins
 Bootstrap5(app)
@@ -54,7 +57,7 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 
 # BLUEPRINTS
-app.register_blueprint(admin_bp.construct_blueprint(db=db), url_prefix='/admin')
+app.register_blueprint(admin_bp.construct_blueprint(db=db, app=app), url_prefix='/admin')
 app.register_blueprint(cart.construct_blueprint(db=db, socketio=socketio, app=app))
 
 
@@ -210,16 +213,18 @@ def handle_search_query(search_query, per_page):
 
 @socketio.on('update_discount')
 def handle_search_query_discount(supplier_id, discount_amount):
-    discount_amount = int(discount_amount) / 100
+    discount_amount = float(discount_amount) / 100
 
     # check if exist discount
     discount_user = db.get_user_discount(current_user.id, supplier_id)
     if discount_user:
-        db.edit_user_discount(discount_user[0], discount_amount)
+        if discount_amount == 0:
+            db.delete_user_discount(user_discount=discount_user[0])
+        else:
+            db.edit_user_discount(discount_user[0], discount_amount)
     else:
         # Add discount
         new_discount = db.add_discount(current_user.id, supplier_id, discount_amount)
-
 
 
 # Cart

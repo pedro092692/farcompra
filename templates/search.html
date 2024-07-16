@@ -59,9 +59,10 @@
                                                                             supplier_id={{price.supplier_id}},
                                                                             stock={{price.stock}},
                                                                             sp_name='{{price.supplier}}',
-                                                                            product_name='{{price.product_name}}')">
+                                                                            product_name='{{price.product_name}}',
+                                                                            product_price='{{price.price}}',
+                                                                            product_id='{{ product.id }}')">
                                                                             <div class="d-flex align-items-center" id="action-container">
-
                                                                                 {{ form.csrf_token }}
                                                                                 {{ form.quantity(class='form-control mr-4',
                                                                                 id='quantity', placeholder=get_text('Quantity')) }}
@@ -104,7 +105,9 @@
                                                                             supplier_id={{price.supplier_id}},
                                                                             stock={{price.stock}},
                                                                             sp_name='{{price.supplier_info.name}}',
-                                                                            product_name='{{price.product_info.name}}')">
+                                                                            product_name='{{price.product_info.name}}',
+                                                                            product_price='{{price.price}}',
+                                                                            product_id='{{ product.id }}')">
                                                                             <div class="d-flex align-items-center" id="action-container">
                                                                                 {{ form.csrf_token }}
                                                                                 {{ form.quantity(class='form-control mr-4',
@@ -214,7 +217,9 @@
                                                                                     supplier_id={{price.supplier_id}},
                                                                                     stock={{price.stock}},
                                                                                     sp_name='{{price.supplier}}',
-                                                                                    product_name='{{price.product_name}}')">
+                                                                                    product_name='{{price.product_name}}',
+                                                                                    product_price='{{price.price}}',
+                                                                                    product_id='{{ product.id }}')">
                                                                                     <div class="d-flex align-items-center" id="action-container">
 
                                                                                         {{ form.csrf_token }}
@@ -250,7 +255,9 @@
                                                                                     supplier_id={{price.supplier_id}},
                                                                                     stock={{price.stock}},
                                                                                     sp_name='{{price.supplier_info.name}}',
-                                                                                    product_name='{{price.product_info.name}}')">
+                                                                                    product_name='{{price.product_info.name}}',
+                                                                                    product_price='{{price.price}}',
+                                                                                    product_id='{{ product.id }}')">
                                                                                     <div class="d-flex align-items-center" id="action-container">
 
                                                                                         {{ form.csrf_token }}
