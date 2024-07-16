@@ -139,7 +139,7 @@ class FileHandler:
         return files
 
     def fix_drolanca(self, file_name):
-        with open(f'{self.path}/{file_name}', mode='r') as file:
+        with open(f'{self.path}/{file_name}', mode='r', encoding="latin-1") as file:
             new_file = []
             i = 0
             for line in file.readlines():
@@ -154,7 +154,7 @@ class FileHandler:
                 line = ';'.join(row)
                 new_file.append(line)
 
-        with open(f'{self.path}/{file_name}', mode='w') as data:
+        with open(f'{self.path}/{file_name}', mode='w', encoding="latin-1") as data:
             for lines in new_file:
                 for line in lines:
                     data.write(line)
