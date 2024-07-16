@@ -12,9 +12,20 @@
             <div class="col">
                 <div class="card">
                     <h5 class="card-header text-xl fw-bold text-capitalize" id="user_register">
-                        <img src="{{ url_for('static', filename='img/icons/cart-shopping-solid.svg') }}"
-                             alt="shopping-cart" width="30" class="mr-2">
-                        {{_('Shopping Cart')}}
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <img src="{{ url_for('static', filename='img/icons/cart-shopping-solid.svg') }}"
+                                     alt="shopping-cart" width="30" class="mr-2">
+                                {{_('Shopping Cart')}}
+                            </div>
+                            <div class="">
+                                <a href="{{url_for('cart.order_history')}}">
+                                    <span class="">
+                                        <i class="ni ni-align-left-2 text-xl"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
                     </h5>
 
                     <div class="card-body">
