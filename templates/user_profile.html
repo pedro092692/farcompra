@@ -60,6 +60,12 @@
                                         <h3>{{_('Email')}}</h3>
                                         <p class="text-lg text-capitalize fw-bold">{{ user.pharmacy[0].email }}</p>
                                     </div>
+                                    <div class="col">
+                                        <h3>{{_('Order History')}}</h3>
+                                        <a href="{{url_for('cart.order_history')}}">
+                                            <p>{{_('View Order History')}}</p>
+                                        </a>
+                                    </div>
                                 </div>
                                 <!-- Discount info --->
                                 <div class="row">
