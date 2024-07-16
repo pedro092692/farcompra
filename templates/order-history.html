@@ -1,10 +1,116 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'user/layouts/base.html' %}
+{% block title %} Farcompra {% endblock title %}
 
-</body>
-</html>
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+{% endblock stylesheets %}
+
+{% block content %}
+    <!-- Users -->
+    <div class="container-fluid mt-4">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <h5 class="card-header text-xl fw-bold text-capitalize" id="user_register">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <img src="{{ url_for('static', filename='img/icons/history-svgrepo-com.svg') }}"
+                                     alt="shopping-cart" width="30" class="mr-2">
+                                {{_('Order History')}}
+                            </div>
+                            <div class="">
+                                <a href="{{url_for('cart.view_cart')}}">
+                                    <img src="{{ url_for('static', filename='img/icons/cart-shopping-solid.svg') }}"
+                                     alt="shopping-cart" width="30" class="mr-2">
+                                </a>
+                            </div>
+                        </div>
+                    </h5>
+
+                    <div class="card-body">
+                        <!-- Shopping cart info -->
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col" id="main-col">
+                                    {% if shopping_cart %}
+                                        {% for supplier in shopping_cart %}
+                                        <div class="card" supplier="{{supplier}}">
+                                            <h2 class="card-header text-capitalize">
+                                                {{supplier | replace('_', ' ')}}
+                                            </h2>
+                                            <div class="card-body">
+                                                <div class="table-responsive mt-2">
+                                                    <table class="table table-striped" id="table-prices">
+                                                        <thead class="thead-light">
+                                                            <tr>
+                                                                <th scope="col" class="text-sm w-50">{{_('Item')}}</th>
+                                                                <th scope="col" class="text-sm">{{_('Quantity')}}</th>
+                                                                <th scope="col" class="text-sm">{{_('Price')}}</th>
+                                                                <th scope="col" class="text-sm">{{_('Total')}}</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {% for product in shopping_cart[supplier]['products'] %}
+                                                                <tr>
+                                                                    <td scope="row" class="text-capitalize">
+                                                                        AFLAMAX 50 MG X 10 TAB OFTALMI
+                                                                    </td>
+                                                                    <td scope="row" class="text-capitalize">
+                                                                        1
+                                                                    </td>
+                                                                    <td scope="row" class="text-capitalize" id="price">
+                                                                        1.24
+                                                                    </td>
+                                                                    <td scope="row" class="text-capitalize" id="total-{{shopping_cart[supplier]['products'][product]['id_cart']}}">
+                                                                        1.24
+                                                                    </td>
+                                                                </tr>
+                                                            {% endfor %}
+                                                                <tr class="rounded">
+                                                                    <th colspan="3" scope="col"
+                                                                        class="text-sm text-right bg-light rounded-left">
+                                                                        {{_('Total')}}
+                                                                    </th>
+                                                                    <td scope="row" class="rounded-right text-sm font-weight-bold bg-success text-white" id="grand-total-{{ supplier }}">
+                                                                        $1.24
+                                                                    </td>
+                                                                </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <form role="form" method="POST" novalidate
+                                                          id="form-{{supplier}}"
+                                                          action="{{ url_for('cart.checkout_cart') }}">
+                                                        {% set order = 'Generate PDF Order for ' + supplier | replace('_', ' ') %}
+                                                        {{ form.csrf_token }}
+                                                        {{ form.supplier(class='d-none',
+                                                            value=shopping_cart[supplier]["supplier_id"]) }}
+                                                        <button class="mt-2 btn btn-danger text-capitalize" onclick="checkout_supplier('{{supplier}}')">
+                                                            {{ _('Generate PDF Order for: ') }} {{ supplier | replace('_', ' ') }}
+                                                        </button>
+
+
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    {% else %}
+                                        <p class="text-center text-md mt-2 font-weight-bold">{{ _('Your Cart is empty.') }}</p>
+                                        <p class="text-center text-xl font-weight-bold">¯\_(ツ) _/¯ </p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock content %}
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+<script src="{{ url_for('static', filename='js/cart.js') }}"></script>
+{% endblock javascripts %}
