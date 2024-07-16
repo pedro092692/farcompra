@@ -118,6 +118,7 @@ class OrderHistory(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     user_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.id"), nullable=False)
     supplier_id: Mapped[int] = mapped_column(Integer, ForeignKey("suppliers.id"), nullable=False)
+    supplier_info: Mapped["Supplier"] = relationship()
     product_name: Mapped[str] = mapped_column(String(500), nullable=False)
     quantity: Mapped[int] = mapped_column(Integer, nullable=False)
     price: Mapped[float] = mapped_column(Float, nullable=False)
@@ -382,6 +383,18 @@ class Database:
         cart_item.quantity = quantity
         self.db.session.commit()
         return cart_item
+
+    ### ORDER HISTORY ###
+    def add_order_history(self, user_id, supplier_id, product_name, quantity, price):
+        new_order = OrderHistory(
+            user_id=user_id,
+            supplier_id=supplier_id,
+            product_name=product_name,
+            quantity=quantity,
+            price=price,
+        )
+        self.db.session.add(new_order)
+        self.db.session.commit()
 
     @staticmethod
     def check_product_cart(product_price_id, user_id):
