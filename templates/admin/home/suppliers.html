@@ -26,6 +26,7 @@
                               <thead class="thead-light">
                                 <tr>
                                     <th scope="col" class="text-sm">{{ _('Name') }}</th>
+                                    <th scope="col" class="text-sm">{{_('ID')}}</th>
                                     <th scope="col" class="text-sm">{{ _('Action') }}</th>
                                 </tr>
                               </thead>
@@ -33,6 +34,7 @@
                                 {% for supplier in suppliers_ftp %}
                                     <tr>
                                         <td scope="row" class="text-sm"><strong>{{ supplier.name }}</strong></td>
+                                        <td scope="row" class="text-sm">{{ supplier.id }}</td>
                                         <td scope="row" class="text-sm"><a href="{{
                                                                         url_for('admin.supplier.download_from_supplier',
                                                                         supplier_id=supplier.id) }}"
@@ -61,12 +63,14 @@
                               <thead class="thead-light">
                                 <tr>
                                     <th scope="col" class="text-sm">{{ _('Name') }}</th>
+                                    <th scope="col" class="text-sm">{{_('ID')}}</th>
                                 </tr>
                               </thead>
                               <tbody>
                                 {% for supplier in no_ftp_suppliers %}
                                     <tr>
                                         <td scope="row" class="text-sm"><strong>{{ supplier.name }}</strong></td>
+                                         <td scope="row" class="text-sm">{{ supplier.id }}</td>
                                     </tr>
                                     </tr>
                                 {% endfor %}
