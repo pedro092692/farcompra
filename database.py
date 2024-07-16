@@ -121,7 +121,7 @@ class OrderHistory(Base):
     product_name: Mapped[str] = mapped_column(String(500), nullable=False)
     quantity: Mapped[int] = mapped_column(Integer, nullable=False)
     price: Mapped[float] = mapped_column(Float, nullable=False)
-    data: Mapped[datetime] = mapped_column(DateTime, nullable=False, default=datetime.now())
+    date: Mapped[datetime] = mapped_column(DateTime, nullable=False, default=datetime.now())
 
 
 
