@@ -60,10 +60,10 @@
                                                                         {{ order_history[supplier]['products'][product]['quantity'] }}
                                                                     </td>
                                                                     <td scope="row" class="text-capitalize" id="price">
-                                                                        {{ order_history[supplier]['products'][product]['price'] }}
+                                                                        ${{ order_history[supplier]['products'][product]['price'] }}
                                                                     </td>
                                                                     <td scope="row" class="text-capitalize">
-                                                                        {{ order_history[supplier]['products'][product]['total']|round(2) }}
+                                                                        ${{ order_history[supplier]['products'][product]['total']|round(2) }}
                                                                     </td>
                                                                 </tr>
                                                             {% endfor %}
@@ -73,7 +73,7 @@
                                                                         {{_('Total')}}
                                                                     </th>
                                                                     <td scope="row" class="rounded-right text-sm font-weight-bold bg-success text-white" id="grand-total-{{ supplier }}">
-                                                                        {{ order_history[supplier]['total'] }}
+                                                                        ${{ order_history[supplier]['total'] }}
                                                                     </td>
                                                                 </tr>
                                                         </tbody>
