@@ -29,6 +29,7 @@ def construct_blueprint(db: Database, socketio: SocketIO, app):
         # check if product exist in the cart
         cart_item = db.check_product_cart(product_price_id, user.id)
         if not cart_item:
+            product_info = db.get_product_price(product_price_id=product_price_id)
             # Add product to the cart
             new_cart = db.add_to_cart(
                 user_id=user.id,
@@ -39,6 +40,7 @@ def construct_blueprint(db: Database, socketio: SocketIO, app):
                 product_name=product_name,
                 product_price=product_price,
                 product_id=product_id,
+                internal_code_product=product_info.internal_code_product
             )
         else:
             # Update only quantity
