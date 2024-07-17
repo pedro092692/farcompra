@@ -90,19 +90,38 @@
                                                                 </tr>
                                                         </tbody>
                                                     </table>
-                                                    <form role="form" method="POST" novalidate
-                                                          id="form-{{supplier}}"
-                                                          action="{{ url_for('cart.checkout_cart') }}">
-                                                        {% set order = 'Generate PDF Order for ' + supplier | replace('_', ' ') %}
-                                                        {{ form.csrf_token }}
-                                                        {{ form.supplier(class='d-none',
-                                                            value=shopping_cart[supplier]["supplier_id"]) }}
-                                                        <button class="mt-2 btn btn-danger text-capitalize" onclick="checkout_supplier('{{supplier}}')">
-                                                            {{ _('Generate PDF Order for: ') }} {{ supplier | replace('_', ' ') }}
-                                                        </button>
+                                                    <div class="d-flex justify-content-between pr-6">
+                                                        <div class="d-flex">
+                                                            <form role="form" method="POST" novalidate
+                                                                  class="mr-4"
+                                                                  id="form-{{supplier}}-excel"
+                                                                  action="{{ url_for('cart.download_excel_file') }}">
+                                                                {% set order = 'Generate PDF Order for ' + supplier | replace('_', ' ') %}
+                                                                {{ form.csrf_token }}
+                                                                {{ form.supplier(class='d-none',
+                                                                    value=shopping_cart[supplier]["supplier_id"]) }}
+                                                                <button class="mt-2 btn btn-success text-capitalize" onclick="checkout_supplier_excel('{{supplier}}')">
+                                                                    {{ _('Exportar Excel') }} {{ supplier | replace('_', ' ') }}
+                                                                </button>
+                                                            </form>
+                                                            <form role="form" method="POST" novalidate
+                                                                  class="mr-4"
+                                                                  id="form-{{supplier}}"
+                                                                  action="{{ url_for('cart.checkout_cart') }}">
+                                                                {% set order = 'Generate PDF Order for ' + supplier | replace('_', ' ') %}
+                                                                {{ form.csrf_token }}
+                                                                {{ form.supplier(class='d-none',
+                                                                    value=shopping_cart[supplier]["supplier_id"]) }}
+                                                                <button class="mt-2 btn btn-danger text-capitalize" onclick="checkout_supplier('{{supplier}}')">
+                                                                    {{ _('Generate PDF Order for: ') }} {{ supplier | replace('_', ' ') }}
+                                                                </button>
+                                                            </form>
+                                                        </div>
 
-
-                                                    </form>
+                                                                <button class="mt-2 btn btn-danger text-capitalize" onclick="delete_cart_all({{shopping_cart[supplier]['supplier_id']}})">
+                                                                    {{ _('Descartar Carrito') }}
+                                                                </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

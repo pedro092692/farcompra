@@ -9,6 +9,7 @@ from flask_socketio import SocketIO, send, emit
 from forms.forms import CheckOutCart
 from helpers import has_pharmacy, discount_cart
 import flask_excel as excel
+from datetime import datetime
 
 
 def construct_blueprint(db: Database, socketio: SocketIO, app):
@@ -79,6 +80,13 @@ def construct_blueprint(db: Database, socketio: SocketIO, app):
         cart_item = db.get_car_item(cart_item_id)
         # Delete cart item
         db.delete_cart_item(cart_item=cart_item)
+
+    @socketio.on('delete_cart_all')
+    @login_required
+    @has_pharmacy
+    def handle_delete_cart_item(supplier_id):
+        # Delete cart all
+        db.checkout_cart(user_id=current_user.id, supplier=supplier_id)
 
     @cart.route('/')
     @login_required
@@ -162,19 +170,32 @@ def construct_blueprint(db: Database, socketio: SocketIO, app):
     @cart.route('/checkout-excel', methods=['POST', 'GET'])
     @has_pharmacy
     @login_required
-    def download_file():
-        order = db.get_cart_by_supplier(user_id=current_user.id, supplier=1).all()
-        data = [
-            ["Drogueria: Vital Clinic", "Cliente: Farmacia Luna", "RIF: j-12342343"],
-            ["Producto", "Cantidad", "Precio", "Total"]
-        ]
+    def download_excel_file():
+        if request.method == 'GET':
+            return redirect(url_for('cart.view_cart'))
 
-        for item in order:
-            data.append([item.product_name, item.quantity, item.product_price,
-                         round(item.product_price * item.quantity, 2)])
+        if request.method == 'POST':
 
-        return flask_excel.make_response_from_array(data, 'xlsx')
+            supplier_id = request.form['supplier']
 
+            order = db.get_cart_by_supplier(user_id=current_user.id, supplier=supplier_id).all()
+            pharmacy = current_user.pharmacy[0].name
+            supplier = order[0].supplier_name.replace('_', ' ')
+            rif = current_user.pharmacy[0].rif
+            date = datetime.now().strftime('%d-%m-%Y')
+            data = [
+                [f"Drogueria: {supplier}", f"Cliente: {pharmacy}", f"RIF: j-{rif}", f'Fecha: {date}'],
+                ["Codigo", "Producto", "Cantidad", "Precio", "Total"]
+            ]
+
+            for item in order:
+                data.append([item.internal_code_product, item.product_name, item.quantity, f'${item.product_price}',
+                             round(item.product_price * item.quantity, 2)])
+
+            # Delete items from cart
+            db.checkout_cart(user_id=current_user.id, supplier=supplier_id)
+
+            return flask_excel.make_response_from_array(data, 'xlsx', file_name=f'pedido-{supplier}-{date}')
 
     return cart
 
