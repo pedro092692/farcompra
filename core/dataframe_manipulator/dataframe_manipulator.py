@@ -22,6 +22,10 @@ class DataFrameHandler:
         try:
             data_frame = pd.read_csv(f'{path}/{filename}', sep=';', on_bad_lines='skip', skiprows=None,
                                      encoding='utf-8', encoding_errors='ignore')
+            # for not ids columns
+            if 'product_id' not in data_frame.columns:
+                data_frame['product_id'] = data_frame.index
+
             return data_frame
 
         except FileNotFoundError as e:
