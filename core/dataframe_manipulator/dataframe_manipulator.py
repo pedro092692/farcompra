@@ -111,10 +111,10 @@ class DataFrameHandler:
 
             df_list.append(df)
 
-        # Creating df list with not zero stock and only necessaries columns
-        product_prices_df_list = [self.drop_zero(self.extract_columns(dataframe=df,
-                            columns=['barcode', 'price_usd', 'due_date', 'stock', 'supplier_id']),
-                                    column='stock') for df in df_list]
+            # Creating df list with not zero stock and only necessaries columns
+            product_prices_df_list = [self.drop_zero(self.extract_columns(dataframe=df,
+                                columns=['barcode', 'price_usd', 'due_date', 'stock', 'supplier_id','product_id']),
+                                        column='stock') for df in df_list]
 
         # Check if there is more than 1 df
         if len(df_list) > 1:
