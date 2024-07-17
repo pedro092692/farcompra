@@ -22,6 +22,7 @@
                   <h5 class="text-capitalize">{{ order[0].supplier_info.name | replace('_', ' ') }}</h5>
                 </div>
                 <div>
+                    <h6>{{ _('Date:') }}</h6>
                      <h5 class="text-capitalize">{{ order[0].date.strftime('%d-%m-%Y') }}</h5>
                 </div>
             </div>
@@ -40,14 +41,20 @@
                 </thead>
                 <tbody>
                 {% if order %}
+                  {% set grand_total = [] %}
                   {% for item in order %}
                     <tr>
                       <td>{{ item.product_name }}</td>
                       <td>{{item.quantity}}</td>
                         <td>${{item.price}}</td>
-                        <td>${{item.price * item.quantity}}</td>
+                          {% set total = item.price * item.quantity %}
+                          {{ grand_total.append(total) or ""}}
+                        <td>${{total|round(2)}}</td>
                     </tr>
                   {% endfor %}
+                <th colspan="3" class="bg-light">
+                  <td class="bg-light">${{ grand_total|sum }}</td>
+                </th>
                 {% endif %}
                 </tbody>
               </table>

@@ -73,7 +73,7 @@
                                                                         {{_('Total')}}
                                                                     </th>
                                                                     <td scope="row" class="rounded-right text-sm font-weight-bold bg-success text-white" id="grand-total-{{ supplier }}">
-                                                                        ${{ order_history[supplier]['total'] }}
+                                                                        ${{ order_history[supplier]['total']|round(2) }}
                                                                     </td>
                                                                 </tr>
                                                         </tbody>

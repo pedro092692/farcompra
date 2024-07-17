@@ -384,10 +384,9 @@ class Database:
                 "quantity": item.quantity,
                 "total": round(item.price * item.quantity, 2)
             }
-            history[item.supplier_info.name]['total'] += round(
-                history[item.supplier_info.name]['products'][item.product_name]['price'] *
-                history[item.supplier_info.name]['products'][item.product_name]['quantity'], 2
-            )
+            history[item.supplier_info.name]['total'] += \
+                history[item.supplier_info.name]['products'][item.product_name]['price'] * \
+                history[item.supplier_info.name]['products'][item.product_name]['quantity']
 
         return history
 
