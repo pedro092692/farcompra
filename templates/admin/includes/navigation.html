@@ -92,30 +92,36 @@
             <i class="ni ni-ungroup"></i>
           </a>
           <div class="dropdown-menu dropdown-menu-lg dropdown-menu-dark bg-default  dropdown-menu-right ">
-            <div class="row shortcuts px-4">
-              <a href="#!" class="col-4 shortcut-item">
+            <div class="d-flex flex-column gap-4 shortcuts px-4">
+              <a href="{{ url_for('admin.index') }}" class="col-4 shortcut-item mb-4">
                 <span class="shortcut-media avatar rounded-circle bg-gradient-red">
                   <i class="ni ni-tv-2 text-primary"></i>
                 </span>
                 <small>{{ _('Dashboard') }}</small>
               </a>
-              <a href="#!" class="col-4 shortcut-item">
+              <a href="{{ url_for('admin.user.users') }}" class="col-4 shortcut-item mb-4">
                 <span class="shortcut-media avatar rounded-circle bg-gradient-info">
                   <i class="ni ni-circle-08"></i>
                 </span>
                 <small>{{ _('Users') }}</small>
               </a>
-              <a href="#!" class="col-4 shortcut-item">
+              <a href="{{ url_for('admin.products') }}" class="col-4 shortcut-item mb-4">
                 <span class="shortcut-media avatar rounded-circle bg-gradient-purple">
                   <i class="ni ni-bullet-list-67 text-default"></i>
                 </span>
                 <small>{{ _('Products') }}</small>
               </a>
-              <a href="#!" class="col-4 shortcut-item">
+              <a href="{{ url_for('admin.supplier.suppliers') }}" class="col-4 shortcut-item mb-4">
                 <span class="shortcut-media avatar rounded-circle bg-gradient-yellow">
                   <i class="ni ni-box-2 text-info"></i>
                 </span>
                 <small>{{ _('Suppliers') }}</small>
+              </a>
+              <a href="/" class="col-4 shortcut-item">
+                <span class="shortcut-media avatar rounded-circle bg-gradient-purple ">
+                  <i class="ni ni-chart-bar-32"></i>
+                </span>
+                <small>{{ _('Comparator') }}</small>
               </a>
             </div>
           </div>
