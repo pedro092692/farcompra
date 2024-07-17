@@ -105,6 +105,10 @@ class DataFrameHandler:
             except KeyError:
                 pass
 
+            # fix internal_code only for vital_clinic
+            if supplier_id == 1:
+                self.fix_vital_clinic_code(df)
+
 
             # adding supplier id column
             df.insert(4, 'supplier_id', supplier_id)
@@ -221,5 +225,9 @@ class DataFrameHandler:
     def fix_price(df: pd.DataFrame):
         df.price_usd = df.price_usd.astype(str).str.replace(',', '.')
         df.price_usd = df.price_usd.astype(float)
+
+    @staticmethod
+    def fix_vital_clinic_code(df):
+        df['product_id'] = df['product_id'].astype(str).str.replace('.0', '')
 
 
