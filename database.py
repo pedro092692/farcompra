@@ -59,6 +59,7 @@ class ProductPrice(Base, db.Model):
     stock: Mapped[int] = mapped_column(Integer, nullable=False)
     supplier_id: Mapped[int] = mapped_column(Integer, ForeignKey("suppliers.id"))
     supplier_info: Mapped["Supplier"] = relationship(back_populates="prices")
+    internal_code_product: Mapped[str] = mapped_column(String(250), nullable=True)
 
 
 class User(Base, UserMixin, db.Model):
