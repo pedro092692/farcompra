@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-05-15 13:16-0400\n"
+"POT-Creation-Date: 2024-07-17 10:58-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,266 +17,328 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.14.0\n"
 
-#: main.py:102
+#: main.py:105
 msgid "Please Active your User"
-msgstr "Por favor active su usuario"
+msgstr ""
 
-#: main.py:104
+#: main.py:107
 msgid "Wrong user or password!"
-msgstr "Usuario o contraseña incorrectos"
+msgstr ""
 
-#: main.py:106
+#: main.py:109
 msgid "Wrong user or password"
-msgstr "Usuario o contraseña incorrectos"
+msgstr ""
 
 #: forms/forms.py:24
 msgid "Files"
-msgstr "Archivos"
+msgstr ""
 
-#: forms/forms.py:75
+#: forms/forms.py:46
+msgid "Search User"
+msgstr ""
+
+#: forms/forms.py:79
+msgid "Search Pharmacy"
+msgstr ""
+
+#: forms/forms.py:92
 msgid "Sign in"
-msgstr "Iniciar sesión"
+msgstr ""
 
-#: forms/forms.py:82 templates/cart.html:37
+#: forms/forms.py:105 templates/cart.html:48
+#: templates/order-history-rendered.html:37 templates/order-history.html:48
+#: templates/order.html:32
 msgid "Quantity"
-msgstr "Cantidad"
+msgstr ""
 
-#: forms/forms.py:83
+#: forms/forms.py:106
 msgid "Add To Cart"
-msgstr "Añadir al carro"
+msgstr ""
 
-#: templates/cart.html:17
+#: templates/cart.html:19
 msgid "Shopping Cart"
-msgstr "Carro De Compras"
+msgstr ""
 
-#: templates/cart.html:36
+#: templates/cart.html:47 templates/order-history.html:47
 msgid "Item"
 msgstr ""
 
-#: templates/cart.html:38 templates/search.html:31 templates/search.html:187
-#: templates/search_results.html:45
+#: templates/cart.html:49 templates/order-history-rendered.html:38
+#: templates/order-history.html:49 templates/search.html:31
+#: templates/search.html:190
 msgid "Price"
-msgstr "Precio"
+msgstr ""
 
-#: templates/cart.html:39 templates/cart.html:74
+#: templates/cart.html:50 templates/cart.html:85
+#: templates/order-history.html:50 templates/order-history.html:73
 msgid "Total"
 msgstr ""
 
-#: templates/admin/home/products.html:70 templates/admin/home/suppliers.html:29
-#: templates/admin/home/users.html:39 templates/admin/home/users.html:95
-#: templates/cart.html:40 templates/search.html:36 templates/search.html:190
-#: templates/search_results.html:48
+#: templates/admin/home/products.html:70 templates/admin/home/suppliers.html:30
+#: templates/admin/home/users.html:55 templates/admin/home/users.html:124
+#: templates/cart.html:51 templates/search.html:36 templates/search.html:194
 msgid "Action"
-msgstr "Acción"
+msgstr ""
 
-#: templates/cart.html:90
+#: templates/cart.html:101 templates/order-history.html:89
 msgid "Generate PDF Order for: "
-msgstr "Generar PDF para"
+msgstr ""
 
-#: templates/cart.html:100 templates/user/includes/navigation.html:82
+#: templates/cart.html:111 templates/user/includes/navigation.html:82
 msgid "Your Cart is empty."
-msgstr "Tu carrito esta vacío"
+msgstr ""
 
 #: templates/index.html:19 templates/user/includes/navigation.html:13
 msgid "Type Product Name or Barcode"
-msgstr "Escriba el nombre de un producto o el código de barras"
+msgstr ""
 
-#: templates/order.html:20
+#: templates/order-history-rendered.html:21 templates/order.html:20
 msgid "Order for:"
-msgstr "Pedido para:"
+msgstr ""
+
+#: templates/order-history-rendered.html:25
+msgid "Date:"
+msgstr ""
+
+#: templates/admin/home/index.html:78 templates/admin/home/index.html:115
+#: templates/admin/home/products.html:69 templates/admin/home/suppliers.html:28
+#: templates/admin/home/suppliers.html:65 templates/admin/home/users.html:52
+#: templates/admin/home/users.html:119 templates/order-history-rendered.html:36
+#: templates/order.html:31 templates/user_profile.html:20
+#: templates/user_profile.html:52
+msgid "Name"
+msgstr ""
+
+#: templates/order-history-rendered.html:39
+msgid "total"
+msgstr ""
+
+#: templates/order-history.html:19 templates/user_profile.html:64
+msgid "Order History"
+msgstr ""
+
+#: templates/order-history.html:99
+msgid "there is nothing at all here."
+msgstr ""
 
 #: templates/admin/home/index.html:77 templates/admin/home/products.html:68
 #: templates/order.html:30
 msgid "Barcode"
-msgstr "Código de barras"
+msgstr ""
 
-#: templates/admin/home/index.html:78 templates/admin/home/index.html:115
-#: templates/admin/home/products.html:69 templates/admin/home/suppliers.html:28
-#: templates/admin/home/suppliers.html:63 templates/admin/home/users.html:36
-#: templates/admin/home/users.html:90 templates/order.html:31
-#: templates/user_profile.html:20 templates/user_profile.html:52
-msgid "Name"
-msgstr "Nombre"
-
-#: templates/search.html:30 templates/search.html:186
-#: templates/user_profile.html:72
+#: templates/search.html:30 templates/search.html:189
+#: templates/user_profile.html:78
 msgid "Supplier "
-msgstr "Proveedor"
+msgstr ""
 
-#: templates/search.html:32 templates/search.html:188
+#: templates/search.html:32 templates/search.html:191
 msgid "Due Date"
-msgstr "Fecha de vencimiento"
+msgstr ""
 
-#: templates/search.html:33 templates/search.html:189
+#: templates/search.html:33 templates/search.html:192
 msgid "Stock"
 msgstr ""
 
-#: templates/search.html:71 templates/search.html:115 templates/search.html:226
+#: templates/search.html:72 templates/search.html:118 templates/search.html:231
+#: templates/search.html:269
 msgid "Sorry quantity must be greater than zero or minor than"
-msgstr "Lo sentimos, la cantidad debe ser mayor que cero o menor que"
+msgstr ""
 
-#: templates/search.html:135 templates/search.html:305
+#: templates/search.html:138 templates/search.html:323
 msgid "Sorry not results for"
-msgstr "Lo sentimos, no hay resultados para"
+msgstr ""
 
 #: templates/user_profile.html:14
 msgid "My User Info"
-msgstr "Mi información de usuario"
+msgstr ""
 
 #: templates/user_profile.html:22
 msgid "Last Name"
-msgstr "Mi información de usuario"
+msgstr ""
 
-#: templates/admin/home/users.html:38 templates/admin/home/users.html:92
+#: templates/admin/home/users.html:54 templates/admin/home/users.html:121
 #: templates/user_profile.html:26 templates/user_profile.html:60
 msgid "Email"
-msgstr "Correo electrónico"
+msgstr ""
 
 #: templates/admin/home/index.html:116 templates/user_profile.html:31
 msgid "Pharmacy"
-msgstr "Correo electrónico"
+msgstr ""
 
 #: templates/user_profile.html:45
 msgid "My Pharmacy Info"
-msgstr "Información de mi farmacia"
+msgstr ""
 
-#: templates/admin/home/users.html:93 templates/user_profile.html:56
+#: templates/admin/home/users.html:122 templates/user_profile.html:56
 msgid "Address"
-msgstr "Dirección"
+msgstr ""
 
-#: templates/user_profile.html:67
-msgid "Supplier Discount"
-msgstr "Descuento de proveedor"
+#: templates/user_profile.html:66
+msgid "View Order History"
+msgstr ""
 
 #: templates/user_profile.html:73
+msgid "Supplier Discount"
+msgstr ""
+
+#: templates/user_profile.html:79
 msgid "Percent Discount"
-msgstr "Porcentaje de descuento"
+msgstr ""
 
-#: templates/user_profile.html:93
+#: templates/user_profile.html:99
 msgid "Save"
-msgstr "Guardar"
+msgstr ""
 
-#: templates/user_profile.html:105
+#: templates/user_profile.html:111
 msgid "No pharmacy info to show"
-msgstr "No hay información de farmacia para mostrar"
+msgstr ""
 
 #: templates/admin/home/add_supplier.html:13
 #: templates/admin/home/suppliers.html:13
 #: templates/admin/includes/navigation.html:118
 #: templates/admin/includes/sidenav.html:35
 msgid "Suppliers"
-msgstr "Proveedores"
+msgstr ""
 
-#: templates/admin/home/add_supplier.html:20 templates/admin/home/users.html:20
-#: templates/admin/home/users.html:74
+#: templates/admin/home/add_supplier.html:20 templates/admin/home/users.html:36
+#: templates/admin/home/users.html:103
 msgid "Register"
-msgstr "Registrar"
+msgstr ""
+
+#: templates/admin/home/delete_products.html:13
+msgid "Delete all products..."
+msgstr ""
+
+#: templates/admin/home/delete_shopping.html:13
+msgid "Delete all shopping cart items..."
+msgstr ""
 
 #: templates/admin/home/index.html:22 templates/admin/home/products.html:63
 #: templates/admin/includes/navigation.html:112
 #: templates/admin/includes/sidenav.html:29
 msgid "Products"
-msgstr "Productos"
+msgstr ""
 
 #: templates/admin/home/index.html:23 templates/admin/home/products.html:24
 msgid "Update Now"
-msgstr "Actualizar Ahora"
+msgstr ""
 
 #: templates/admin/home/index.html:40 templates/admin/home/users.html:13
 #: templates/admin/includes/navigation.html:106
 #: templates/admin/includes/sidenav.html:23
 msgid "Users"
-msgstr "Usuarios"
+msgstr ""
 
 #: templates/admin/home/index.html:41
 msgid "Add New User"
-msgstr "Agregar Nuevo Usuario"
+msgstr ""
 
 #: templates/admin/home/index.html:65
 msgid "Last Products"
-msgstr "Últimos Productos"
+msgstr ""
 
 #: templates/admin/home/index.html:68 templates/admin/home/index.html:107
 msgid "See all"
-msgstr "Ver todo"
+msgstr ""
 
 #: templates/admin/home/index.html:104
 msgid "Last Users"
-msgstr "Últimos Usuarios"
+msgstr ""
 
 #: templates/admin/home/login.html:17
 msgid "Welcome to farcompra"
-msgstr "Bienvenido a farcompra"
+msgstr ""
 
 #: templates/admin/home/page-404.html:22
 msgid "Page not found"
-msgstr "Página no encontrada"
+msgstr ""
 
 #: templates/admin/home/page-404.html:23
 msgid "Home"
-msgstr "Inicio"
+msgstr ""
 
 #: templates/admin/home/pharmacy-edit.html:15
-#: templates/admin/home/user-edit.html:14 templates/admin/home/users.html:51
-#: templates/admin/home/users.html:115
+#: templates/admin/home/user-edit.html:14 templates/admin/home/users.html:67
+#: templates/admin/home/users.html:144
 msgid "Edit"
-msgstr "Editar"
+msgstr ""
 
 #: templates/admin/home/products.html:15
 msgid "Update Products"
-msgstr "Actualizar Productos"
+msgstr ""
 
 #: templates/admin/home/products.html:23
 msgid "Automatic Products Update"
-msgstr "Actualización Automática de Productos"
+msgstr ""
 
 #: templates/admin/home/products.html:43
 msgid "Update Manually"
-msgstr "Actualizar Manualmente"
+msgstr ""
 
 #: templates/admin/home/products.html:57
 msgid "Inventory Control"
-msgstr "Control de Inventario"
+msgstr ""
 
-#: templates/admin/home/products.html:82
+#: templates/admin/home/products.html:82 templates/admin/home/user-edit.html:21
 msgid "Delete"
-msgstr "Eliminar"
+msgstr ""
+
+#: templates/admin/home/quick-add.html:15
+msgid "Quick User Add"
+msgstr ""
+
+#: templates/admin/home/quick-add.html:23
+msgid "User info"
+msgstr ""
 
 #: templates/admin/home/suppliers.html:21
 msgid "Suppliers List with FTP connection"
-msgstr "Lista de Proveedores con conexión FTP"
+msgstr ""
 
-#: templates/admin/home/suppliers.html:40
+#: templates/admin/home/suppliers.html:29
+#: templates/admin/home/suppliers.html:66
+msgid "ID"
+msgstr ""
+
+#: templates/admin/home/suppliers.html:42
 msgid "Download File"
-msgstr "Descargar Archivo"
+msgstr ""
 
-#: templates/admin/home/suppliers.html:56
+#: templates/admin/home/suppliers.html:58
 msgid "Suppliers List with NO FTP connection"
-msgstr "Lista de Proveedores SIN conexión FTP"
+msgstr ""
 
-#: templates/admin/home/users.html:30
+#: templates/admin/home/users.html:17
+msgid "User email"
+msgstr ""
+
+#: templates/admin/home/users.html:46
 msgid "Users List"
-msgstr "Lista de Usuarios"
+msgstr ""
 
-#: templates/admin/home/users.html:37
+#: templates/admin/home/users.html:53
 msgid "Las Name"
-msgstr "Apellido"
-
-#: templates/admin/home/users.html:68
-msgid "Pharmacies"
-msgstr "Farmacias"
+msgstr ""
 
 #: templates/admin/home/users.html:84
-msgid "Pharmacy List"
-msgstr "Lista de Farmacias"
+msgid "Pharmacies"
+msgstr ""
 
-#: templates/admin/home/users.html:91
+#: templates/admin/home/users.html:88
+msgid "Pharmacy email"
+msgstr ""
+
+#: templates/admin/home/users.html:113
+msgid "Pharmacy List"
+msgstr ""
+
+#: templates/admin/home/users.html:120
 msgid "RIF"
 msgstr ""
 
-#: templates/admin/home/users.html:94
+#: templates/admin/home/users.html:123
 msgid "Owner"
-msgstr "Propietario"
+msgstr ""
 
 #: templates/admin/includes/footer.html:14
 msgid "Develop by PyBP"
@@ -292,32 +354,31 @@ msgstr ""
 
 #: templates/admin/includes/navigation.html:84
 msgid "No notifications"
-msgstr "Sin notificaciones"
+msgstr ""
 
 #: templates/admin/includes/navigation.html:100
 #: templates/admin/includes/sidenav.html:17
 msgid "Dashboard"
-msgstr "Panel"
+msgstr ""
 
 #: templates/admin/includes/navigation.html:141
 #: templates/user/includes/navigation.html:114
 msgid "My profile"
-msgstr "Mi perfil"
+msgstr ""
 
 #: templates/admin/includes/sidenav.html:41
 msgid "Comparator"
-msgstr "Comparador"
+msgstr ""
 
 #: templates/user/includes/navigation.html:79
 msgid "View Shopping Cart"
-msgstr "Ver carrito"
+msgstr ""
 
 #: templates/user/includes/navigation.html:108
 msgid "Admin Panel"
-msgstr "Panel Administrativo"
+msgstr ""
 
 #: templates/user/includes/navigation.html:119
 msgid "Logout"
-msgstr "Cerrar sesión"
-
+msgstr ""
 
