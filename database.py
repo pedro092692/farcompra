@@ -100,6 +100,7 @@ class Cart(Base, db.Model):
     product_name: Mapped[str] = mapped_column(String(250), nullable=False)
     product_price: Mapped[float] = mapped_column(Float, nullable=False)
     quantity: Mapped[int] = mapped_column(Integer, nullable=False)
+    internal_code_product: Mapped[str] = mapped_column(String(250), nullable=True)
 
     def __repr__(self):
         return f'<CartItem {self.user_id}, {self.product_price_id}, {self.quantity}>'
