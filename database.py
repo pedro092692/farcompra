@@ -113,7 +113,7 @@ class PharmacyDiscount(Base):
     user_info: Mapped["User"] = relationship(back_populates="discount")
 
 
-class OrderHistory(Base):
+class OrderHistory(Base, db.Model):
     __tablename__ = "order_history"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     user_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.id"), nullable=False)
@@ -367,6 +367,30 @@ class Database:
             )
         return shopping_cart
 
+    def view_history(self, user_id):
+        history = {}
+        order_history = self.db.session.execute(select(OrderHistory).filter(OrderHistory.user_id == user_id)).scalars().all()
+
+        for item in order_history:
+            if item.supplier_info.name not in history:
+                history[item.supplier_info.name] = {
+                    "id": item.supplier_id,
+                    "products": {},
+                    "total": 0,
+                    "date": item.date
+                }
+            history[item.supplier_info.name]['products'][item.product_name] = {
+                "price": item.price,
+                "quantity": item.quantity,
+                "total": round(item.price * item.quantity, 2)
+            }
+            history[item.supplier_info.name]['total'] += round(
+                history[item.supplier_info.name]['products'][item.product_name]['price'] *
+                history[item.supplier_info.name]['products'][item.product_name]['quantity'], 2
+            )
+
+        return history
+
     def get_supplier_total(self, user_id, supplier_id):
         supplier_list = Cart.query.filter_by(user_id=user_id, supplier_id=supplier_id).all()
         total = 0
@@ -386,6 +410,8 @@ class Database:
 
     ### ORDER HISTORY ###
     def add_order_history(self, user_id, supplier_id, product_name, quantity, price):
+
+
         new_order = OrderHistory(
             user_id=user_id,
             supplier_id=supplier_id,
@@ -395,6 +421,14 @@ class Database:
         )
         self.db.session.add(new_order)
         self.db.session.commit()
+
+    def delete_last_order_history(self, user_id, supplier_id):
+        old_order = self.get_history_by_supplier(user_id=user_id, supplier=supplier_id)
+        if old_order:
+            # Delete last order
+            items_to_delete = delete(OrderHistory).filter_by(user_id=user_id, supplier_id=supplier_id)
+            self.db.session.execute(items_to_delete)
+            self.db.session.commit()
 
     @staticmethod
     def check_product_cart(product_price_id, user_id):
@@ -419,6 +453,11 @@ class Database:
     def get_cart_by_supplier(user_id, supplier):
         supplier_items = Cart.query.filter_by(user_id=user_id, supplier_id=supplier)
         return supplier_items
+
+    @staticmethod
+    def get_history_by_supplier(user_id, supplier):
+        supplier_items = OrderHistory.query.filter_by(user_id=user_id, supplier_id=supplier)
+        return supplier_items.all()
 
 
 

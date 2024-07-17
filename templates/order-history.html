@@ -32,12 +32,13 @@
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col" id="main-col">
-                                    {% if shopping_cart %}
-                                        {% for supplier in shopping_cart %}
+                                    {% if order_history %}
+                                        {% for supplier in order_history %}
                                         <div class="card" supplier="{{supplier}}">
-                                            <h2 class="card-header text-capitalize">
-                                                {{supplier | replace('_', ' ')}}
-                                            </h2>
+                                            <div class="card-header text-capitalize d-flex justify-content-between">
+                                                <h2>{{supplier | replace('_', ' ')}}</h2>
+                                                <h2>{{ order_history[supplier]['date'].strftime('%d-%m-%Y') }}</h2>
+                                            </div>
                                             <div class="card-body">
                                                 <div class="table-responsive mt-2">
                                                     <table class="table table-striped" id="table-prices">
@@ -50,19 +51,19 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            {% for product in shopping_cart[supplier]['products'] %}
+                                                            {% for product in order_history[supplier]['products'] %}
                                                                 <tr>
                                                                     <td scope="row" class="text-capitalize">
-                                                                        AFLAMAX 50 MG X 10 TAB OFTALMI
+                                                                        {{ product }}
                                                                     </td>
                                                                     <td scope="row" class="text-capitalize">
-                                                                        1
+                                                                        {{ order_history[supplier]['products'][product]['quantity'] }}
                                                                     </td>
                                                                     <td scope="row" class="text-capitalize" id="price">
-                                                                        1.24
+                                                                        {{ order_history[supplier]['products'][product]['price'] }}
                                                                     </td>
-                                                                    <td scope="row" class="text-capitalize" id="total-{{shopping_cart[supplier]['products'][product]['id_cart']}}">
-                                                                        1.24
+                                                                    <td scope="row" class="text-capitalize">
+                                                                        {{ order_history[supplier]['products'][product]['total']|round(2) }}
                                                                     </td>
                                                                 </tr>
                                                             {% endfor %}
@@ -72,18 +73,18 @@
                                                                         {{_('Total')}}
                                                                     </th>
                                                                     <td scope="row" class="rounded-right text-sm font-weight-bold bg-success text-white" id="grand-total-{{ supplier }}">
-                                                                        $1.24
+                                                                        {{ order_history[supplier]['total'] }}
                                                                     </td>
                                                                 </tr>
                                                         </tbody>
                                                     </table>
                                                     <form role="form" method="POST" novalidate
                                                           id="form-{{supplier}}"
-                                                          action="{{ url_for('cart.checkout_cart') }}">
+                                                          action="{{ url_for('cart.checkout_history') }}">
                                                         {% set order = 'Generate PDF Order for ' + supplier | replace('_', ' ') %}
                                                         {{ form.csrf_token }}
                                                         {{ form.supplier(class='d-none',
-                                                            value=shopping_cart[supplier]["supplier_id"]) }}
+                                                            value=order_history[supplier]["id"]) }}
                                                         <button class="mt-2 btn btn-danger text-capitalize" onclick="checkout_supplier('{{supplier}}')">
                                                             {{ _('Generate PDF Order for: ') }} {{ supplier | replace('_', ' ') }}
                                                         </button>

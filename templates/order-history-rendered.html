@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="{{ url_for('static', filename='admin/assets/img/brand/favicon.png') }}" type="image/png">
+    <title>Farcompra</title>
+    {{ bootstrap.load_css() }}
+</head>
+<body class="p-5">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <div class="card">
+          <div class="card-header justify-content-between align-items-center">
+            <div class="">
+              <h2 class="text-capitalize">{{ pharmacy }}</h2>
+              <h6>j-{{ rif }}</h6>
+            </div>
+            <div class="mt-4 d-flex justify-content-between">
+                <div>
+                  <h6>{{ _('Order for:') }}</h6>
+                  <h5 class="text-capitalize">{{ order[0].supplier_info.name | replace('_', ' ') }}</h5>
+                </div>
+                <div>
+                     <h5 class="text-capitalize">{{ order[0].date.strftime('%d-%m-%Y') }}</h5>
+                </div>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <div class="table">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>{{_('Name')}}</th>
+                    <th>{{_('Quantity')}}</th>
+                      <th>{{_('Price')}}</th>
+                      <th>{{_('total')}}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% if order %}
+                  {% for item in order %}
+                    <tr>
+                      <td>{{ item.product_name }}</td>
+                      <td>{{item.quantity}}</td>
+                        <td>{{item.price}}</td>
+                        <td>{{item.price * item.quantity}}</td>
+                    </tr>
+                  {% endfor %}
+                {% endif %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+{{ bootstrap.load_js() }}
+</html>

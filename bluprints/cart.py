@@ -105,7 +105,19 @@ def construct_blueprint(db: Database, socketio: SocketIO, app):
             user = db.get_user(user_id)
             new_order = db.get_cart_by_supplier(user_id=user_id, supplier=supplier)
 
+            db.delete_last_order_history(user_id=user_id, supplier_id=supplier)
+
             if new_order.all():
+                # add record to order history:
+                for item in new_order.all():
+                    db.add_order_history(
+                        user_id=user_id,
+                        supplier_id=item.supplier_id,
+                        product_name=item.product_name,
+                        quantity=item.quantity,
+                        price=item.product_price
+                    )
+
                 rendered = render_template('order.html', order=new_order.all(), user=user,
                                            supplier=new_order[0].supplier_name)
             else:
@@ -123,8 +135,25 @@ def construct_blueprint(db: Database, socketio: SocketIO, app):
     def order_history():
         form = CheckOutCart()
         user = db.get_user(current_user.id)
-        shopping_cart = db.view_cart(user_id=user.id)
-        return render_template('order-history.html', shopping_cart=shopping_cart, form=form)
+        user_history = db.view_history(user_id=user.id)
+        return render_template('order-history.html', order_history=user_history, form=form)
 
+    @cart.route('/checkout-history', methods=['POST', 'GET'])
+    @has_pharmacy
+    @login_required
+    def checkout_history():
+        if request.method == 'GET':
+            return redirect(url_for('cart.view_cart'))
+
+        if request.method == 'POST':
+            supplier_id = request.form['supplier']
+            order_history_supplier = db.get_history_by_supplier(user_id=current_user.id, supplier=supplier_id)
+            user_pharmacy = current_user.pharmacy[0].name
+            rif = current_user.pharmacy[0].rif
+
+            rendered = render_template('order-history-rendered.html', order=order_history_supplier,
+                                       pharmacy=user_pharmacy, rif=rif)
+
+            return rendered
     return cart
 
