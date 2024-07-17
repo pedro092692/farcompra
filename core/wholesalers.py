@@ -160,7 +160,7 @@ type;product_code;lot;due_date;regulated;cold_chain;discount_3;discount_4;origin
                    "unknown_15;"
                    "unknown_16;unknown_17;unknown_18;unknown_19;unknown_20;unknown_21;unknown_22;unknown_23;"
                    "unknown_24;unknown_25;"
-                   "unknown_26;unknown_27;unknown_28;unknown_29;unknown_30;unknown_31",
+                   "unknown_26;unknown_27;unknown_28;unknown_29;unknown_30;",
         "fix_barcode": False,
         "fix_stock": True,
         "supplier_id": 17,

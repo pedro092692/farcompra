@@ -180,9 +180,9 @@ def construct_blueprint(db: Database, socketio: SocketIO, app):
             db.delete_last_order_history(user_id=current_user.id, supplier_id=supplier_id)
 
             order = db.get_cart_by_supplier(user_id=current_user.id, supplier=supplier_id).all()
-            if order.all():
+            if order:
                 # add record to order history:
-                for item in order.all():
+                for item in order:
                     db.add_order_history(
                         user_id=current_user.id,
                         supplier_id=item.supplier_id,
