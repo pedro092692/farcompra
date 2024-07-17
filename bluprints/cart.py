@@ -177,12 +177,25 @@ def construct_blueprint(db: Database, socketio: SocketIO, app):
         if request.method == 'POST':
 
             supplier_id = request.form['supplier']
+            db.delete_last_order_history(user_id=current_user.id, supplier_id=supplier_id)
 
             order = db.get_cart_by_supplier(user_id=current_user.id, supplier=supplier_id).all()
+            if order.all():
+                # add record to order history:
+                for item in order.all():
+                    db.add_order_history(
+                        user_id=current_user.id,
+                        supplier_id=item.supplier_id,
+                        product_name=item.product_name,
+                        quantity=item.quantity,
+                        price=item.product_price
+                    )
+
             pharmacy = current_user.pharmacy[0].name
             supplier = order[0].supplier_name.replace('_', ' ')
             rif = current_user.pharmacy[0].rif
             date = datetime.now().strftime('%d-%m-%Y')
+
             data = [
                 [f"Drogueria: {supplier}", f"Cliente: {pharmacy}", f"RIF: j-{rif}", f'Fecha: {date}'],
                 ["Codigo", "Producto", "Cantidad", "Precio", "Total"]

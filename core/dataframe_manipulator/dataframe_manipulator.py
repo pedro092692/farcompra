@@ -106,7 +106,7 @@ class DataFrameHandler:
                 pass
 
             # fix internal_code only for vital_clinic
-            if supplier_id == 1:
+            if supplier_id == 1 or supplier_id == 17:
                 self.fix_vital_clinic_code(df)
 
 

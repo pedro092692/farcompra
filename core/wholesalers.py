@@ -155,12 +155,12 @@ type;product_code;lot;due_date;regulated;cold_chain;discount_3;discount_4;origin
         "name": "drolanca",
         "csv": False,
         "has_header": False,
-        "header":  "id;barcode;name;product_id;laboratory;unknown_1;unknown_2;unknown_3;price_usd;stock;due_date;unknown_5;"
+        "header":  "product_id;barcode;name;id;laboratory;unknown_1;unknown_2;unknown_3;price_usd;stock;due_date;unknown_5;"
                    "unknown_6;unknown_7;unknown_8;unknown_9;unknown_10;unknown_11;unknown_12;unknown_13;unknown_14;"
                    "unknown_15;"
                    "unknown_16;unknown_17;unknown_18;unknown_19;unknown_20;unknown_21;unknown_22;unknown_23;"
                    "unknown_24;unknown_25;"
-                   "unknown_26;unknown_27;unknown_28;unknown_29;unknown_30",
+                   "unknown_26;unknown_27;unknown_28;unknown_29;unknown_30;unknown_31",
         "fix_barcode": False,
         "fix_stock": True,
         "supplier_id": 17,
