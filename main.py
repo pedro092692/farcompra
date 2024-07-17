@@ -15,6 +15,7 @@ from dotenv import load_dotenv
 from datetime import datetime
 from flask_migrate import Migrate
 import flask_sockets
+import flask_excel as excel
 import os
 
 
@@ -43,6 +44,8 @@ migrate = Migrate(app, db.db)
 # Plugins
 Bootstrap5(app)
 babel = Babel(app)
+# excel
+excel.init_excel(app)
 
 ### Dropzone ###
 dropzone = Dropzone(app)

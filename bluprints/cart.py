@@ -1,3 +1,4 @@
+import flask_excel
 from flask import Blueprint, render_template, abort, redirect, url_for, request, send_file, flash, make_response
 from core.wholesalers import wholesalers
 from core.update_data import UpdateData
@@ -7,7 +8,7 @@ from flask_login import login_required, current_user
 from flask_socketio import SocketIO, send, emit
 from forms.forms import CheckOutCart
 from helpers import has_pharmacy, discount_cart
-# import pdfkit
+import flask_excel as excel
 
 
 def construct_blueprint(db: Database, socketio: SocketIO, app):
@@ -155,5 +156,23 @@ def construct_blueprint(db: Database, socketio: SocketIO, app):
                                        pharmacy=user_pharmacy, rif=rif)
 
             return rendered
+
+    @cart.route('/checkout-excel', methods=['POST', 'GET'])
+    @has_pharmacy
+    @login_required
+    def download_file():
+        order = db.get_cart_by_supplier(user_id=current_user.id, supplier=1).all()
+        data = [
+            ["Drogueria: Vital Clinic", "Cliente: Farmacia Luna", "RIF: j-12342343"],
+            ["Producto", "Cantidad", "Precio", "Total"]
+        ]
+
+        for item in order:
+            data.append([item.product_name, item.quantity, item.product_price,
+                         round(item.product_price * item.quantity, 2)])
+
+        return flask_excel.make_response_from_array(data, 'xlsx')
+
+
     return cart
 
