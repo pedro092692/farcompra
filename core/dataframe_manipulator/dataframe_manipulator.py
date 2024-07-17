@@ -113,7 +113,7 @@ class DataFrameHandler:
 
             # Creating df list with not zero stock and only necessaries columns
             product_prices_df_list = [self.drop_zero(self.extract_columns(dataframe=df,
-                                columns=['barcode', 'price_usd', 'due_date', 'stock', 'supplier_id','product_id']),
+                                columns=['barcode', 'price_usd', 'due_date', 'stock', 'supplier_id', 'product_id']),
                                         column='stock') for df in df_list]
 
         # Check if there is more than 1 df
@@ -134,7 +134,8 @@ class DataFrameHandler:
         # Delete barcode column
         merge_df['barcode'] = merge_df['id']
         # Reorder columns
-        merge_df.rename(columns={'barcode': 'product_id', 'price_usd': 'price'}, inplace=True)
+        merge_df.rename(columns={'barcode': 'product_id', 'price_usd': 'price', 'product_id': 'internal_code_product'},
+                        inplace=True)
         # drop id column
         merge_df.drop(columns='id', inplace=True)
 
