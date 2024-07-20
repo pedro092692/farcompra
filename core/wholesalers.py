@@ -4,20 +4,18 @@ import os
 
 wholesalers = {
        "drovencentro": {
-        "url": "",
-        "user": "",
-        "password": "",
-        "path": '',
-        "file_name": 'drovencentro.xlsx',
+        "url": "clientes.drovencentro.com",
+        "user": os.environ.get('DROVENCENTRO_USER'),
+        "password": os.environ.get('DROVENCENTRO_PASS'),
+        "path": '/inventario',
+        "file_name": 'inventario.txt',
         "name": "drovencentro",
         "csv": False,
-        "has_header": True,
-        "header": "product_id;name;price_usd;stock;barcode;units;due_date",
-        # "header": "barcode;name;laboratory;unknown;unknown;discount;ves_net;price_usd;stock;tax;id;active_ingredient;order;total;due_date",
+        "has_header": False,
+        "header": "product_id;name;price_usd;stock;barcode;due_date",
         "fix_barcode": False,
         "supplier_id": 5,
         "price_dollar": False
-        # "price_dollar": True
     },
     "cobeca": {
         "url": "",
@@ -154,14 +152,14 @@ type;product_code;lot;due_date;regulated;cold_chain;discount_3;discount_4;origin
         "file_name": 'Inventario.txt',
         "name": "drolanca",
         "csv": False,
-        "has_header": False,
+        "has_header": True,
         "header":  "product_id;barcode;name;id;laboratory;unknown_1;unknown_2;unknown_3;price_usd;stock;due_date;unknown_5;"
                    "unknown_6;unknown_7;unknown_8;unknown_9;unknown_10;unknown_11;unknown_12;unknown_13;unknown_14;"
                    "unknown_15;"
                    "unknown_16;unknown_17;unknown_18;unknown_19;unknown_20;unknown_21;unknown_22;unknown_23;"
                    "unknown_24;unknown_25;"
                    "unknown_26;unknown_27;unknown_28;unknown_29;unknown_30",
-        "fix_barcode": False,
+        "fix_barcode": True,
         "fix_stock": True,
         "supplier_id": 17,
         "price_dollar": False

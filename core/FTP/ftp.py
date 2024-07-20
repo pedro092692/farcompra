@@ -28,7 +28,14 @@ class FTP:
             self.error_log[self.alias] = {"FTP connection error": f"{e}"}
 
         except UnicodeError as e:
-            self.error_log[self.alias] = {"Unicode Error": f"{e}"}
+            if self.alias == 'drovencentro':
+                ftp_conn = ftplib.FTP(host='clientes.drovencentro.com',
+                                      user='pedidos_clientes',
+                                      passwd='clientes1234',
+                                      encoding='latin-1')
+                return ftp_conn
+            else:
+                self.error_log[self.alias] = {"Unicode Error": f"{e}"}
 
         except socket.timeout as e:
             self.error_log[self.alias] = {'Connection error:': f'{e}'}

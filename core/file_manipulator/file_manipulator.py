@@ -78,6 +78,9 @@ class FileHandler:
                 outfile.write(content)
         elif extension == '.csv' and file_name == 'drolanca.csv':
             self.fix_drolanca(file_name=file_name)
+        elif extension == '.csv' and file_name == 'drovencentro.csv':
+            self.fix_drovencentro(file_name=file_name)
+
 
 
     def convert_all_to_csv(self):
@@ -141,7 +144,6 @@ class FileHandler:
     def fix_drolanca(self, file_name):
         with open(f'{self.path}/{file_name}', mode='r', encoding="latin-1") as file:
             new_file = []
-            i = 0
             for line in file.readlines():
                 row = line.split(';')
                 product_info = row[2].split(' Vence:')
@@ -158,6 +160,24 @@ class FileHandler:
             for lines in new_file:
                 for line in lines:
                     data.write(line)
+
+    def fix_drovencentro(self, file_name):
+        with open(f'{self.path}/{file_name}', mode='r', encoding='latin-1') as file:
+            refactor_lines = []
+            for line in file.readlines():
+                cod = line[0:11]
+                des = line[11:51]
+                stock = int(line[54:60])
+                price = int(line[60:70]) / 10
+                discount = int(line[71:74]) / 100
+                final_price = round(price * (1 - discount), 2)
+                barcode = str(line[97:115])
+                refactor_line = f'{cod};{des.strip()};{float(final_price)};{stock};{barcode.strip()}\n'
+                refactor_lines.append(refactor_line)
+
+        with open(f'{self.path}/{file_name}', mode='w', encoding='latin-1') as data:
+            for line in refactor_lines:
+                data.write(line)
 
 
 
