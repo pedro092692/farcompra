@@ -63,6 +63,22 @@ stock_2;stock_2;stock_3;stock_4;regulated;unknown_1;unknown_2;unknown_3;unknown_
         "supplier_id": 4,
         "price_dollar": True
     },
+
+    "zakipharma": {
+        "url": "45.137.159.247",
+        "user": os.environ.get('ZAKIPHARMA_USER'),
+        "password": os.environ.get('ZAKIPHARMA_PASS'),
+        "path": '/inventario',
+        "file_name": 'inventario.txt',
+        "name": "zakipharma",
+        "csv": True,
+        "has_header": True,
+        "header": "product_id;barcode;name;due_date;price;discount;price_usd;stock",
+        "fix_barcode": False,
+        "supplier_id": 18,
+        "price_dollar": False
+    },
+
     "vital_clinic":{
         # "url": "drogueriavitalclinic.com.ve" old ftp server,
         "url": "195.35.33.28",
@@ -152,7 +168,7 @@ type;product_code;lot;due_date;regulated;cold_chain;discount_3;discount_4;origin
         "file_name": 'Inventario.txt',
         "name": "drolanca",
         "csv": False,
-        "has_header": True,
+        "has_header": False,
         "header":  "product_id;barcode;name;id;laboratory;unknown_1;unknown_2;unknown_3;price_usd;stock;due_date;unknown_5;"
                    "unknown_6;unknown_7;unknown_8;unknown_9;unknown_10;unknown_11;unknown_12;unknown_13;unknown_14;"
                    "unknown_15;"
