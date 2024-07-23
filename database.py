@@ -156,7 +156,7 @@ class Database:
             self.delete_products_prices()
         engine = self.db.engine
         # Add new data
-        data.to_sql('product_prices', engine, index=False, if_exists='append', chunksize=3000)
+        data.to_sql('product_prices', engine, index=False, if_exists='append', chunksize=7000)
 
     def show_products(self, per_page=20):
         products = self.db.paginate(self.db.select(Product).filter(Product.prices.any()).order_by(Product.name),

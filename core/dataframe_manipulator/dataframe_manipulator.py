@@ -94,13 +94,6 @@ class DataFrameHandler:
                 else:
                     self.errors['dollar'] = {'error': 'Error getting dollar value please add it manually.'}
 
-            # fix stock
-            try:
-                if wholesalers[wholesaler]['fix_stock']:
-                    self.fix_stock(df)
-            except KeyError:
-                pass
-
             # fix internal_code only for vital_clinic
             if supplier_id == 1 or supplier_id == 17:
                 self.fix_vital_clinic_code(df)
@@ -175,12 +168,11 @@ class DataFrameHandler:
 
         return new_df
 
-    # @staticmethod
-    def column_float_to_string(self, dataframe: pd.DataFrame, column_name: str) -> pd.DataFrame:
+    @staticmethod
+    def column_float_to_string(dataframe: pd.DataFrame, column_name: str) -> pd.DataFrame:
         new_dataframe = dataframe.copy()
         str_column = dataframe[column_name].astype('int64').astype('str')
         new_dataframe[column_name] = str_column
-        print(self.filename)
         return new_dataframe
 
     @staticmethod
@@ -213,10 +205,6 @@ class DataFrameHandler:
         merge_df = pd.merge(df_1, df_2, on=column)
         return merge_df
 
-    @staticmethod
-    def fix_stock(df: pd.DataFrame):
-        df.stock = df.stock.astype(str).str.replace(',00', '0')
-        df.stock = df.stock.astype(int)
 
     @staticmethod
     def fix_price(df: pd.DataFrame):

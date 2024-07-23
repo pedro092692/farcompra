@@ -124,21 +124,19 @@ class FileHandler:
         with open(f'{self.path}/{file_name}', mode='r', encoding="latin-1") as file:
             new_file = []
             for line in file.readlines():
-                row = line.split(';')
-                product_info = row[2].split(' Vence:')
-                product_info[0] = product_info[0].replace(' -', '').rstrip()
-                product_info[1] = product_info[1].lstrip()
-                product_name = product_info[0]
-                due_date = product_info[1]
-                row[2] = product_name
-                row[10] = due_date
-                line = ';'.join(row)
-                new_file.append(line)
+                line_divided = line.split(';')
+
+                internal_code = line_divided[0]
+                barcode = line_divided[1]
+                name = line_divided[2].split('Vence:')[0].replace('-', '').rstrip()
+                due_date = line_divided[2].split('Vence:')[1].lstrip()
+                price = float(line_divided[8].replace(',', '.'))
+                stock = int(line_divided[9])
+                new_file.append(f'{internal_code};{barcode};{name};{due_date};{price};{stock}\n')
 
         with open(f'{self.path}/{file_name}', mode='w', encoding="latin-1") as data:
-            for lines in new_file:
-                for line in lines:
-                    data.write(line)
+            for line in new_file:
+                data.write(line)
 
     def fix_drovencentro(self, file_name):
         with open(f'{self.path}/{file_name}', mode='r', encoding='latin-1') as file:
