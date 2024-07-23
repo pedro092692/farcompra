@@ -44,29 +44,7 @@ class FileHandler:
 
     def convert_to_csv(self, file_name, extension):
         if extension == '.csv' and file_name == 'dronena.csv':
-            with open(f'{self.path}/{file_name}', mode='r') as file:
-                new_file = []
-                i = 0
-                for line in file.readlines():
-                    if i == 0:
-                        new_line = line.split(' ')
-                        new_line_ = [f'{line}' for line in new_line if line != '']
-                        for info_line in range(len(new_line_) - 1):
-                            new_line_[info_line] = new_line_[info_line] + ';'
-                        new_file.append(new_line_)
-                    else:
-                        new_line = line.split('  ')
-                        new_line = [f'{item}' for item in new_line if item != '']
-                        for info in range(len(new_line) - 1):
-                            new_line[info] = new_line[info] + ';'
-                        new_file.append(new_line)
-                    i += 1
-
-            # save new data
-            with open(f'{self.path}/{file_name}', mode='w') as data:
-                for lines in new_file:
-                    for line in lines:
-                        data.write(line)
+            self.fix_dronena(file_name=file_name)
 
         elif extension == '.xlsx':
             pd_handler = DataFrameHandler(filename=file_name)
@@ -76,6 +54,7 @@ class FileHandler:
             with open(f'{self.path}/{file_name}', mode='r') as infile, open(f'{self.path}'/{file_name}, mode='w') as outfile:
                 content = infile.read().replace('\n', '')
                 outfile.write(content)
+
         elif extension == '.csv' and file_name == 'drolanca.csv':
             self.fix_drolanca(file_name=file_name)
         elif extension == '.csv' and file_name == 'drovencentro.csv':
@@ -177,6 +156,24 @@ class FileHandler:
 
         with open(f'{self.path}/{file_name}', mode='w', encoding='latin-1') as data:
             for line in refactor_lines:
+                data.write(line)
+
+    def fix_dronena(self, file_name):
+        with open(f'{self.path}/{file_name}', mode='r') as file:
+            new_line = []
+            for line in file.readlines()[1:]:
+                internal_code = line[0:5]
+                name = line[7:48].rstrip()
+                price = float(line[49:58])
+                stock = int(line[64:73])
+                discount = float(line[97:104])
+                final_price = round(price * (1 - (discount / 100)), 2)
+                barcode = line[130:144].rstrip()
+                due_date = line[192:199]
+                new_line.append(f'{internal_code};{name};{final_price};{stock};{barcode};{due_date}\n')
+
+        with open(f'{self.path}/{file_name}', mode='w') as data:
+            for line in new_line:
                 data.write(line)
 
 

@@ -104,9 +104,8 @@ stock_2;stock_2;stock_3;stock_4;regulated;unknown_1;unknown_2;unknown_3;unknown_
         "name": "dronena",
         "csv": False,
         "has_header": True,
-        "header": 'product_id;name;price_usd;stock;discount;pharmacy_profit;discount_2;package;package_discount;barcode;\
-type;product_code;lot;due_date;regulated;cold_chain;discount_3;discount_4;original;unknown_1;unknown_2;unknown_3',
-        "fix_barcode": False,
+        "header": 'product_id;name;price_usd;stock;barcode;due_date',
+        "fix_barcode": True,
         "supplier_id": 3,
         "price_dollar": False,
 
@@ -168,7 +167,7 @@ type;product_code;lot;due_date;regulated;cold_chain;discount_3;discount_4;origin
         "file_name": 'Inventario.txt',
         "name": "drolanca",
         "csv": False,
-        "has_header": True,
+        "has_header": False,
         "header":  "product_id;barcode;name;id;laboratory;unknown_1;unknown_2;unknown_3;price_usd;stock;due_date;unknown_5;"
                    "unknown_6;unknown_7;unknown_8;unknown_9;unknown_10;unknown_11;unknown_12;unknown_13;unknown_14;"
                    "unknown_15;"
