@@ -84,7 +84,7 @@ def construct_blueprint(db: Database, app):
         return redirect(request.referrer)
 
     ### Cronjob ###
-    @scheduler.task('cron', id='update_products', minute='*/30')
+    @scheduler.task('cron', id='update_products', minute='*/2', max_instances=5)
     def auto_update():
         with scheduler.app.app_context():
             # delete all notifications
