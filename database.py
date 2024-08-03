@@ -127,6 +127,14 @@ class OrderHistory(Base, db.Model):
     date: Mapped[datetime] = mapped_column(DateTime, nullable=False, default=datetime.now())
 
 
+class DollarPrice(Base, db.Model):
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    value = Mapped[float] = mapped_column(Float, nullable=False)
+    date = Mapped[datetime] = mapped_column(DateTime, nullable=False, default=datetime.now())
+
+
+
+
 
 
 class Database:

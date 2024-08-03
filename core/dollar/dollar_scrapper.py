@@ -11,12 +11,12 @@ class DollarScrapper:
 
     def web_content(self):
         try:
-            response = requests.get(self.url, verify=False)
+            response = requests.get(self.url, timeout=10, verify=False)
             response.raise_for_status()
             if response.status_code == 200:
                 return response.text
         except requests.exceptions.ConnectionError as e:
-            print('Sorry Connection error')
+            print('Sorry Connection error', e)
 
     def scrap_value(self):
         content = self.web_content()
