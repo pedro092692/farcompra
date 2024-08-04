@@ -10,11 +10,11 @@ PATH = 'core/data'
 MANUAL_PATH = 'core/data/manual_uploads'
 
 class UpdateData:
-    def __init__(self, wholesalers: dict , db: Database):
+    def __init__(self, wholesalers: dict, db: Database, dollar=1):
         self.wholesalers = wholesalers
         self.list_files = os.listdir(PATH)
         self.valid_extensions = ('.csv', '.xlsx', '.txt')
-        self.df_handler = DataFrameHandler()
+        self.df_handler = DataFrameHandler(dollar=dollar)
         self.db = db
         self.errors = []
         self.checking_errors()

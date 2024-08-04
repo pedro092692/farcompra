@@ -110,5 +110,13 @@ class CheckOutCart(FlaskForm):
     submit = submit_field('Make order for')
 
 
+### Dollar ###
+
+class Dollar(FlaskForm):
+    value = FloatField(label='Dollar Price', validators=[DataRequired()], render_kw={'placeholder': 'Dollar Value'})
+    submit = submit_field('Update Dollar Price')
+
+
+
 
 

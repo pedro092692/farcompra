@@ -1,6 +1,6 @@
 import pandas
 import pandas as pd
-from database import db, Product
+from database import db, Product, Database
 from core.file_manipulator import file_manipulator as fm
 from core.wholesalers import wholesalers
 from core.dollar.dollar_scrapper import DollarScrapper
@@ -8,11 +8,11 @@ from core.dollar.dollar_scrapper import DollarScrapper
 PATH = 'core/data'
 class DataFrameHandler:
 
-    def __init__(self, filename=''):
+    def __init__(self,  filename='', dollar=1):
         self.filename = filename
         self.errors = {}
         self.dollar = DollarScrapper().dollar_value
-
+        self.dollar_backup = dollar
 
     ### READ DF ####
 
@@ -86,11 +86,9 @@ class DataFrameHandler:
             # Setting dollar price
             if not price_dollar:
                 if self.dollar:
-                    try:
-                        df['price_usd'] = round(df['price_usd'] / self.dollar, 2)
-                    except TypeError:
-                        self.fix_price(df)
-                        df['price_usd'] = round(df['price_usd'] / self.dollar, 2)
+                    self.price_division(df=df, dollar_value=self.dollar)
+                elif self.dollar_backup:
+                    self.price_division(df=df, dollar_value=self.dollar_backup)
                 else:
                     self.errors['dollar'] = {'error': 'Error getting dollar value please add it manually.'}
 
@@ -143,7 +141,12 @@ class DataFrameHandler:
         df_from_db = pd.read_sql(db_table, db.engine, coerce_float=False, columns=columns)
         return df_from_db
 
-
+    def price_division(self, df, dollar_value):
+        try:
+            df['price_usd'] = round(df['price_usd'] / dollar_value, 2)
+        except TypeError:
+            self.fix_price(df)
+            df['price_usd'] = round(df['price_usd'] / dollar_value, 2)
 
 
     ### DF OPERATIONS ###

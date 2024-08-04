@@ -1,4 +1,5 @@
 import requests
+from requests.adapters import HTTPAdapter
 import urllib3
 from bs4 import BeautifulSoup
 urllib3.disable_warnings()
@@ -11,12 +12,16 @@ class DollarScrapper:
 
     def web_content(self):
         try:
-            response = requests.get(self.url, timeout=10, verify=False)
+            response = requests.get(self.url, timeout=5,  verify=False)
             response.raise_for_status()
             if response.status_code == 200:
                 return response.text
+        except requests.exceptions.ConnectTimeout as e:
+            print('Sorry Connection error', e)
+            return
         except requests.exceptions.ConnectionError as e:
             print('Sorry Connection error', e)
+            return
 
     def scrap_value(self):
         content = self.web_content()
@@ -25,3 +30,4 @@ class DollarScrapper:
             content = soup.find_all(name='strong')
             dollar_value = float(content[-1].string.replace(" ", "").replace(",", "."))
             return float(format(dollar_value, '.3f'))
+

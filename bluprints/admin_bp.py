@@ -6,7 +6,7 @@ from core.supplier import Supplier
 from database import Database
 from .user_bp import construct_blueprint as bp_user
 from .supplier_bp import construct_blueprint as bp_supplier
-from forms.forms import CsvForm, DeleteProduct
+from forms.forms import CsvForm, DeleteProduct, Dollar
 from flask_login import login_user, current_user, login_required
 import os
 from flask_apscheduler import APScheduler
@@ -14,7 +14,8 @@ from flask_apscheduler import APScheduler
 def construct_blueprint(db: Database, app):
     admin = Blueprint('admin', __name__, template_folder='templates')
     admin.register_blueprint(bp_user(db))
-    new_data = UpdateData(wholesalers, db)
+    dollar = db.get_dollar_info()
+    new_data = UpdateData(wholesalers, db, dollar=dollar.value)
     admin.register_blueprint(bp_supplier(db, errors=new_data))
     # CRONJOB
     scheduler = APScheduler()
@@ -104,6 +105,23 @@ def construct_blueprint(db: Database, app):
         if new_data.errors:
             new_data.errors = []
         return redirect(request.referrer)
+
+    @admin.route('/update-dollar', methods=['GET', 'POST'])
+    def update_dollar():
+        dollar_info = db.get_dollar_info()
+        last_update = False
+
+        form = Dollar()
+
+        if dollar_info:
+            form.value.data = dollar_info.value
+            last_update = dollar_info.date
+
+        if form.validate_on_submit():
+            dollar_value = form.value.data
+            db.update_dollar_value(value=dollar_value)
+
+        return render_template('admin/home/update-dollar.html', form=form, last_update=last_update)
 
 
     return admin

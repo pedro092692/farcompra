@@ -1,0 +1,37 @@
+{% extends 'admin/layouts/base.html' %}
+{% block title %} Farcompra {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+{% endblock stylesheets %}
+
+{% block content %}
+    <!-- Dollar -->
+    <div class="container-fluid mt-4">
+        <div class="card">
+            <div class="card-body">
+                <h2 id="users">{{ _('Dollar') }}</h2>
+            </div>
+        </div>
+        {{ render_flash_message(color='success') }}
+        <div class="row">
+            <div class="col col-xl-3">
+                <div class="card">
+                    <h5 class="card-header text-xl fw-bold" id="user_register">{{_('Update Dollar Price')}}</h5>
+
+                    <div class="card-body">
+                        {% if last_update %}
+                            <p>Last Update: {{ last_update.strftime('%d-%m-%y %H:%M') }}</p>
+                        {% endif %}
+
+                        {{ render_form(form, novalidate=True) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+{% endblock javascripts %}

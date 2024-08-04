@@ -129,12 +129,8 @@ class OrderHistory(Base, db.Model):
 
 class DollarPrice(Base, db.Model):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    value = Mapped[float] = mapped_column(Float, nullable=False)
-    date = Mapped[datetime] = mapped_column(DateTime, nullable=False, default=datetime.now())
-
-
-
-
+    value: Mapped[float] = mapped_column(Float, nullable=False)
+    date: Mapped[datetime] = mapped_column(DateTime, nullable=False, default=datetime.now())
 
 
 class Database:
@@ -152,6 +148,7 @@ class Database:
     def create_tables(self):
         with self.app.app_context():
             self.db.create_all()
+
 
     ### PRODUCTS ###
     def add_products(self, data:pandas.DataFrame):
@@ -508,6 +505,19 @@ class Database:
             name=name
         )
         self.db.session.add(new_supplier)
+        self.db.session.commit()
+
+    ### Dollar ###
+    def get_dollar_info(self):
+        with self.app.app_context():
+            dollar_info = DollarPrice.query.first()
+            return dollar_info
+
+    def update_dollar_value(self, value):
+        new_dollar_value = DollarPrice(
+            value=value
+        )
+        self.db.session.add(new_dollar_value)
         self.db.session.commit()
 
 
