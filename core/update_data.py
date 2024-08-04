@@ -14,8 +14,8 @@ class UpdateData:
         self.wholesalers = wholesalers
         self.list_files = os.listdir(PATH)
         self.valid_extensions = ('.csv', '.xlsx', '.txt')
-        self.df_handler = DataFrameHandler(dollar=dollar)
         self.db = db
+        self.df_handler = DataFrameHandler(db_=db)
         self.errors = []
         self.checking_errors()
 

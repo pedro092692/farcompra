@@ -8,12 +8,13 @@ from core.dollar.dollar_scrapper import DollarScrapper
 PATH = 'core/data'
 class DataFrameHandler:
 
-    def __init__(self,  filename='', dollar=1):
+    def __init__(self,  filename='', db_=False):
         self.filename = filename
         self.errors = {}
         # self.dollar = DollarScrapper().dollar_value
         self.dollar = False
-        self.dollar_backup = dollar
+        self.db_ = db_
+        self.dollar_backup = True
 
     ### READ DF ####
 
@@ -90,9 +91,10 @@ class DataFrameHandler:
                     print('bcv')
                     self.price_division(df=df, dollar_value=self.dollar)
                 elif self.dollar_backup:
+                    dollar_value = self.db_.get_dollar_info()
                     print('manual')
-                    print(self.dollar_backup)
-                    self.price_division(df=df, dollar_value=self.dollar_backup)
+                    print(dollar_value.value)
+                    self.price_division(df=df, dollar_value=dollar_value.value)
                 else:
                     print('no dollar')
                     self.errors['dollar'] = {'error': 'Error getting dollar value please add it manually.'}

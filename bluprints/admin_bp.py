@@ -14,11 +14,7 @@ from flask_apscheduler import APScheduler
 def construct_blueprint(db: Database, app):
     admin = Blueprint('admin', __name__, template_folder='templates')
     admin.register_blueprint(bp_user(db))
-    dollar = db.get_dollar_info()
-    if not dollar:
-        db.update_dollar_value(value=1)
-        dollar = db.get_dollar_info()
-    new_data = UpdateData(wholesalers, db, dollar=dollar.value)
+    new_data = UpdateData(wholesalers, db)
     admin.register_blueprint(bp_supplier(db, errors=new_data))
     # CRONJOB
     scheduler = APScheduler()
