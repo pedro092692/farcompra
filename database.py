@@ -513,13 +513,21 @@ class Database:
             dollar_info = DollarPrice.query.first()
             return dollar_info
 
-    def update_dollar_value(self, value):
-        new_dollar_value = DollarPrice(
-            value=value
-        )
-        self.db.session.add(new_dollar_value)
-        self.db.session.commit()
 
+    def update_dollar_value(self, value):
+        with self.app.app_context():
+            if not self.get_dollar_info():
+                new_dollar_value = DollarPrice(
+                    value=value
+                )
+                self.db.session.add(new_dollar_value)
+                self.db.session.commit()
+                return new_dollar_value
+            else:
+                dollar_value = self.db.first_or_404(self.db.select(DollarPrice).filter_by(id=1))
+                dollar_value.value = value
+                dollar_value.date = datetime.now()
+                self.db.session.commit()
 
 
 

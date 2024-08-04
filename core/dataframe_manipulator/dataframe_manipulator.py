@@ -11,7 +11,8 @@ class DataFrameHandler:
     def __init__(self,  filename='', dollar=1):
         self.filename = filename
         self.errors = {}
-        self.dollar = DollarScrapper().dollar_value
+        # self.dollar = DollarScrapper().dollar_value
+        self.dollar = False
         self.dollar_backup = dollar
 
     ### READ DF ####

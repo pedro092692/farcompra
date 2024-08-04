@@ -15,6 +15,9 @@ def construct_blueprint(db: Database, app):
     admin = Blueprint('admin', __name__, template_folder='templates')
     admin.register_blueprint(bp_user(db))
     dollar = db.get_dollar_info()
+    if not dollar:
+        db.update_dollar_value(value=1)
+        dollar = db.get_dollar_info()
     new_data = UpdateData(wholesalers, db, dollar=dollar.value)
     admin.register_blueprint(bp_supplier(db, errors=new_data))
     # CRONJOB
@@ -113,15 +116,16 @@ def construct_blueprint(db: Database, app):
 
         form = Dollar()
 
+        if form.validate_on_submit():
+            dollar_value_form = form.value.data
+            db.update_dollar_value(value=dollar_value_form)
+
+            return redirect(url_for('admin.update_dollar'))
+
         if dollar_info:
             form.value.data = dollar_info.value
             last_update = dollar_info.date
 
-        if form.validate_on_submit():
-            dollar_value = form.value.data
-            db.update_dollar_value(value=dollar_value)
-
         return render_template('admin/home/update-dollar.html', form=form, last_update=last_update)
-
 
     return admin
