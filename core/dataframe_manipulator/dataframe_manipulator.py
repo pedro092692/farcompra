@@ -87,10 +87,14 @@ class DataFrameHandler:
             # Setting dollar price
             if not price_dollar:
                 if self.dollar:
+                    print('bcv')
                     self.price_division(df=df, dollar_value=self.dollar)
                 elif self.dollar_backup:
+                    print('manual')
+                    print(self.dollar_backup)
                     self.price_division(df=df, dollar_value=self.dollar_backup)
                 else:
+                    print('no dollar')
                     self.errors['dollar'] = {'error': 'Error getting dollar value please add it manually.'}
 
             # fix internal_code only for vital_clinic
