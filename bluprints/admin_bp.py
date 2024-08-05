@@ -20,6 +20,7 @@ def construct_blueprint(db: Database, app):
     scheduler = APScheduler()
     scheduler.init_app(app)
     scheduler.start()
+    update_rate = '5'
 
     def got_message():
         message = ''
@@ -84,7 +85,7 @@ def construct_blueprint(db: Database, app):
         return redirect(request.referrer)
 
     ### Cronjob ###
-    @scheduler.task('cron', id='update_products', minute='*/30', max_instances=5)
+    @scheduler.task('cron', id='update_products', minute=f'*/{update_rate}', max_instances=5)
     def auto_update():
         with scheduler.app.app_context():
             # delete all notifications
