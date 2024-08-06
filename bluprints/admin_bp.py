@@ -20,7 +20,7 @@ def construct_blueprint(db: Database, app):
     scheduler = APScheduler()
     scheduler.init_app(app)
     scheduler.start()
-    update_rate = '5'
+    update_rate = '30'
 
     def got_message():
         message = ''

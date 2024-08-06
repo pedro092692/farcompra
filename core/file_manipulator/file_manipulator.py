@@ -59,6 +59,10 @@ class FileHandler:
             self.fix_drolanca(file_name=file_name)
         elif extension == '.csv' and file_name == 'drovencentro.csv':
             self.fix_drovencentro(file_name=file_name)
+        elif extension == '.csv' and file_name == 'zakipharma.csv':
+            self.fix_zakipharma(file_name=file_name)
+        elif extension == '.csv' and file_name == 'vital_clinic.csv':
+            self.fix_vital_clinic(file_name=file_name)
 
 
 
@@ -169,6 +173,44 @@ class FileHandler:
                 barcode = line[130:144].rstrip()
                 due_date = line[192:199]
                 new_line.append(f'{internal_code};{name};{final_price};{stock};{barcode};{due_date}\n')
+
+        with open(f'{self.path}/{file_name}', mode='w') as data:
+            for line in new_line:
+                data.write(line)
+
+    def fix_zakipharma(self, file_name):
+        with open(f'{self.path}/{file_name}', mode='r', encoding='latin-1') as file:
+            new_line = []
+            for line in file.readlines():
+                line_info = line.split(';')
+                product_id = line_info[0]
+                barcode = line_info[1]
+                name = line_info[2]
+                due_date = line_info[3]
+                price = line_info[4]
+                discount = line_info[5]
+                price_usd = line_info[6]
+                stock = line_info[7]
+                new_line.append(f'{product_id};{barcode};{name};{due_date};{price};{discount};{price_usd};{stock}')
+
+        with open(f'{self.path}/{file_name}', mode='w') as data:
+            for line in new_line:
+                data.write(line)
+
+    def fix_vital_clinic(self, file_name):
+        with open(f'{self.path}/{file_name}', mode='r', encoding='latin-1') as file:
+            new_line = []
+            for line in file.readlines():
+                line_info = line.split(';')
+                product_id = line_info[0]
+                barcode = line_info[1]
+                name = line_info[2]
+                due_date = line_info[3]
+                price = line_info[4]
+                discount = line_info[5]
+                price_usd = line_info[6]
+                stock = line_info[7]
+                new_line.append(f'{product_id};{barcode};{name};{due_date};{price};{discount};{price_usd};{stock}')
 
         with open(f'{self.path}/{file_name}', mode='w') as data:
             for line in new_line:
