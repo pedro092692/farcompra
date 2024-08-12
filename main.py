@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session, abort
 from flask_bootstrap import Bootstrap5
 from bluprints import admin_bp, cart
-from database import Database
+from database import Database, UserConnection
 from flask_dropzone import Dropzone
 from flask_babel import Babel, gettext
 from flask_wtf import CSRFProtect
@@ -104,6 +104,14 @@ def login():
             if check_password_hash(user.password, password):
                 if user.active == 'yes':
                     login_user(user)
+                    user_connection = UserConnection.check_user(user_id=current_user.id)
+                    if user_connection:
+                        # update date of last connection
+                        UserConnection.update_connection(user_connection)
+                    else:
+                        # Register user in user_connection
+                        UserConnection.register_user(user_id=current_user.id, user_ip=request.remote_addr)
+
                     return redirect(url_for('index'))
                 flash(gettext('Please Active your User'))
             else:
@@ -193,9 +201,7 @@ def logout():
     return response
 
 
-@socketio.on('connect')
-def handle_connect():
-    print('client connected!')
+
 
 
 @socketio.on('search_query')

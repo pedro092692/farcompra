@@ -140,6 +140,27 @@ class UserConnection(Base, db.Model):
     user_ip: Mapped[str] = mapped_column(String, nullable=False)
     last_connection: Mapped[datetime] = mapped_column(DateTime, nullable=False, default=datetime.now())
 
+    @staticmethod
+    def check_user(user_id):
+        user = UserConnection.query.filter(UserConnection.user_id == user_id).one()
+        return user
+
+    @staticmethod
+    def register_user(user_id, user_ip):
+        new_user = UserConnection(
+            user_id=user_id,
+            user_ip=user_ip
+        )
+
+        db.session.add(new_user)
+        db.session.commit()
+
+    @staticmethod
+    def update_connection(user):
+        user.last_connection = datetime.now()
+        db.session.commit()
+
+
 
 class Database:
 
