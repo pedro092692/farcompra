@@ -133,6 +133,13 @@ class DollarPrice(Base, db.Model):
     date: Mapped[datetime] = mapped_column(DateTime, nullable=False, default=datetime.now())
 
 
+class UserConnection(Base, db.Model):
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    user_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.id"), nullable=False)
+    user_info: Mapped["User"] = relationship()
+    last_connection: Mapped[datetime] = mapped_column(DateTime, nullable=False, default=datetime.now())
+
+
 class Database:
 
     def __init__(self, app: Flask):
