@@ -137,6 +137,7 @@ class UserConnection(Base, db.Model):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     user_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.id"), nullable=False)
     user_info: Mapped["User"] = relationship()
+    user_ip: Mapped[str] = mapped_column(String, nullable=False)
     last_connection: Mapped[datetime] = mapped_column(DateTime, nullable=False, default=datetime.now())
 
 
