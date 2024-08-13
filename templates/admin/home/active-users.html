@@ -1,0 +1,120 @@
+{% extends 'admin/layouts/base.html' %}
+{% block title %} Farcompra {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+{% endblock stylesheets %}
+
+{% block content %}
+    <!-- Users -->
+    <div class="container-fluid mt-4">
+        <div class="card">
+            <div class="card-body d-flex align-items-center">
+                <h2 class="mr-4" id="users">{{ _('Active users') }}</h2>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header border-0">
+                        <h3 class="col mb-0">{{ _('Users List last hour') }} ({{ last_hour_users|length }}) </h3>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table align-items-center table-flush">
+                            {% if last_hour_users %}
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th scope="col" class="text-sm">{{ _('User') }}</th>
+                                        <th scope="col" class="text-sm">{{ _('Last connection') }}</th>
+                                        <th scope="col" class="text-sm">{{ _('IP') }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for user in last_hour_users %}
+                                        <tr class="">
+                                            <td scope="row" class="text-sm text-capitalize">
+                                                {% if user.user_info.pharmacy %}
+                                                    {{ user.user_info.pharmacy[0].name }}
+                                                {% else %}
+                                                    {{ user.user_info.email }}
+                                                {% endif %}
+                                            </td>
+                                            <td scope="row" class="text-sm text-capitalize">
+                                                {{ user.last_connection.strftime('%d/%m - %H:%M') }}
+                                            </td>
+                                            <td scope="row" class="text-sm">
+                                                {{ user.user_ip }}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            {% else %}
+                                <div class="card-body">
+                                    <h2>No data yet.</h2>
+
+                                </div>
+                            {% endif %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+<!--            total user connection-->
+            <div class="col">
+                <div class="card">
+                    <div class="card-header border-0">
+                        <h3 class="col mb-0">{{ _('Connected users in the time') }} </h3>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table align-items-center table-flush">
+                            {% if connected_users %}
+
+                            <thead class="thead-light">
+                                <tr>
+                                    <th scope="col" class="text-sm">{{ _('User') }}</th>
+                                    <th scope="col" class="text-sm">{{ _('Last connection') }}</th>
+                                    <th scope="col" class="text-sm">{{ _('IP') }}</th>
+                                    <th scope="col" class="text-sm">{{ _('Action') }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for user in connected_users %}
+                                    <tr class="">
+                                        <td scope="row" class="text-sm text-capitalize">
+                                            {% if user.user_info.pharmacy %}
+                                                {{ user.user_info.pharmacy[0].name }}
+                                            {% else %}
+                                                {{ user.user_info.email }}
+                                            {% endif %}
+                                        </td>
+                                        <td scope="row" class="text-sm text-capitalize">
+                                            {{ user.last_connection.strftime('%d/%m/%y') }}
+                                        </td>
+                                        <td scope="row" class="text-sm">
+                                            {{ user.user_ip }}
+                                        </td>
+                                        <td scope="row" class="text-sm">
+                                            <a href="{{ url_for('admin.user.edit_user', user_id=user.user_info.id) }}"
+                                               class="btn btn-primary">{{ _('Edit') }}
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                            {% else %}
+                                <div class="card-body">
+                                    <h2>No data yet.</h2>
+
+                                </div>
+                            {% endif %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+{% endblock javascripts %}

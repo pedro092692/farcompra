@@ -4,7 +4,7 @@ from sqlalchemy.orm import relationship, DeclarativeBase, Mapped, mapped_column
 from sqlalchemy import Integer, String, Float, ForeignKey, select, delete, join, func, case, and_, DateTime
 from typing import List
 from flask import Flask
-from datetime import datetime
+from datetime import datetime, timedelta
 from flask_login import UserMixin
 import pandas
 import os
@@ -162,6 +162,16 @@ class UserConnection(Base, db.Model):
         user.user_ip = user_ip
         db.session.commit()
 
+    @staticmethod
+    def get_last_hour():
+        hour = datetime.now() - timedelta(hours=1)
+        last_hour = UserConnection.query.filter(UserConnection.last_connection > hour).all()
+        return last_hour
+    @staticmethod
+    def get_connected_users():
+        hour = datetime.now() - timedelta(hours=1)
+        connected_users = UserConnection.query.filter(UserConnection.last_connection < hour).all()
+        return connected_users
 
 
 class Database:
@@ -179,7 +189,6 @@ class Database:
     def create_tables(self):
         with self.app.app_context():
             self.db.create_all()
-
 
     ### PRODUCTS ###
     def add_products(self, data:pandas.DataFrame):

@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, render_template, url_for, redirect
 from forms.forms import RegisterUserForm, RegisterPharmacyForm, EditUserForm, SearchUserForm, SearchPharmacyForm, \
     DeleteUserForm, QuickUser
 from werkzeug.security import generate_password_hash, check_password_hash
-from database import Database
+from database import Database, UserConnection
 from flask_login import current_user
 import random
 
@@ -192,6 +192,13 @@ def construct_blueprint(db: Database):
                 form.user_email.errors.append('This user email do not exist in our database.')
 
         return render_template('admin/home/pharmacy-edit.html', form=form, pharmacy=pharmacy)
+
+    @user.route('/active-users', methods=['GET'])
+    def active_users():
+        last_hour_users = UserConnection.get_last_hour()
+        connected_users = UserConnection.get_connected_users()
+        return render_template('admin/home/active-users.html', last_hour_users=last_hour_users,
+                                                                                 connected_users=connected_users)
 
 
     return user
