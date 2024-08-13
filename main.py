@@ -12,10 +12,11 @@ from flask_login import login_user, LoginManager, current_user, logout_user, log
 from flask_socketio import SocketIO, emit
 from helpers import calc_discount, is_active
 from dotenv import load_dotenv
-from datetime import datetime
+from datetime import datetime, timedelta
 from flask_migrate import Migrate
 import flask_sockets
 import flask_excel as excel
+from datetime import datetime
 import os
 
 
@@ -107,7 +108,7 @@ def login():
                     user_connection = UserConnection.check_user(user_id=current_user.id)
                     if user_connection:
                         # update date of last connection
-                        UserConnection.update_connection(user_connection)
+                        UserConnection.update_connection(user_connection, user_ip=request.remote_addr)
                     else:
                         # Register user in user_connection
                         UserConnection.register_user(user_id=current_user.id, user_ip=request.remote_addr)
@@ -201,7 +202,18 @@ def logout():
     return response
 
 
+@socketio.on('connect')
+def handle_connect():
+    # check for user last connection
+    if current_user.user_connection:
+        last_connection = current_user.user_connection.last_connection
+        if last_connection + timedelta(hours=1) < datetime.now():
+            user = UserConnection.check_user(current_user.id)
+            UserConnection.update_connection(user=user, user_ip=request.remote_addr)
+    else:
+        UserConnection.register_user(user_id=current_user.id, user_ip=request.remote_addr)
 
+    print(f'user connected!')
 
 
 @socketio.on('search_query')

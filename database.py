@@ -75,6 +75,7 @@ class User(Base, UserMixin, db.Model):
                                                       cascade='all, delete, delete-orphan')
     discount: Mapped[List["PharmacyDiscount"]] = relationship(back_populates='user_info',
                                                               cascade='all, delete, delete-orphan')
+    user_connection: Mapped["UserConnection"] = relationship(back_populates='user_info', cascade='all, delete')
 
 
 class Pharmacy(Base, db.Model):
@@ -156,8 +157,9 @@ class UserConnection(Base, db.Model):
         db.session.commit()
 
     @staticmethod
-    def update_connection(user):
+    def update_connection(user, user_ip):
         user.last_connection = datetime.now()
+        user.user_ip = user_ip
         db.session.commit()
 
 
