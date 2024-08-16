@@ -114,7 +114,18 @@ def login():
                         UserConnection.register_user(user_id=current_user.id, user_ip=request.remote_addr)
 
                     return redirect(url_for('index'))
-                flash(gettext('Please Active your User'))
+                # active user
+                if user.pharmacy:
+                    name = user.pharmacy[0].name
+                else:
+                    name = user.email
+
+                text = f'Hola nos comunicamos de parte de: {name} y queremos activar el usuario'
+                link = f'https://api.whatsapp.com/send?phone=+584243773513&text={text}'
+
+                tag = f'<a href="{link}" target="_blank">usuario</a>'
+
+                flash(gettext(f'Por favor active su {tag}'))
             else:
                 flash(gettext('Wrong user or password!'))
         else:

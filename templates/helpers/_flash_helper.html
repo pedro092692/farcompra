@@ -3,7 +3,7 @@
     {% if messages %}
       {% for message in messages %}
         <div class="alert alert-{{color}} text-center" role="alert">
-          {{ message }}
+          {{ message|safe }}
         </div>
       {% endfor %}
     {% endif %}
