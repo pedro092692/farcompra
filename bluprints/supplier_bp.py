@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, blueprints, url_for, redirect, send_file, current_app
+from flask import Blueprint, render_template, blueprints, url_for, redirect, send_file, current_app, request
 from database import Database
 from core.supplier import Supplier
 from forms.forms import SupplierForm
@@ -7,12 +7,19 @@ def construct_blueprint(db: Database, errors):
 
 
 
-    @supplier.route('/suppliers', methods=['GET'])
+    @supplier.route('/suppliers', methods=['GET', 'POST'])
     def suppliers():
         load_suppliers = Supplier()
         list_suppliers = load_suppliers.supplier_list()
         ftp_suppliers = db.get_ftp_suppliers(list_suppliers['ftp'])
         no_ftp_suppliers = db.get_ftp_suppliers(list_suppliers['no_ftp'])
+
+        # handle delete products prices by supplier
+        if request.method == 'POST':
+            supplier_id = request.form.get('supplier_id')
+            db.drop_products_by_supplier(supplier_id=supplier_id)
+
+
         return render_template('admin/home/suppliers.html', suppliers_ftp=ftp_suppliers,
                                no_ftp_suppliers=no_ftp_suppliers,
                                messages=errors.errors)
