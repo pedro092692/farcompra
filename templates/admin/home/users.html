@@ -9,22 +9,25 @@
     <!-- Users -->
     <div class="container-fluid mt-4">
         <div class="card">
-            <div class="card-body d-flex align-items-center">
-                <h2 class="mr-4" id="users">{{ _('Users') }}</h2>
-                <form class="w-50" action="" method="POST" novalidate>
-                    <div class="d-flex w-100">
-                        {{ form_search_user.csrf_token }}
-                        {{ form_search_user.query(class='form-control', placeholder=_('User email')) }}
-                        {{ form_search_user.submit_search(class='btn btn-primary') }}
-                    </div>
-                    <!-- Form errors -->
-                    {% if form_search_user.query.errors %}
-                        {% for error in form_search_user.query.errors %}
-                            <p class="text-sm text-danger">{{ error }}</p>
-                        {% endfor %}
-                    {% endif %}
-                </form>
-                <div class="d-flex w-100 justify-content-end">
+            <div class="card-body d-md-flex align-items-center justify-content-between">
+                <div>
+                    <h2 class="mr-4" id="users">{{ _('Users') }}</h2>
+                    <form class="mb-4" action="" method="POST" novalidate>
+                        <div class="d-flex w-100">
+                            {{ form_search_user.csrf_token }}
+                            {{ form_search_user.query(class='form-control w-100', placeholder=_('User email')) }}
+                            {{ form_search_user.submit_search(class='btn btn-primary ') }}
+                        </div>
+                        <!-- Form errors -->
+                        {% if form_search_user.query.errors %}
+                            {% for error in form_search_user.query.errors %}
+                                <p class="text-sm text-danger">{{ error }}</p>
+                            {% endfor %}
+                        {% endif %}
+                    </form>
+                </div>
+
+                <div class="d-flex d-md-w-100 d-md-justify-content-end">
                     <a href="{{ url_for('admin.user.active_users') }}" class="btn btn-primary">View active user</a>
                 </div>
             </div>
@@ -83,7 +86,7 @@
     <!-- pharmacies -->
     <div class="container-fluid mt-4">
         <div class="card">
-            <div class="card-body d-flex align-items-center">
+            <div class="card-body d-md-flex align-items-center justify-content-between">
                 <h2 class="mr-4" id="pharmacies">{{ _('Pharmacies') }}</h2>
                 <form action="" method="POST" novalidate>
                     <div class="d-flex">
