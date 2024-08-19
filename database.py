@@ -195,10 +195,10 @@ class Database:
         engine = self.db.engine
         data.to_sql('products', engine, index=False, if_exists='append', index_label='barcode', chunksize=1000)
 
-    def add_product_prices(self, data: pandas.DataFrame, mode='auto'):
+    def add_product_prices(self, data: pandas.DataFrame, mode='auto', failed=None):
         if mode == 'auto':
             # before add new list delete anterior
-            self.delete_products_prices()
+            self.delete_products_prices(failed=failed)
         engine = self.db.engine
         # Add new data
         data.to_sql('product_prices', engine, index=False, if_exists='append', chunksize=7000)
@@ -247,11 +247,10 @@ class Database:
         )
         return all_products
 
-
-
-    def delete_products_prices(self):
+    def delete_products_prices(self, failed=None):
         # Delete all products not for not auto-update suppliers
-        statement = delete(ProductPrice).where(ProductPrice.supplier_id.notin_([6]))
+        statement = delete(ProductPrice).where(ProductPrice.supplier_id.notin_([6]),
+                                               ProductPrice.supplier_id.notin_(failed))
         self.db.session.execute(statement)
         self.db.session.commit()
 

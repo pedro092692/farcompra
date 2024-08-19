@@ -9,6 +9,7 @@ import os
 PATH = 'core/data'
 MANUAL_PATH = 'core/data/manual_uploads'
 
+
 class UpdateData:
     def __init__(self, wholesalers: dict, db: Database, dollar=1):
         self.wholesalers = wholesalers
@@ -17,9 +18,13 @@ class UpdateData:
         self.db = db
         self.df_handler = DataFrameHandler(db_=db)
         self.errors = []
+        self.failed = []
         self.checking_errors()
 
     def download(self):
+        # clear failed downloads list
+        self.failed.clear()
+        # download new data
         for wholesaler in self.wholesalers:
             # get data from ftps server
             url = self.wholesalers[wholesaler]['url']
@@ -38,6 +43,7 @@ class UpdateData:
                 if new_connection.error_log:
                     e = new_connection.error_log
                     self.errors.append(e)
+                    self.failed.append(self.wholesalers[wholesaler]['supplier_id'])
 
         if len(self.errors) < len(self.wholesalers) - 3:
             file_handler = FileHandler()
@@ -46,17 +52,14 @@ class UpdateData:
             self.add_new_products_prices_to_db()
             file_handler.remove_all_files(path=PATH)
 
-
     def add_new_products_to_db(self):
         csv_files_list = FileHandler(mode='auto').csv_file_list()
         self.check_df_diff_products(csv_files_list=csv_files_list, path=PATH)
 
-
     def add_new_products_prices_to_db(self):
         csv_files_list = FileHandler(mode='auto').csv_file_list()
         new_prices_list = self.df_handler.dataframe_products_prices(csv_file_list=csv_files_list, path=PATH)
-        self.db.add_product_prices(new_prices_list)
-
+        self.db.add_product_prices(new_prices_list, failed=self.failed)
 
     def manually_upload(self, file):
         file_handler = FileHandler(mode='manual', path=MANUAL_PATH)
@@ -83,12 +86,12 @@ class UpdateData:
         file_handler = FileHandler(mode='manual', path=MANUAL_PATH)
         file_handler.convert_all_to_csv()
         csv_files_list = FileHandler(mode='manual', path=MANUAL_PATH).csv_file_list()
-        ### updating products manually ###
+        # updating products manually
         add_new_products = self.check_df_diff_products(csv_files_list=csv_files_list, path=MANUAL_PATH)
         if add_new_products:
-            ### updating products prices manually ###
+            # updating products prices manually
             new_prices_list = self.df_handler.dataframe_products_prices(csv_file_list=csv_files_list, path=MANUAL_PATH)
-            ### check for old products in the list ###
+            # check for old products in the list
             # 1) get supplier id
             try:
                 supplier_id = wholesalers[filename]['supplier_id']
@@ -103,12 +106,8 @@ class UpdateData:
             except KeyError:
                 print('Error with file name no supplier found')
 
-
-            ### remove all files in manual uploads ###
+            # remove all files in manual uploads
             file_handler.remove_all_files(path=MANUAL_PATH)
-
-
-
 
     def check_df_diff_products(self, csv_files_list, path):
         new_product_list = self.df_handler.dataframe_products(csv_file_list=csv_files_list, path=path)
