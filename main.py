@@ -28,7 +28,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 app.config['BABEL_DEFAULT_LOCALE'] = 'es'
 
-### DROPZONE ###
+# DROPZONE
 app.config['DROPZONE_ALLOWED_FILE_CUSTOM'] = True
 app.config['DROPZONE_ALLOWED_FILE_TYPE'] = '.csv, .xlsx, .xls'
 app.config['DROPZONE_MAX_FILE_SIZE'] = 10
@@ -48,7 +48,7 @@ babel = Babel(app)
 # excel
 excel.init_excel(app)
 
-### Dropzone ###
+# Dropzone
 dropzone = Dropzone(app)
 
 # websockets IO
@@ -199,7 +199,8 @@ def search():
             suggested_results = []
             discount_suggest = []
 
-    return render_template('search.html', results=results, search_query=barcode, suggested_results=suggested_results,
+    return render_template('search.html', results=results, search_query=barcode,
+                           suggested_results=suggested_results,
                            suggest=suggest, form=form, prices_discount=prices_discount,
                            discount_suggest=discount_suggest, get_text=gettext)
 
