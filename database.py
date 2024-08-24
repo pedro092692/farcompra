@@ -175,6 +175,10 @@ class UserConnection(Base, db.Model):
         return connected_users
 
 
+class Laboratory(Base, db.Model):
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    name: Mapped[str] = mapped_column(String, nullable=False)
+
 class Database:
 
     def __init__(self, app: Flask):
