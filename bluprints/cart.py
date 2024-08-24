@@ -125,6 +125,7 @@ def construct_blueprint(db: Database, socketio: SocketIO, app):
                         user_id=user_id,
                         supplier_id=item.supplier_id,
                         product_name=item.product_name,
+                        barcode=item.product_info.barcode,
                         quantity=item.quantity,
                         price=item.product_price
                     )
@@ -187,6 +188,7 @@ def construct_blueprint(db: Database, socketio: SocketIO, app):
                         user_id=current_user.id,
                         supplier_id=item.supplier_id,
                         product_name=item.product_name,
+                        barcode=item.product_info.barcode,
                         quantity=item.quantity,
                         price=item.product_price
                     )
@@ -198,11 +200,12 @@ def construct_blueprint(db: Database, socketio: SocketIO, app):
 
             data = [
                 [f"Drogueria: {supplier}", f"Cliente: {pharmacy}", f"RIF: j-{rif}", f'Fecha: {date}'],
-                ["Codigo", "Producto", "Cantidad", "Precio", "Total"]
+                ["Codigo", "Producto", "Codigo de barras", "Cantidad", "Precio", "Total"]
             ]
 
             for item in order:
-                data.append([item.internal_code_product, item.product_name, item.quantity, f'${item.product_price}',
+                data.append([item.internal_code_product, item.product_name, item.product_info.barcode,
+                             item.quantity, f'${item.product_price}',
                              round(item.product_price * item.quantity, 2)])
 
             # Delete items from cart

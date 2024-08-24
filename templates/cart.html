@@ -45,6 +45,7 @@
                                                         <thead class="thead-light">
                                                             <tr>
                                                                 <th scope="col" class="text-sm w-50">{{_('Item')}}</th>
+                                                                <th scope="col" class="text-sm w-50">{{_('Barcode')}}</th>
                                                                 <th scope="col" class="text-sm">{{_('Quantity')}}</th>
                                                                 <th scope="col" class="text-sm">{{_('Price')}}</th>
                                                                 <th scope="col" class="text-sm">{{_('Total')}}</th>
@@ -56,6 +57,9 @@
                                                                 <tr>
                                                                     <td scope="row" class="text-capitalize">
                                                                         {{ product }}
+                                                                    </td>
+                                                                    <td scope="row" class="text-capitalize">
+                                                                        {{ shopping_cart[supplier]['products'][product]['barcode'] }}
                                                                     </td>
                                                                     <td scope="row" class="text-capitalize">
                                                                         <input type="number"

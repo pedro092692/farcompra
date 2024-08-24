@@ -123,6 +123,7 @@ class OrderHistory(Base, db.Model):
     supplier_id: Mapped[int] = mapped_column(Integer, ForeignKey("suppliers.id"), nullable=False)
     supplier_info: Mapped["Supplier"] = relationship()
     product_name: Mapped[str] = mapped_column(String(500), nullable=False)
+    barcode: Mapped[str] = mapped_column(String(250), nullable=True)
     quantity: Mapped[int] = mapped_column(Integer, nullable=False)
     price: Mapped[float] = mapped_column(Float, nullable=False)
     date: Mapped[datetime] = mapped_column(DateTime, nullable=False, default=datetime.now())
@@ -404,6 +405,7 @@ class Database:
             shopping_cart[item.supplier_name]["products"][item.product_name] = {
                 "id": item.product_price_id,
                 "price": item.product_price,
+                "barcode": item.product_info.barcode,
                 "quantity": item.quantity,
                 "id_cart": item.id
             }
@@ -429,6 +431,7 @@ class Database:
             history[item.supplier_info.name]['products'][item.product_name] = {
                 "price": item.price,
                 "quantity": item.quantity,
+                "barcode": item.barcode,
                 "total": round(item.price * item.quantity, 2)
             }
             history[item.supplier_info.name]['total'] += \
@@ -455,13 +458,14 @@ class Database:
         return cart_item
 
     ### ORDER HISTORY ###
-    def add_order_history(self, user_id, supplier_id, product_name, quantity, price):
+    def add_order_history(self, user_id, supplier_id, product_name, quantity, price, barcode):
 
 
         new_order = OrderHistory(
             user_id=user_id,
             supplier_id=supplier_id,
             product_name=product_name,
+            barcode=barcode,
             quantity=quantity,
             price=price,
         )
