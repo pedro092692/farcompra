@@ -261,6 +261,10 @@ class Database:
         self.db.session.execute(statement)
         self.db.session.commit()
 
+    def delete_products_prices_all(self):
+        self.db.session.query(ProductPrice).delete()
+        self.db.session.commit()
+
     def delete_all_products(self):
         self.db.session.query(Product).delete()
         self.db.session.commit()
