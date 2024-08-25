@@ -135,10 +135,10 @@ def construct_blueprint(db: Database, app):
         products_with_brand = pandas.merge(products_df, brands_df, on='barcode', how='left')
         products_with_brand.index += 1
 
-        # delete products prices
-        db.delete_products_prices_all()
+        # delete products
+        db.delete_all_products()
 
-        products_with_brand.to_sql('products', db.db.engine, index=True, if_exists='replace',
+        products_with_brand.to_sql('products', db.db.engine, index=True, if_exists='append',
                                    index_label='id',
                                    chunksize=1000)
 
