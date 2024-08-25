@@ -138,6 +138,7 @@ class DollarPrice(Base, db.Model):
 class Brand(Base, db.Model):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String, nullable=False)
+    created: Mapped[datetime] = mapped_column(DateTime, nullable=False)
 
 
 class UserConnection(Base, db.Model):
