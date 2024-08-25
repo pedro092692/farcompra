@@ -135,7 +135,7 @@ class DollarPrice(Base, db.Model):
     date: Mapped[datetime] = mapped_column(DateTime, nullable=False, default=datetime.now())
 
 
-class Laboratory(Base, db.Model):
+class Brand(Base, db.Model):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String, nullable=False)
 
