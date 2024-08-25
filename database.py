@@ -53,7 +53,7 @@ class ProductPrice(Base, db.Model):
     __tablename__ = "product_prices"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     product_id: Mapped[int] = mapped_column(Integer, ForeignKey("products.id", ondelete='CASCADE'))
-    product_info: Mapped["Product"] = relationship(back_populates="prices")
+    product_info: Mapped["Product"] = relationship(back_populates="prices", cascade="all,delete")
     price: Mapped[float] = mapped_column(Float, nullable=False)
     due_date: Mapped[str] = mapped_column(String(250), nullable=True)
     stock: Mapped[int] = mapped_column(Integer, nullable=False)
