@@ -20,7 +20,11 @@
                                         onload=""
                                         >
                                         {{ product.name }}
-
+                                        {% if product.brand %}
+                                                <p class="text-sm font-weight-bold text-dark ml-2">
+                                                    {{ product.brand }}
+                                                </p>
+                                        {% endif %}
                                         <div class="table-responsive mt-2" id="prices"
                                              style="display:
                                              {{ 'none' if request.args.get('barcode') != product.barcode else 'block'  }}">

@@ -1,3 +1,4 @@
+import pandas
 from flask import Blueprint, render_template, abort, redirect, url_for, request, send_file
 from core.wholesalers import wholesalers
 from core.update_data import UpdateData
@@ -124,5 +125,20 @@ def construct_blueprint(db: Database, app):
             last_update = dollar_info.date
 
         return render_template('admin/home/update-dollar.html', form=form, last_update=last_update)
+
+    @admin.route('/add-brand')
+    def add_brand():
+        products_df = new_data.df_handler.dataframe_from_db(columns=['barcode', 'name'], db_table='products')
+        brands = new_data.df_handler.load_data_frame(path='core/data/brands', filename='barcodes_brands.csv')
+        brands = brands.rename(columns={'laboratory': 'brand'})
+        brands_df = brands[['barcode', 'brand']]
+        products_with_brand = pandas.merge(products_df, brands_df, on='barcode', how='left')
+        products_with_brand.index += 1
+        print(products_with_brand)
+        products_with_brand.to_sql('products', db.db.engine, index=True, if_exists='replace',
+                                   index_label='id',
+                                   chunksize=1000)
+
+        return redirect(url_for('admin.index'))
 
     return admin

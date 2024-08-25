@@ -232,6 +232,7 @@ def handle_connect():
 def handle_search_query(search_query, per_page):
     if search_query:
         results = db.search_products(q=search_query, per_page=per_page)
+
         emit('search_results', {'results': [item.serialize() for item in results if item.prices],
                                 'pages': [page for page in results.iter_pages()],
                                 'page': results.page,

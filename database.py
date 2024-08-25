@@ -19,7 +19,6 @@ class Base(DeclarativeBase):
 db = SQLAlchemy(model_class=Base)
 
 
-
 # CONFIGURE TABLES
 
 class Product(Base):
@@ -28,6 +27,7 @@ class Product(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     barcode: Mapped[str] = mapped_column(String(250), unique=True, nullable=False)
     name: Mapped[str] = mapped_column(String(1000), nullable=False)
+    brand: Mapped[str] = mapped_column(String, nullable=True)
     prices: Mapped[List["ProductPrice"]] = relationship(back_populates="product_info",
                                                         cascade='all, delete',
                                                         order_by="ProductPrice.price.asc()")
@@ -135,6 +135,11 @@ class DollarPrice(Base, db.Model):
     date: Mapped[datetime] = mapped_column(DateTime, nullable=False, default=datetime.now())
 
 
+class Laboratory(Base, db.Model):
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    name: Mapped[str] = mapped_column(String, nullable=False)
+
+
 class UserConnection(Base, db.Model):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     user_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.id"), nullable=False)
@@ -174,10 +179,6 @@ class UserConnection(Base, db.Model):
         connected_users = UserConnection.query.filter(UserConnection.last_connection < hour).all()
         return connected_users
 
-
-class Laboratory(Base, db.Model):
-    id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    name: Mapped[str] = mapped_column(String, nullable=False)
 
 class Database:
 

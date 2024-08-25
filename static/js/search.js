@@ -5,7 +5,7 @@ function show_product_info(li){
         div_price.style.display = "none";
     }
 
-    info_div = li.children[0];
+    info_div = li.querySelector('div');
     info_div.style.display = 'block';
 }
 
