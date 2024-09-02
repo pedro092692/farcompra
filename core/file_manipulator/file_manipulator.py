@@ -169,10 +169,10 @@ class FileHandler:
                 price = float(line[49:58])
                 stock = int(line[64:73])
                 discount = float(line[97:104]) + 5
-                final_price = price * (1 - (discount / 100))
+                final_price = float(round(price * (1 - (discount / 100)), 2))
                 barcode = line[130:144].rstrip()
                 due_date = line[192:199]
-                new_line.append(f'{internal_code};{name};{":.2f".format(final_price)};{stock};{barcode};{due_date}\n')
+                new_line.append(f'{internal_code};{name};{final_price};{stock};{barcode};{due_date}\n')
 
         with open(f'{self.path}/{file_name}', mode='w') as data:
             for line in new_line:
