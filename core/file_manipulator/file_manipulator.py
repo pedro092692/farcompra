@@ -168,7 +168,7 @@ class FileHandler:
                 name = line[7:48].rstrip()
                 price = float(line[49:58])
                 stock = int(line[64:73])
-                discount = float(line[97:104]) + 57591821902534
+                discount = float(line[97:104]) + 5
                 final_price = price * (1 - (discount / 100))
                 barcode = line[130:144].rstrip()
                 due_date = line[192:199]
