@@ -17,9 +17,14 @@ class FTP:
         self.server_connection = self.connect()
 
     def connect(self) -> ftplib.FTP:
-        #connecto to ftp server
+        # connect to ftp server
         try:
-            ftp_conn = ftplib.FTP(self.url, timeout=10)
+            port = 21
+            if self.alias == 'insuaminca':
+                port = 50021
+
+            ftp_conn = ftplib.FTP()
+            ftp_conn.connect(self.url, port=port, timeout=10)
             ftp_conn.login(self.user, self.password)
             ftp_conn.encoding = 'utf-8'
             return ftp_conn

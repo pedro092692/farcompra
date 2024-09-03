@@ -145,15 +145,15 @@ stock_2;stock_2;stock_3;stock_4;regulated;unknown_1;unknown_2;unknown_3;unknown_
     },
 
     "insuaminca":{
-        "url": "ftp.insuaminca.com.ve",
+        "url": "186.167.69.10",
         "user": os.environ.get('INSUAMINCA_USER'),
         "password": os.environ.get('INSUAMINCA_PASS'),
-        "path": '/Inventario',
+        "path": '/',
         "file_name": 'inventario.txt',
         "name": "insuaminca",
-        "csv": False,
+        "csv": True,
         "has_header": False,
-        "header":  "product_id;barcode;name;due_date;final_price;sale_percent;price_usd;stock",
+        "header":  "product_id;barcode;name;due_date;final_price;sale_percent;price_usd;stock;laboratory",
         "fix_barcode": False,
         "supplier_id": 8,
         "price_dollar": True
