@@ -26,9 +26,8 @@ wholesalers = {
         "name": "cobeca",
         "csv": False,
         "has_header": True,
-        "header":  "barcode;product_id;name;wholesale_price_ves;price_usd_reference;final_price_ves;price_usd;stock;\
-laboratory;credit_days;percent_supplier;dicount_supplier;digital_discount;\
-soon_payment_discount;discount_per_volume;min_amount_per_volume;discount_per_row;min_amount_per_row;rows;due_date",
+        "header":  "barcode;product_id;name;started_product;price_1;price_2;price_3;price_4;price_usd;stock;supplier"
+                   ";credit_days;cobeca_discount;supplier_discount;discount;min_quantity;discount_2;min;rules;due_date",
         "fix_barcode": False,
         "supplier_id": 6,
         "price_dollar": True
