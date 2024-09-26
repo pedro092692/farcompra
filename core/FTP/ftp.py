@@ -24,7 +24,7 @@ class FTP:
                 port = 50021
 
             ftp_conn = ftplib.FTP()
-            ftp_conn.connect(self.url, port=port, timeout=10)
+            ftp_conn.connect(self.url, port=port, timeout=30)
             ftp_conn.login(self.user, self.password)
             ftp_conn.encoding = 'utf-8'
             return ftp_conn
