@@ -179,10 +179,25 @@ class DataFrameHandler:
         return new_df
 
     @staticmethod
-    def column_float_to_string(dataframe: pd.DataFrame, column_name: str) -> pd.DataFrame:
+    def column_float_to_string(dataframe: pd.DataFrame, column_name: str, file) -> pd.DataFrame:
         new_dataframe = dataframe.copy()
-        str_column = dataframe[column_name].astype('int64').astype('str')
-        new_dataframe[column_name] = str_column
+        try:
+            str_column = dataframe[column_name].astype('int64').astype('str')
+            new_dataframe[column_name] = str_column
+        except ValueError as e:
+            # for debug print de file name of error
+            print(f'Error converting column {column_name} in file: {file}')
+
+            # Identify rows with non-numeric values
+            non_numeric_indices = pd.to_numeric(dataframe[column_name], errors='coerce').isna()
+
+            # filter out rows with non-numeric values
+            new_dataframe = new_dataframe[~non_numeric_indices]
+
+            # Convert the remaining numeric values to strings
+            str_column = new_dataframe[column_name].astype('str')
+            new_dataframe[column_name] = str_column
+
         return new_dataframe
 
     @staticmethod

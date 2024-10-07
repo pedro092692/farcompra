@@ -98,7 +98,7 @@ stock_2;stock_2;stock_3;stock_4;regulated;unknown_1;unknown_2;unknown_3;unknown_
         "url": "ftp.dronena.com",
         "user": os.environ.get('DRONENA_USER'),
         "password": os.environ.get('DRONENA_PASS'),
-        "path": '/Maracay/5203',
+        "path": '/Maracay/0491',
         "file_name": 'inventario.txt',
         "name": "dronena",
         "csv": False,

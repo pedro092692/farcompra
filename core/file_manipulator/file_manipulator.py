@@ -8,8 +8,9 @@ from core.wholesalers import wholesalers
 
 PATH = 'core/data'
 MANUAL_PATH = 'core/data/manual_uploads'
-class FileHandler:
 
+
+class FileHandler:
     def __init__(self, mode='auto', path=''):
         self.mode = mode
         if self.mode == 'auto':
@@ -107,7 +108,8 @@ class FileHandler:
                         if self.wholesalers[file[:dot_extension_index]]['fix_barcode']:
                             data_frame = function(filename=file).load_data_frame(path=self.path)
                             no_nan_df = function.drop_nan(data_frame, columns=['barcode'])
-                            str_bar_code_df = function(filename=file).column_float_to_string(no_nan_df, 'barcode')
+                            str_bar_code_df = function(filename=file).column_float_to_string(no_nan_df, 'barcode',
+                                                                                             file=file)
                             function(filename=file).dataframe_to_csv(dataframe=str_bar_code_df, path=self.path,
                                                                      filename=file)
 
@@ -168,7 +170,7 @@ class FileHandler:
                 name = line[7:48].rstrip()
                 price = float(line[49:58])
                 stock = int(line[64:73])
-                discount = float(line[97:104]) - 4
+                discount = float(line[97:104])
                 final_price = float(round(price * (1 - (discount / 100)), 2))
                 barcode = line[130:144].rstrip()
                 due_date = line[192:199]
