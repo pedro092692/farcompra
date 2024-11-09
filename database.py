@@ -150,8 +150,11 @@ class UserConnection(Base, db.Model):
 
     @staticmethod
     def check_user(user_id):
-        user = UserConnection.query.filter(UserConnection.user_id == user_id).one()
-        return user
+        try:
+            user = UserConnection.query.filter(UserConnection.user_id == user_id).one()
+            return user
+        except sqlalchemy.exc.NoResultFound:
+            return False
 
     @staticmethod
     def register_user(user_id, user_ip):
